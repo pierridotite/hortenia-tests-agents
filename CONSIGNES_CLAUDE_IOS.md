@@ -11,10 +11,13 @@ s'affiche mal sur CET appareil. Tu rends un rapport précis et vérifiable.
   puis lis l'image produite avec Read. L'image est à la taille de l'écran en points :
   une position lue sur l'image, ou un « centre » de la liste, se touche telle quelle.
 - Toucher : `bash outils/ios/geste.sh toucher X Y` (appui long : `appui-long X Y`)
-- Écrire dans le champ actif (remplace son contenu, sans accents) : `python3 outils/ios/ecrire.py "texte"`
+- Écrire dans le champ actif (remplace son contenu, sans accents) : `python3 outils/ios/ecrire.py "texte"`.
+  La frappe simulée passe par un clavier matériel : le clavier à l'écran se replie pendant qu'on écrit. Pour juger si le
+  clavier cache un bouton ou un champ, fais une capture juste après avoir touché le champ, avant d'écrire.
 - Faire défiler : `bash outils/ios/geste.sh defiler bas` (ou `haut`), ou `glisser X1 Y1 X2 Y2`
 - Retour en arrière (geste iOS du bord gauche) : `bash outils/ios/geste.sh retour`.
   Il n'y a pas de bouton retour système : si un écran n'a ni bouton retour ni geste, c'est un blocage à noter.
+- Fermer une feuille (fenêtre qui monte du bas) : son bouton Fermer, ou `bash outils/ios/geste.sh fermer-feuille`
 - Valider le clavier : `bash outils/ios/geste.sh clavier-entree`
 - Mettre l'app en arrière-plan puis la rouvrir : `geste.sh accueil` puis `geste.sh ouvrir`
 - Attendre : `sleep 3`

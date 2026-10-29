@@ -34,6 +34,8 @@ else
   CONSIGNE="Lis CONSIGNES_CLAUDE_IOS.md et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Appareil de ce test : ${APPAREIL}, taille du texte ${TAILLE_TEXTE:-large}, thème ${THEME:-light} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, sous l'encoche ou la barre d'accueil, mise en page cassée)."
 fi
 sleep 8
+# Première capture : mémorise la taille de l'écran en points pour les outils
+python3 outils/ios/ecran.py "$RUNNER_TEMP/amorce" 00 > /dev/null 2>&1 || true
 claude -p "$CONSIGNE" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
   --allowedTools "Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \

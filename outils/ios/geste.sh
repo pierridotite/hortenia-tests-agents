@@ -6,6 +6,7 @@
 #   geste.sh glisser X1 Y1 X2 Y2  glissement (faire défiler : du bas vers le haut)
 #   geste.sh defiler bas|haut     défilement d'un écran
 #   geste.sh retour               glissement depuis le bord gauche (retour iOS)
+#   geste.sh fermer-feuille       glissement vers le bas depuis le haut d'une feuille
 #   geste.sh clavier-entree       touche Entrée du clavier
 #   geste.sh accueil              bouton principal (l'app passe en arrière-plan)
 #   geste.sh ouvrir               relance l'app au premier plan
@@ -13,11 +14,10 @@ set -euo pipefail
 : "${UDID:?UDID manquant}"
 # Taille de l'écran en points (pour défiler et revenir en arrière)
 taille() {
-  read -r L H < <(python3 -c "import json,subprocess
-a=json.loads(subprocess.run(['axe','describe-ui','--udid','$UDID'],capture_output=True,text=True).stdout or '[]')
-a=a[0] if isinstance(a,list) and a else a
-f=a.get('frame',{}) if isinstance(a,dict) else {}
-print(int(f.get('width',390)),int(f.get('height',844)))" 2>/dev/null || echo "390 844")
+  L=$(cat "${RUNNER_TEMP:-/tmp}/largeur_points" 2>/dev/null || echo 390)
+  H=$(python3 -c "import sys;from PIL import Image;import glob,os
+f=sorted(glob.glob('resultats/**/*.png',recursive=True),key=os.path.getmtime)
+print(Image.open(f[-1]).size[1] if f else 844)" 2>/dev/null || echo 844)
 }
 case "${1:-}" in
   toucher) axe tap -x "$2" -y "$3" --udid "$UDID" ;;
@@ -27,7 +27,8 @@ case "${1:-}" in
     taille; x=$((L / 2))
     if [ "${2:-bas}" = bas ]; then axe swipe --start-x $x --start-y $((H * 3 / 4)) --end-x $x --end-y $((H / 4)) --duration 0.5 --udid "$UDID"
     else axe swipe --start-x $x --start-y $((H / 4)) --end-x $x --end-y $((H * 3 / 4)) --duration 0.5 --udid "$UDID"; fi ;;
-  retour) taille; axe swipe --start-x 2 --start-y $((H / 2)) --end-x $((L * 2 / 3)) --end-y $((H / 2)) --duration 0.4 --udid "$UDID" ;;
+  retour) taille; axe swipe --start-x 1 --start-y $((H / 2)) --end-x $((L * 3 / 4)) --end-y $((H / 2)) --duration 0.8 --delta 10 --udid "$UDID" ;;
+  fermer-feuille) taille; axe swipe --start-x $((L / 2)) --start-y $((H / 6)) --end-x $((L / 2)) --end-y $((H * 5 / 6)) --duration 0.6 --udid "$UDID" ;;
   clavier-entree) axe key 40 --udid "$UDID" ;;
   accueil) axe button home --udid "$UDID" ;;
   ouvrir) xcrun simctl launch "$UDID" com.hortenia.app >/dev/null ;;

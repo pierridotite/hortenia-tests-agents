@@ -104,6 +104,16 @@ jobs:
           UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b > /dev/null
+          # Français ; clavier sans majuscule ni correction automatiques (la
+          # frappe simulée en serait faussée), présentations du clavier vues
+          d() { xcrun simctl spawn "$UDID" defaults write "$@"; }
+          d -g AppleLanguages -array fr-FR
+          d -g AppleLocale -string fr_FR
+          for k in KeyboardAutocapitalization KeyboardAutocorrection KeyboardPrediction KeyboardCheckSpelling; do d com.apple.Preferences $k -bool NO; done
+          for k in DidShowContinuousPathIntroduction KeyboardDidShowProductivityTutorial DidShowGestureKeyboardIntroduction; do d com.apple.Preferences $k -bool YES; done
+          xcrun simctl shutdown "$UDID"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b > /dev/null
 
       - name: Claude
         env:

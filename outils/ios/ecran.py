@@ -45,26 +45,35 @@ except json.JSONDecodeError:
 liste = []
 elements(arbre, liste)
 img = Image.open(brut).convert("RGB")
-largeur_pts = 0
-for g, t, v, f in liste:
-    largeur_pts = max(largeur_pts, int(f.get("x", 0) + f.get("width", 0)))
-if not largeur_pts:
+# Largeur de l'écran en points : cadre de l'application au premier plan,
+# gardée pour les captures où il manque (écran d'accueil, alerte système)
+memo = Path(os.environ.get("RUNNER_TEMP", "/tmp")) / "largeur_points"
+racine = arbre[0] if isinstance(arbre, list) and arbre else arbre
+largeur_pts = int((racine.get("frame") or {}).get("width", 0)) if isinstance(racine, dict) else 0
+if largeur_pts >= 300 and img.size[0] % largeur_pts == 0:
+    memo.write_text(str(largeur_pts))
+elif memo.exists():
+    largeur_pts = int(memo.read_text())
+else:
     largeur_pts = img.size[0] // 3
 echelle = img.size[0] / largeur_pts
+hauteur_pts = img.size[1] / echelle
 chemin = dossier / f"{numero}.png"
 img.resize((round(img.size[0] / echelle), round(img.size[1] / echelle))).save(chemin)
 brut.unlink()
-print(f"capture : {chemin} ({img.size[0] // round(echelle)}x{round(img.size[1] / echelle)} points ; une position lue sur l'image = une position à toucher)")
+print(f"capture : {chemin} ({largeur_pts}x{round(hauteur_pts)} points ; une position lue sur l'image = une position à toucher)")
 
 for genre, texte, valeur, f in liste:
     if genre in ("Application", "Window") or f.get("width", 0) <= 0:
         continue
     cx, cy = round(f["x"] + f["width"] / 2), round(f["y"] + f["height"] / 2)
+    if not (0 <= cx <= largeur_pts and 0 <= cy <= hauteur_pts):
+        continue  # hors de l'écran : pas touchable
     nom = "champ" if "Field" in genre or genre == "TextArea" else ("bouton" if genre in ("Button", "Link", "Switch", "Cell", "Tab") else "texte")
     v = f" valeur « {valeur[:40]} »" if valeur and valeur != texte else ""
     print(f"- {nom} « {texte[:70]} »{v} centre=({cx},{cy})")
 
-if APP not in run("xcrun", "simctl", "spawn", UDID, "launchctl", "list"):
+if os.environ.get("ESSAI") != "1" and APP not in run("xcrun", "simctl", "spawn", UDID, "launchctl", "list"):
     print("ATTENTION : l'app Hortenia ne tourne plus (plantage ou fermeture).")
 rapports = Path.home() / "Library/Logs/DiagnosticReports"
 recents = [p for p in rapports.glob("*.ips") if "ortenia" in p.name and time.time() - p.stat().st_mtime < 120] if rapports.exists() else []
