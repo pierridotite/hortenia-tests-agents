@@ -99,8 +99,9 @@ jobs:
           VERSION_IOS: ${{ matrix.ios }}
         run: |
           defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false
-          python3 outils/ios/simulateur.py "$MODELE_IOS" "$VERSION_IOS" | tee -a "$GITHUB_ENV"
-          source <(grep UDID= "$GITHUB_ENV" | tail -1)
+          python3 outils/ios/simulateur.py "$MODELE_IOS" "$VERSION_IOS" > "$RUNNER_TEMP/sim.env"
+          cat "$RUNNER_TEMP/sim.env" | tee -a "$GITHUB_ENV"
+          UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b > /dev/null
 
