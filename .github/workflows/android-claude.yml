@@ -72,8 +72,10 @@ jobs:
         run: npm install -g --silent @anthropic-ai/claude-code
 
       # Les téléphones virtuels ne doivent rien envoyer à PostHog : un DNS
-      # local répond 0.0.0.0 pour posthog.com, et lancer_claude.sh vérifie
-      # le blocage depuis l'émulateur avant de commencer.
+      # local répond 0.0.0.0 pour posthog.com, les adresses réelles de
+      # PostHog sont refusées par le pare-feu de la machine (le trafic de
+      # l'émulateur passe par elle), et lancer_claude.sh vérifie le blocage
+      # depuis l'émulateur avant de commencer.
       - name: Couper PostHog
         run: |
           sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null
@@ -81,6 +83,10 @@ jobs:
           sudo systemctl restart dnsmasq
           test "$(dig +short eu.i.posthog.com @127.0.0.1)" = "0.0.0.0"
           dig +short expo.dev @127.0.0.1 | head -1
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com; do
+            for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$'); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; echo "refusé : $ip"; done
+            for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep ':'); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
+          done
 
       - name: Accélération KVM
         run: |
