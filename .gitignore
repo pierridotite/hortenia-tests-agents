@@ -1,0 +1,8 @@
+app.*
+*.apk
+*.apks
+*.jar
+resultats/
+resultats.chiffres/
+__pycache__/
+photos/

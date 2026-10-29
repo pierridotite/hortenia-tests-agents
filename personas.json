@@ -1,0 +1,32 @@
+[
+  {
+    "id": "camille",
+    "nom": "Camille, 29 ans, balcon à Lyon",
+    "profil": "Camille, 29 ans, Lyon, balcon de 6 m², débutante complète, à l'aise avec son téléphone mais impatiente. Elle a trouvé l'app sur le Play Store.",
+    "but": "Créer un compte, décrire son balcon, ajouter des tomates cerises et du basilic, puis trouver ce qu'elle doit faire cette semaine."
+  },
+  {
+    "id": "monique",
+    "nom": "Monique, 68 ans, grand potager",
+    "profil": "Monique, 68 ans, retraitée à Angers, potager de 150 m² depuis 30 ans, peu à l'aise avec les applications, lit lentement, se méfie des abonnements.",
+    "but": "S'inscrire, ajouter ses poireaux et ses choux, puis savoir quand semer les fèves."
+  },
+  {
+    "id": "karim",
+    "nom": "Karim, 39 ans, plante malade",
+    "profil": "Karim, 39 ans, jardin familial loué à la mairie, ses tomates ont des taches brunes sur les feuilles. Pressé, il veut une réponse rapide.",
+    "but": "S'inscrire, faire un diagnostic de sa plante malade (photo depuis la galerie si possible) et poser une question à l'assistant HortenIA, puis regarder ce que propose l'abonnement Plus sans payer."
+  },
+  {
+    "id": "thomas",
+    "nom": "Thomas, 34 ans, développeur exigeant",
+    "profil": "Thomas, 34 ans, développeur à Lille, jardin partagé. Il explore tout, appuie partout, revient en arrière souvent et repère les défauts.",
+    "but": "S'inscrire puis visiter chaque onglet et chaque réglage, passer de la vue plan à la vue 3D, se déconnecter puis se reconnecter. Noter tout ce qui ne marche pas."
+  },
+  {
+    "id": "elodie",
+    "nom": "Élodie, 42 ans, a perdu ses tomates",
+    "profil": "Élodie, 42 ans, Clermont-Ferrand, a perdu ses tomates à cause du mildiou cet été. Elle veut être prévenue la prochaine fois.",
+    "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue."
+  }
+]
