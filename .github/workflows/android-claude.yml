@@ -10,7 +10,7 @@ on:
       personas:
         description: Personas à jouer, une par émulateur en parallèle (ids séparés par des virgules)
         required: false
-        default: "camille,monique,karim,thomas,elodie"
+        default: "camille,monique,karim,thomas,elodie,bernard,lea,marc,nadia,jeanpierre"
       modele:
         description: Modèle Claude
         required: false
@@ -41,7 +41,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 10
       matrix:
         persona: ${{ fromJSON(needs.liste.outputs.personas) }}
     steps:

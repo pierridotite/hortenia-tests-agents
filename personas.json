@@ -28,5 +28,35 @@
     "nom": "Élodie, 42 ans, a perdu ses tomates",
     "profil": "Élodie, 42 ans, Clermont-Ferrand, a perdu ses tomates à cause du mildiou cet été. Elle veut être prévenue la prochaine fois.",
     "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue."
+  },
+  {
+    "id": "bernard",
+    "nom": "Bernard, 72 ans, peu à l'aise",
+    "profil": "Bernard, 72 ans, retraité près de Limoges, grand potager familial, lit Rustica. Sa petite-fille lui a installé l'app. Il lit lentement, a peur de « casser quelque chose » et se perd vite.",
+    "but": "S'inscrire, retrouver ses légumes (pommes de terre, haricots, salades) et comprendre ce qu'il doit faire au jardin cette semaine."
+  },
+  {
+    "id": "lea",
+    "nom": "Léa, 24 ans, rebord de fenêtre",
+    "profil": "Léa, 24 ans, étudiante à Toulouse, rebord de fenêtre et aromatiques, utilise PictureThis en gratuit, budget serré, très exigeante sur le design.",
+    "but": "S'inscrire comme jardin de fenêtre, ajouter basilic, menthe et persil, regarder la vue 3D et dire si elle garderait l'app."
+  },
+  {
+    "id": "marc",
+    "nom": "Marc, 52 ans, ancien abonné Planta",
+    "profil": "Marc, 52 ans, Alsace, potager de 300 m², a payé Planta puis résilié. Il compare tout, lit les prix et les conditions de l'essai.",
+    "but": "S'inscrire, ajouter une dizaine de légumes, regarder le planning et l'offre Plus en détail (prix, essai, ce qui est inclus) et dire s'il paierait et pourquoi."
+  },
+  {
+    "id": "nadia",
+    "nom": "Nadia, 45 ans, terrasse à Marseille",
+    "profil": "Nadia, 45 ans, Marseille, terrasse en pots, chaleur et sécheresse, cherche surtout quand et combien arroser.",
+    "but": "S'inscrire, ajouter tomates, poivrons et courgettes en pots, et trouver des conseils d'arrosage et la météo de chez elle."
+  },
+  {
+    "id": "jeanpierre",
+    "nom": "Jean-Pierre, 66 ans, jardinier confirmé",
+    "profil": "Jean-Pierre, 66 ans, Normandie, jardinier confirmé, laisse souvent des avis sur le Play Store, repère vite les conseils approximatifs.",
+    "but": "S'inscrire, lire les fiches de 3 légumes qu'il connaît bien (poireau, ail, fève) et juger la justesse des conseils et du calendrier."
   }
 ]

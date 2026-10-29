@@ -32,4 +32,5 @@ rencontrerait. Tu rends un rapport précis et vérifiable.
   3. Blocages et confusions d'usage (même format, plus court).
   4. Ce qui marche bien.
   5. Les 5 corrections prioritaires.
+  6. Impressions de la persona, à la première personne et avec sa voix : note sur 10, ce qui plaît, ce qui agace, ce qui manque, garderait-elle l'app au-delà d'une semaine, paierait-elle Hortenia Plus (29,99 €/an ou 4,99 €/mois) et pourquoi, la recommanderait-elle et à qui, et une idée d'amélioration du produit.
   Distingue ce que tu as vu de ce que tu supposes, et signale les limites de l'émulateur (pas de Google Play, appareil photo virtuel…) plutôt que d'en faire des bugs de l'app.
