@@ -36,6 +36,7 @@ fi
 sleep 8
 # Première capture : mémorise la taille de l'écran en points pour les outils
 python3 outils/ios/ecran.py "$RUNNER_TEMP/amorce" 00 > /dev/null 2>&1 || true
+CONSIGNE="$CONSIGNE Le simulateur est déjà démarré et les outils le trouvent seuls (variable UDID déjà définie) : utilise directement les commandes des consignes, sans chercher le simulateur ni lire l'environnement."
 claude -p "$CONSIGNE" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
   --allowedTools "Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
