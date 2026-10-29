@@ -63,12 +63,18 @@ img.resize((round(img.size[0] / echelle), round(img.size[1] / echelle))).save(ch
 brut.unlink()
 print(f"capture : {chemin} ({largeur_pts}x{round(hauteur_pts)} points ; une position lue sur l'image = une position à toucher)")
 
+vus = set()
 for genre, texte, valeur, f in liste:
-    if genre in ("Application", "Window") or f.get("width", 0) <= 0:
+    if genre in ("Application", "Window", "ScrollBar") or f.get("width", 0) <= 0:
         continue
     cx, cy = round(f["x"] + f["width"] / 2), round(f["y"] + f["height"] / 2)
     if not (0 <= cx <= largeur_pts and 0 <= cy <= hauteur_pts):
         continue  # hors de l'écran : pas touchable
+    if (texte, valeur, cx, cy) in vus:
+        continue
+    vus.add((texte, valeur, cx, cy))
+    if "Field" in genre and not texte and valeur:
+        texte, valeur = valeur, ""
     nom = "champ" if "Field" in genre or genre == "TextArea" else ("bouton" if genre in ("Button", "Link", "Switch", "Cell", "Tab") else "texte")
     v = f" valeur « {valeur[:40]} »" if valeur and valeur != texte else ""
     print(f"- {nom} « {texte[:70]} »{v} centre=({cx},{cy})")

@@ -10,4 +10,7 @@ subprocess.run(["axe", "key-combo", "--modifiers", "227", "--key", "4", "--udid"
 subprocess.run(["axe", "key", "42", "--udid", UDID], capture_output=True)
 subprocess.run(["axe", "key-sequence", "--keycodes", ",".join(["42"] * 60), "--delay", "0.02", "--udid", UDID], capture_output=True)
 r = subprocess.run(["axe", "type", t, "--udid", UDID], capture_output=True, text=True)
-print("écrit" if r.returncode == 0 else "échec : " + (r.stderr or r.stdout)[-300:])
+if r.returncode:
+    print("échec : " + (r.stderr or r.stdout)[-300:])
+else:
+    print("écrit : vérifie le texte sur la prochaine capture")

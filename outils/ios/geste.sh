@@ -27,11 +27,11 @@ case "${1:-}" in
     taille; x=$((L / 2))
     if [ "${2:-bas}" = bas ]; then axe swipe --start-x $x --start-y $((H * 3 / 4)) --end-x $x --end-y $((H / 4)) --duration 0.5 --udid "$UDID"
     else axe swipe --start-x $x --start-y $((H / 4)) --end-x $x --end-y $((H * 3 / 4)) --duration 0.5 --udid "$UDID"; fi ;;
-  retour) taille; axe swipe --start-x 1 --start-y $((H / 2)) --end-x $((L * 3 / 4)) --end-y $((H / 2)) --duration 0.8 --delta 10 --udid "$UDID" ;;
+  retour) taille; axe gesture swipe-from-left-edge --screen-width "$L" --screen-height "$H" --udid "$UDID" ;;
   fermer-feuille) taille; axe swipe --start-x $((L / 2)) --start-y $((H / 6)) --end-x $((L / 2)) --end-y $((H * 5 / 6)) --duration 0.6 --udid "$UDID" ;;
   clavier-entree) axe key 40 --udid "$UDID" ;;
   accueil) axe button home --udid "$UDID" ;;
-  ouvrir) xcrun simctl launch "$UDID" com.hortenia.app >/dev/null ;;
+  ouvrir) xcrun simctl launch "$UDID" "$([ "${ESSAI:-0}" = 1 ] && echo com.apple.Preferences || echo com.hortenia.app)" >/dev/null ;;
   *) echo "geste inconnu : ${1:-}"; exit 2 ;;
 esac
 sleep 1

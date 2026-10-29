@@ -109,6 +109,11 @@ jobs:
           d() { xcrun simctl spawn "$UDID" defaults write "$@"; }
           d -g AppleLanguages -array fr-FR
           d -g AppleLocale -string fr_FR
+          # Clavier matériel en QWERTY US : la frappe simulée envoie des codes US
+          # (en AZERTY, a devient q et Cmd+A devient Cmd+Q, qui quitte l'app)
+          d -g AppleKeyboards -array "en_US@sw=QWERTY;hw=US"
+          d -g AppleKeyboardsExpanded -bool YES
+          d com.apple.Preferences KeyboardLastUsed -string "en_US@sw=QWERTY;hw=US"
           for k in KeyboardAutocapitalization KeyboardAutocorrection KeyboardPrediction KeyboardCheckSpelling; do d com.apple.Preferences $k -bool NO; done
           for k in DidShowContinuousPathIntroduction KeyboardDidShowProductivityTutorial DidShowGestureKeyboardIntroduction; do d com.apple.Preferences $k -bool YES; done
           xcrun simctl shutdown "$UDID"
