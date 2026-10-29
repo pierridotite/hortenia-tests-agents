@@ -1,13 +1,11 @@
 # Build iOS de l'app Hortenia sur les Mac gratuits de ce dépôt public
 # (dépôt privé : une minute Mac en compte 10), voulu par Pierre le 29/10.
 #
-# Le code de l'app est privé : il n'est jamais lisible ici. Chaque Mac crée
-# une clé éphémère et publie sa clé publique (artefact cle-<cible>). Une
-# session Claude qui a accès au dépôt privé lance outils/envoyer_source.sh :
-# le code part chiffré sur la branche transfert/<run>, seul ce Mac peut le
-# lire, et la branche est supprimée en fin de run. Les journaux de build
-# (npm, Xcode) partent chiffrés avec la clé du dépôt, comme les résultats
-# des tests ; le journal public ne montre que les étapes.
+# Le code de l'app est privé : ce dépôt le lit avec le secret APP_REPO_TOKEN
+# (jeton GitHub de Pierre en lecture seule sur pierridotite/Hortenia) et ne
+# l'affiche jamais. Les journaux de build (npm, Xcode) partent chiffrés avec
+# la clé du dépôt, comme les résultats des tests ; le journal public ne
+# montre que les étapes. Seuls Pierre et Claude peuvent lancer ce workflow.
 #
 # Cibles :
 # - simulateur : app pour le simulateur iOS (testeurs IA), déposée chez Expo
@@ -28,14 +26,13 @@ on:
         required: false
         type: boolean
         default: false
-      version:
-        description: Version construite (pour le résumé, ex. 1.6.3)
+      ref:
+        description: Branche ou commit de l'app à construire (dépôt Hortenia)
         required: false
-        default: ""
+        default: main
 
 permissions:
-  contents: write
-  actions: read
+  contents: read
 
 jobs:
   liste:
@@ -62,20 +59,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clé éphémère du Mac
-        run: |
-          mkdir -p cle-ephemere
-          openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out "$RUNNER_TEMP/ephemere.pem" 2>/dev/null
-          openssl pkey -in "$RUNNER_TEMP/ephemere.pem" -pubout -out "cle-ephemere/cle-$CIBLE.pem"
-
-      - uses: actions/upload-artifact@v4
+      - name: Code de l'app (dépôt privé)
+        uses: actions/checkout@v4
         with:
-          name: cle-${{ matrix.cible }}
-          path: cle-ephemere/
-          retention-days: 1
-
-      - name: Attendre le code chiffré (outils/envoyer_source.sh)
-        run: bash outils/recevoir_source.sh "$RUNNER_TEMP/app"
+          repository: pierridotite/Hortenia
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.APP_REPO_TOKEN }}
+          path: app
+          persist-credentials: false
+          sparse-checkout: Frontend
 
       - name: Xcode 26
         run: |
@@ -96,7 +88,7 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           ASC_API_KEY_P8: ${{ secrets.ASC_API_KEY_P8 }}
           ENVOYER: ${{ inputs.envoyer }}
-        run: bash outils/build_ios.sh "$RUNNER_TEMP/app/Frontend"
+        run: bash outils/build_ios.sh "$GITHUB_WORKSPACE/app/Frontend"
 
       - name: Chiffrer les journaux
         if: always()
@@ -111,13 +103,4 @@ jobs:
 
       - name: Nettoyage
         if: always()
-        run: rm -rf "$RUNNER_TEMP/app" "$RUNNER_TEMP/ephemere.pem" "$RUNNER_TEMP/sortie" resultats
-
-  nettoyage:
-    needs: build
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Supprimer la branche de transfert
-        run: git push origin --delete "transfert/${{ github.run_id }}" 2>/dev/null || echo "pas de branche à supprimer"
+        run: rm -rf app "$RUNNER_TEMP/sortie" resultats
