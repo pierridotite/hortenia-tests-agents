@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       personas:
-        description: Personas à jouer, ids séparés par des virgules (vide = toutes)
+        description: Personas à jouer, une par émulateur en parallèle (ids séparés par des virgules)
         required: false
-        default: ""
+        default: "camille,monique,karim,thomas,elodie"
       modele:
         description: Modèle Claude
         required: false
@@ -23,14 +23,27 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: android-claude
-  cancel-in-progress: false
 
 jobs:
-  claude:
+  liste:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    outputs:
+      personas: ${{ steps.l.outputs.personas }}
+    steps:
+      - id: l
+        env:
+          PERSONAS: ${{ inputs.personas }}
+        run: echo "personas=$(python3 -c "import json,os;print(json.dumps([p.strip() for p in os.environ['PERSONAS'].split(',') if p.strip()]))")" >> "$GITHUB_OUTPUT"
+
+  claude:
+    needs: liste
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        persona: ${{ fromJSON(needs.liste.outputs.personas) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -68,7 +81,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          PERSONAS: ${{ inputs.personas }}
+          PERSONAS: ${{ matrix.persona }}
           MODELE: ${{ inputs.modele }}
           RUN_ID: ${{ github.run_id }}
         with:
@@ -88,10 +101,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: resultats-chiffres
+          name: resultats-chiffres-${{ matrix.persona }}
           path: resultats.chiffres/
           retention-days: 14
 
       - name: Résumé
         if: always()
-        run: echo "Build testé : ${{ steps.build.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          echo "Build testé : ${{ steps.build.outputs.version }} (persona ${{ matrix.persona }})" >> "$GITHUB_STEP_SUMMARY"
