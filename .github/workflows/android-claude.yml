@@ -30,10 +30,12 @@ jobs:
     outputs:
       personas: ${{ steps.l.outputs.personas }}
     steps:
+      - uses: actions/checkout@v4
+      # Une ligne par persona, avec son téléphone (personas.json, « appareil »)
       - id: l
         env:
           PERSONAS: ${{ inputs.personas }}
-        run: echo "personas=$(python3 -c "import json,os;print(json.dumps([p.strip() for p in os.environ['PERSONAS'].split(',') if p.strip()]))")" >> "$GITHUB_OUTPUT"
+        run: python3 outils/matrice.py >> "$GITHUB_OUTPUT"
 
   claude:
     needs: liste
@@ -43,7 +45,7 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        persona: ${{ fromJSON(needs.liste.outputs.personas) }}
+        include: ${{ fromJSON(needs.liste.outputs.personas) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -101,11 +103,13 @@ jobs:
           PERSONAS: ${{ matrix.persona }}
           MODELE: ${{ inputs.modele }}
           RUN_ID: ${{ github.run_id }}
+          APPAREIL: ${{ matrix.appareil }}
+          TAILLE_TEXTE: ${{ matrix.taille_texte }}
         with:
-          api-level: 34
+          api-level: ${{ matrix.api }}
           target: google_apis
           arch: x86_64
-          profile: pixel_6
+          profile: ${{ matrix.profil }}
           ram-size: 4096M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1
@@ -125,4 +129,4 @@ jobs:
       - name: Résumé
         if: always()
         run: |
-          echo "Build testé : ${{ steps.build.outputs.version }} (persona ${{ matrix.persona }})" >> "$GITHUB_STEP_SUMMARY"
+          echo "Build testé : ${{ steps.build.outputs.version }} (persona ${{ matrix.persona }}, ${{ matrix.appareil }})" >> "$GITHUB_STEP_SUMMARY"

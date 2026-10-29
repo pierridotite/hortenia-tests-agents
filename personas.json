@@ -3,60 +3,120 @@
     "id": "camille",
     "nom": "Camille, 29 ans, balcon à Lyon",
     "profil": "Camille, 29 ans, Lyon, balcon de 6 m², débutante complète, à l'aise avec son téléphone mais impatiente. Elle a trouvé l'app sur le Play Store.",
-    "but": "Créer un compte, décrire son balcon, ajouter des tomates cerises et du basilic, puis trouver ce qu'elle doit faire cette semaine."
+    "but": "Créer un compte, décrire son balcon, ajouter des tomates cerises et du basilic, puis trouver ce qu'elle doit faire cette semaine.",
+    "appareil": {
+      "profil": "pixel_6",
+      "android_api": 34,
+      "taille_texte": 1.0,
+      "nom": "Pixel 6, Android 14, texte normal (référence)"
+    }
   },
   {
     "id": "monique",
     "nom": "Monique, 68 ans, grand potager",
     "profil": "Monique, 68 ans, retraitée à Angers, potager de 150 m² depuis 30 ans, peu à l'aise avec les applications, lit lentement, se méfie des abonnements.",
-    "but": "S'inscrire, ajouter ses poireaux et ses choux, puis savoir quand semer les fèves."
+    "but": "S'inscrire, ajouter ses poireaux et ses choux, puis savoir quand semer les fèves.",
+    "appareil": {
+      "profil": "pixel_3a",
+      "android_api": 33,
+      "taille_texte": 1.3,
+      "nom": "Pixel 3a (écran 5,6 pouces), Android 13, très grand texte"
+    }
   },
   {
     "id": "karim",
     "nom": "Karim, 39 ans, plante malade",
     "profil": "Karim, 39 ans, jardin familial loué à la mairie, ses tomates ont des taches brunes sur les feuilles. Pressé, il veut une réponse rapide.",
-    "but": "S'inscrire, faire un diagnostic de sa plante malade (photo depuis la galerie si possible) et poser une question à l'assistant HortenIA, puis regarder ce que propose l'abonnement Plus sans payer."
+    "but": "S'inscrire, faire un diagnostic de sa plante malade (photo depuis la galerie si possible) et poser une question à l'assistant HortenIA, puis regarder ce que propose l'abonnement Plus sans payer.",
+    "appareil": {
+      "profil": "pixel_2",
+      "android_api": 30,
+      "taille_texte": 1.0,
+      "nom": "Pixel 2 (petit écran 5 pouces), Android 11"
+    }
   },
   {
     "id": "thomas",
     "nom": "Thomas, 34 ans, développeur exigeant",
     "profil": "Thomas, 34 ans, développeur à Lille, jardin partagé. Il explore tout, appuie partout, revient en arrière souvent et repère les défauts.",
-    "but": "S'inscrire puis visiter chaque onglet et chaque réglage, passer de la vue plan à la vue 3D, se déconnecter puis se reconnecter. Noter tout ce qui ne marche pas."
+    "but": "S'inscrire puis visiter chaque onglet et chaque réglage, passer de la vue plan à la vue 3D, se déconnecter puis se reconnecter. Noter tout ce qui ne marche pas.",
+    "appareil": {
+      "profil": "pixel_tablet",
+      "android_api": 34,
+      "taille_texte": 1.0,
+      "nom": "Pixel Tablet (tablette 10,9 pouces), Android 14"
+    }
   },
   {
     "id": "elodie",
     "nom": "Élodie, 42 ans, a perdu ses tomates",
     "profil": "Élodie, 42 ans, Clermont-Ferrand, a perdu ses tomates à cause du mildiou cet été. Elle veut être prévenue la prochaine fois.",
-    "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue."
+    "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue.",
+    "appareil": {
+      "profil": "pixel_7_pro",
+      "android_api": 35,
+      "taille_texte": 1.0,
+      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 15"
+    }
   },
   {
     "id": "bernard",
     "nom": "Bernard, 72 ans, peu à l'aise",
     "profil": "Bernard, 72 ans, retraité près de Limoges, grand potager familial, lit Rustica. Sa petite-fille lui a installé l'app. Il lit lentement, a peur de « casser quelque chose » et se perd vite.",
-    "but": "S'inscrire, retrouver ses légumes (pommes de terre, haricots, salades) et comprendre ce qu'il doit faire au jardin cette semaine."
+    "but": "S'inscrire, retrouver ses légumes (pommes de terre, haricots, salades) et comprendre ce qu'il doit faire au jardin cette semaine.",
+    "appareil": {
+      "profil": "pixel_6",
+      "android_api": 34,
+      "taille_texte": 1.3,
+      "nom": "Pixel 6, Android 14, très grand texte"
+    }
   },
   {
     "id": "lea",
     "nom": "Léa, 24 ans, rebord de fenêtre",
     "profil": "Léa, 24 ans, étudiante à Toulouse, rebord de fenêtre et aromatiques, utilise PictureThis en gratuit, budget serré, très exigeante sur le design.",
-    "but": "S'inscrire comme jardin de fenêtre, ajouter basilic, menthe et persil, regarder la vue 3D et dire si elle garderait l'app."
+    "but": "S'inscrire comme jardin de fenêtre, ajouter basilic, menthe et persil, regarder la vue 3D et dire si elle garderait l'app.",
+    "appareil": {
+      "profil": "pixel_3a",
+      "android_api": 30,
+      "taille_texte": 1.0,
+      "nom": "Pixel 3a (écran 5,6 pouces), Android 11"
+    }
   },
   {
     "id": "marc",
     "nom": "Marc, 52 ans, ancien abonné Planta",
     "profil": "Marc, 52 ans, Alsace, potager de 300 m², a payé Planta puis résilié. Il compare tout, lit les prix et les conditions de l'essai.",
-    "but": "S'inscrire, ajouter une dizaine de légumes, regarder le planning et l'offre Plus en détail (prix, essai, ce qui est inclus) et dire s'il paierait et pourquoi."
+    "but": "S'inscrire, ajouter une dizaine de légumes, regarder le planning et l'offre Plus en détail (prix, essai, ce qui est inclus) et dire s'il paierait et pourquoi.",
+    "appareil": {
+      "profil": "pixel_7_pro",
+      "android_api": 34,
+      "taille_texte": 1.0,
+      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 14"
+    }
   },
   {
     "id": "nadia",
     "nom": "Nadia, 45 ans, terrasse à Marseille",
     "profil": "Nadia, 45 ans, Marseille, terrasse en pots, chaleur et sécheresse, cherche surtout quand et combien arroser.",
-    "but": "S'inscrire, ajouter tomates, poivrons et courgettes en pots, et trouver des conseils d'arrosage et la météo de chez elle."
+    "but": "S'inscrire, ajouter tomates, poivrons et courgettes en pots, et trouver des conseils d'arrosage et la météo de chez elle.",
+    "appareil": {
+      "profil": "pixel_2",
+      "android_api": 35,
+      "taille_texte": 1.0,
+      "nom": "Pixel 2 (petit écran 5 pouces), Android 15"
+    }
   },
   {
     "id": "jeanpierre",
     "nom": "Jean-Pierre, 66 ans, jardinier confirmé",
     "profil": "Jean-Pierre, 66 ans, Normandie, jardinier confirmé, laisse souvent des avis sur le Play Store, repère vite les conseils approximatifs.",
-    "but": "S'inscrire, lire les fiches de 3 légumes qu'il connaît bien (poireau, ail, fève) et juger la justesse des conseils et du calendrier."
+    "but": "S'inscrire, lire les fiches de 3 légumes qu'il connaît bien (poireau, ail, fève) et juger la justesse des conseils et du calendrier.",
+    "appareil": {
+      "profil": "pixel_7_pro",
+      "android_api": 33,
+      "taille_texte": 1.15,
+      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 13, grand texte"
+    }
   }
 ]
