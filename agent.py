@@ -22,14 +22,17 @@ from PIL import Image
 PAQUET = os.environ.get("PAQUET", "com.hortenia.app")
 PAS_MAX = int(os.environ.get("PAS_MAX", "30"))
 RUN_ID = os.environ.get("RUN_ID", str(int(time.time())))
-MODELES = ["gemini-3.5-flash", "gemini-3.5-flash-lite"]
-ECART_APPELS = 5.0  # secondes entre deux appels, pour le quota gratuit
+# Chaque modèle a son propre quota gratuit : on passe au suivant dès qu'un
+# modèle répond 429, et on le remet en service une minute plus tard.
+MODELES = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
+ECART_APPELS = 2.0
 SORTIE = Path("resultats")
 RACINE = Path(__file__).parent
 
-client = OpenAI(api_key=os.environ["GEMINI_API_KEY"],
+client = OpenAI(api_key=os.environ["GEMINI_API_KEY"], timeout=60, max_retries=0,
                 base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
 dernier_appel = [0.0]
+repos_jusqua = {m: 0.0 for m in MODELES}
 
 
 # ---------- adb ----------
@@ -71,7 +74,7 @@ def elements_ecran():
             "cliquable": cliquable, "champ_saisie": saisie,
             "x": (x1 + x2) // 2, "y": (y1 + y2) // 2,
         })
-    return liste[:120]
+    return liste[:70]
 
 
 def app_au_premier_plan():
@@ -91,6 +94,11 @@ def lancer_app(effacer=True):
 
 def sans_accents(t):
     return unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode()
+
+
+def vider_champ():
+    adb("shell", "input", "keyevent", "KEYCODE_MOVE_END")
+    adb("shell", "input", "keyevent", *(["67"] * 40))
 
 
 def ecrire(texte):
@@ -120,25 +128,30 @@ def erreurs_logcat():
 # ---------- modèle ----------
 
 def appeler(messages, json_attendu=True):
-    for essai in range(8):
+    for essai in range(16):
+        dispo = [m for m in MODELES if repos_jusqua[m] <= time.time()]
+        if not dispo:
+            time.sleep(max(1.0, min(repos_jusqua.values()) - time.time()))
+            continue
+        modele = dispo[0]
         attente = dernier_appel[0] + ECART_APPELS - time.time()
         if attente > 0:
             time.sleep(attente)
         dernier_appel[0] = time.time()
-        modele = MODELES[0] if essai < 4 else MODELES[1]
         try:
             r = client.chat.completions.create(
                 model=modele, messages=messages, temperature=0.4,
                 **({"response_format": {"type": "json_object"}} if json_attendu else {}))
             txt = r.choices[0].message.content or ""
             return json.loads(txt) if json_attendu else txt
-        except (RateLimitError, APIStatusError) as e:
-            code = getattr(e, "status_code", 0)
-            if code not in (429, 500, 503):
+        except RateLimitError:
+            repos_jusqua[modele] = time.time() + 60
+        except APIStatusError as e:
+            if getattr(e, "status_code", 0) not in (500, 503):
                 raise
-            time.sleep(min(90, 10 * 2 ** essai))
-        except json.JSONDecodeError:
-            time.sleep(2)
+            repos_jusqua[modele] = time.time() + 30
+        except Exception:  # délai dépassé, réponse coupée, JSON invalide
+            repos_jusqua[modele] = time.time() + 20
     raise RuntimeError("modèle indisponible")
 
 
@@ -153,6 +166,8 @@ Règles :
 - Au plus une question à l'assistant HortenIA et un seul diagnostic photo.
 - Pour un compte par e-mail : adresse {email}, mot de passe {mdp}. N'utilise pas Google ni Apple.
 - Si une autorisation est demandée (notifications, position), réagis comme la persona le ferait.
+- Écrire dans un champ remplace son contenu. Le clavier peut cacher des boutons : l'action "retour" le ferme.
+- Si tu refais la même chose sans que l'écran change, signale un "blocage" et essaie autre chose.
 
 A chaque pas tu reçois la capture d'écran et la liste des éléments visibles (id, texte, position).
 Réponds uniquement en JSON :
@@ -184,16 +199,16 @@ def jouer(persona):
         img = capture()
         l, h = img.size
         img.save(dossier / f"{pas:02d}.png")
-        petite = img.resize((l // 2, h // 2))
-        tampon = io.BytesIO(); petite.save(tampon, "PNG")
+        petite = img.resize((l // 3, h // 3))
+        tampon = io.BytesIO(); petite.save(tampon, "JPEG", quality=70)
         elements = elements_ecran()
         resume_hist = "\n".join(historique[-8:]) or "(début)"
         messages = [
             {"role": "system", "content": systeme},
             {"role": "user", "content": [
-                {"type": "text", "text": f"Pas {pas}/{PAS_MAX}. Écran {l}x{h} px (image réduite de moitié, les positions des éléments sont en pixels réels).\n"
+                {"type": "text", "text": f"Pas {pas}/{PAS_MAX}. Écran {l}x{h} px (image réduite au tiers, les positions des éléments et x, y sont en pixels réels).\n"
                                          f"Derniers gestes :\n{resume_hist}\n\nÉléments visibles :\n{json.dumps(elements, ensure_ascii=False)}"},
-                {"type": "image_url", "image_url": {"url": "data:image/png;base64," + base64.b64encode(tampon.getvalue()).decode()}},
+                {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64," + base64.b64encode(tampon.getvalue()).decode()}},
             ]},
         ]
         t0 = time.time()
@@ -210,6 +225,7 @@ def jouer(persona):
         elif action == "ecrire":
             if el or (x is not None and y is not None):
                 adb("shell", "input", "tap", str(int(x)), str(int(y))); time.sleep(0.6)
+            vider_champ()
             ecrire(d.get("texte") or "")
         elif action == "defiler":
             glisser(d.get("direction") or "haut", l, h)
@@ -234,6 +250,7 @@ def jouer(persona):
             journal[-1]["hors_app"] = True
             if any(j.get("hors_app") for j in journal[-3:-1]):
                 lancer_app(effacer=False)
+        (dossier / "journal.json").write_text(json.dumps({"persona": persona, "fin": "en cours", "pas": len(journal), "journal": journal}, ensure_ascii=False, indent=1))
         if action == "terminer":
             fin_raison = "terminé par l'agent" + (" (but atteint)" if d.get("but_atteint") else " (but non atteint)")
             break
