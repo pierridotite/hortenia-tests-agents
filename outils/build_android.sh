@@ -22,6 +22,11 @@ if [ -n "${PLAY_SERVICE_ACCOUNT_JSON:-}" ]; then
   printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > credentials/play-service-account.json
 fi
 
+# Mémoire de Gradle : R8 manque de place avec les 2 Go du projet (réglage
+# utilisateur, prioritaire sur gradle.properties du projet)
+mkdir -p ~/.gradle
+printf 'org.gradle.jvmargs=-Xmx8g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError\norg.gradle.workers.max=4\n' > ~/.gradle/gradle.properties
+
 echo "npm ci"
 npm ci --no-audit --no-fund >> "$LOG" 2>&1 || echec "npm ci"
 echo "eas build --local (profil production)"
