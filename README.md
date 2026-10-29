@@ -5,8 +5,9 @@ un téléphone virtuel comme le ferait un vrai utilisateur, et notent les bugs,
 plantages et blocages qu'ils rencontrent.
 
 - `personas.json` : les profils et leurs buts.
-- `agent.py` : la boucle de l'agent (capture d'écran, choix du geste, geste via adb).
-- `.github/workflows/android.yml` : émulateur Android, lancé à la main (Actions, « Run workflow »).
+- `CONSIGNES_CLAUDE.md` : la mission donnée à Claude Code (outils, règles, rapport attendu).
+- `outils/ecran.py`, `outils/ecrire.py` : voir l'écran et écrire, pour Claude.
+- `.github/workflows/android-claude.yml` : un émulateur Android par persona, en parallèle, piloté par Claude Code (abonnement Claude de Pierre).
 
 Le dépôt ne contient pas le code de l'app : il télécharge le dernier build chez
 Expo. Les résultats sont chiffrés avec `cle_publique.pem` avant d'être publiés
