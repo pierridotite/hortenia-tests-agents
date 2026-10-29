@@ -5,7 +5,8 @@
 set -uo pipefail
 adb wait-for-device
 # PostHog doit être injoignable depuis l'émulateur, sinon on n'y va pas.
-# Bloqué = le nom ne se résout pas, ou se résout en 0.0.0.0. Une vraie
+# Bloqué = le nom ne se résout pas, ou se résout en 0.0.0.0 (que
+# l'émulateur rend parfois en 127.0.0.1). Une vraie
 # adresse IP arrête tout.
 for i in 1 2 3 4 5 6; do
   r=$(adb shell ping -c 1 -W 2 eu.i.posthog.com 2>&1 | head -1)
@@ -13,7 +14,7 @@ for i in 1 2 3 4 5 6; do
   echo "Vérification PostHog $i : ${r:-sans réponse}"
   case "$ip" in
     "") [ "$i" -ge 3 ] && { echo "PostHog bloqué (nom non résolu)"; break; } ;;
-    0.0.0.0) echo "PostHog bloqué"; break ;;
+    0.0.0.0|127.*) echo "PostHog bloqué ($ip)"; break ;;
     *) echo "PostHog joignable depuis l'émulateur ($ip) : test annulé"; exit 1 ;;
   esac
   sleep 5
