@@ -9,7 +9,7 @@ AGENT = "hortenia-tests-agents/1.0"
 PROJET = "04c19c66-b325-42b1-b9cd-02079aea944f"
 REQUETE = """query($id: String!, $plateforme: AppPlatform!) { app { byId(appId: $id) {
   builds(offset: 0, limit: 30, platform: $plateforme, status: FINISHED) {
-    id appVersion appBuildVersion buildProfile isForIosSimulator createdAt artifacts { buildUrl } } } } }"""
+    id appVersion appBuildVersion buildProfile isForIosSimulator createdAt artifacts { buildUrl applicationArchiveUrl } } } } }"""
 
 
 def graphql(requete, variables):
@@ -36,7 +36,11 @@ def main():
     voulu = os.environ.get("BUILD_ID", "").strip()
     if voulu:
         builds = [b for b in builds if b["id"] == voulu]
-    builds = [b for b in builds if (b.get("artifacts") or {}).get("buildUrl")]
+    for b in builds:  # les builds déposés par « eas upload » n'ont que l'archive
+        a = b.get("artifacts") or {}
+        a["buildUrl"] = a.get("buildUrl") or a.get("applicationArchiveUrl")
+        b["artifacts"] = a
+    builds = [b for b in builds if b["artifacts"]["buildUrl"]]
     if not builds:
         sys.exit(f"Aucun build {cible} terminé et téléchargeable chez Expo.")
     b = builds[0]

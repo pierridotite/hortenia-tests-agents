@@ -10,7 +10,7 @@ on:
       personas:
         description: Personas à jouer, une par émulateur en parallèle (ids séparés par des virgules)
         required: false
-        default: "camille,monique,karim,thomas,elodie,bernard,lea,marc,nadia,jeanpierre"
+        default: "sophie,yves,ines,francois,amandine,gerard,julie,hugo,martine,tom"
       modele:
         description: Modèle Claude
         required: false
@@ -81,7 +81,7 @@ jobs:
       - name: Couper PostHog
         run: |
           sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null
-          printf 'listen-address=127.0.0.1\nbind-interfaces\nno-resolv\nserver=8.8.8.8\nserver=1.1.1.1\naddress=/posthog.com/0.0.0.0\naddress=/posthog.com/::\n' | sudo tee /etc/dnsmasq.d/hortenia.conf
+          printf 'listen-address=127.0.0.1\nbind-interfaces\nno-resolv\nserver=8.8.8.8\nserver=1.1.1.1\naddress=/posthog.com/0.0.0.0\naddress=/posthog.com/::\naddress=/facebook.com/0.0.0.0\naddress=/facebook.net/0.0.0.0\n' | sudo tee /etc/dnsmasq.d/hortenia.conf
           sudo systemctl restart dnsmasq
           test "$(dig +short eu.i.posthog.com @127.0.0.1)" = "0.0.0.0"
           dig +short expo.dev @127.0.0.1 | head -1
@@ -89,6 +89,19 @@ jobs:
             for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$'); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; echo "refusé : $ip"; done
             for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep ':'); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
           done
+
+      # Profil d'appareil absent de l'outil Android : Pixel 6, signalé au résumé
+      - name: Profil du téléphone
+        id: profil
+        env:
+          PROFIL: ${{ matrix.profil }}
+        run: |
+          if "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" list device -c 2>/dev/null | grep -qx "$PROFIL"; then
+            echo "profil=$PROFIL" >> "$GITHUB_OUTPUT"
+          else
+            echo "profil=pixel_6" >> "$GITHUB_OUTPUT"
+            echo "Profil $PROFIL absent : Pixel 6 à la place" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Accélération KVM
         run: |
@@ -105,11 +118,13 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           APPAREIL: ${{ matrix.appareil }}
           TAILLE_TEXTE: ${{ matrix.taille_texte }}
+          THEME: ${{ matrix.theme }}
+          POSITION: ${{ matrix.position }}
         with:
           api-level: ${{ matrix.api }}
           target: google_apis
           arch: x86_64
-          profile: ${{ matrix.profil }}
+          profile: ${{ steps.profil.outputs.profil }}
           ram-size: 4096M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1

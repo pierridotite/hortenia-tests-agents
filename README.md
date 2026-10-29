@@ -8,6 +8,10 @@ plantages et blocages qu'ils rencontrent.
 - `CONSIGNES_CLAUDE.md` : la mission donnée à Claude Code (outils, règles, rapport attendu).
 - `outils/ecran.py`, `outils/ecrire.py` : voir l'écran et écrire, pour Claude.
 - `.github/workflows/android-claude.yml` : un émulateur Android par persona, en parallèle, piloté par Claude Code (abonnement Claude de Pierre).
+- `.github/workflows/ios-claude.yml` : un simulateur iPhone ou iPad par persona (5 Mac à la fois), consignes `CONSIGNES_CLAUDE_IOS.md`, outils `outils/ios/` (AXe).
+- `.github/workflows/ios-build.yml` : build iOS de l'app sur les Mac gratuits de ce dépôt (simulateur pour les tests, ipa pour TestFlight). Le code de l'app est lu avec un jeton en lecture seule (secret `APP_REPO_TOKEN`) et n'est jamais affiché ; les journaux de build sont chiffrés.
+
+Chaque version de l'app passe par ces testeurs avant sa sortie (règle de Pierre, 29/10/2026).
 
 Le dépôt ne contient pas le code de l'app : il télécharge le dernier build chez
 Expo. Les résultats sont chiffrés avec `cle_publique.pem` avant d'être publiés

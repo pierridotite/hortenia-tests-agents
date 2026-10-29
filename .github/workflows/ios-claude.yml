@@ -1,0 +1,133 @@
+# Testeurs IA sur iPhone et iPad : un simulateur iOS par persona (modèle,
+# version d'iOS, taille du texte, thème : personas.json), piloté par Claude
+# Code avec l'abonnement Claude de Pierre (CLAUDE_CODE_OAUTH_TOKEN). L'app est
+# le build simulateur déposé chez Expo par ios-build.yml. Consignes :
+# CONSIGNES_CLAUDE_IOS.md. Sortie chiffrée, rien d'écrit dans le journal
+# public. Au plus 5 Mac en même temps (forfait gratuit).
+name: iOS - Claude
+
+on:
+  workflow_dispatch:
+    inputs:
+      personas:
+        description: Personas à jouer, une par simulateur (ids séparés par des virgules)
+        required: false
+        default: "chloe,raymond,lucie,antoine,emma,paul,nathalie,kevin,simone,mehdi"
+      build_id:
+        description: Build simulateur Expo (vide = dernier build simulateur terminé)
+        required: false
+        default: ""
+      modele:
+        description: Modèle Claude
+        required: false
+        default: claude-sonnet-5-5
+      essai:
+        description: Essai des outils sur l'app Réglages, sans Hortenia
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  liste:
+    runs-on: ubuntu-latest
+    outputs:
+      personas: ${{ steps.l.outputs.personas }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: l
+        env:
+          PERSONAS: ${{ inputs.personas }}
+          PLATEFORME: ios
+        run: python3 outils/matrice.py >> "$GITHUB_OUTPUT"
+
+  claude:
+    needs: liste
+    runs-on: macos-15
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        include: ${{ fromJSON(needs.liste.outputs.personas) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode 26
+        run: |
+          XC=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC"
+          xcodebuild -version
+          xcrun simctl list runtimes | grep -i ios
+
+      - name: Outils (AXe, Pillow, Claude Code)
+        run: |
+          brew install -q cameroncooke/axe/axe
+          python3 -m pip install -q --break-system-packages -r requirements.txt
+          npm install -g --silent @anthropic-ai/claude-code
+
+      - name: Build simulateur chez Expo
+        id: build
+        if: ${{ !inputs.essai }}
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: ${{ inputs.build_id }}
+        run: |
+          python3 outils/telecharger_build.py ios-simulateur app.tar.gz
+          mkdir -p app && tar xzf app.tar.gz -C app && rm app.tar.gz
+
+      # Le simulateur passe par le réseau du Mac : PostHog et Facebook (stats
+      # publicitaires) y sont rendus injoignables par /etc/hosts et le pare-feu
+      # pf ; lancer_claude.sh vérifie le blocage avant de commencer.
+      - name: Couper PostHog
+        run: |
+          IPS=""
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com us.i.posthog.com app.posthog.com graph.facebook.com; do
+            IPS="$IPS $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$' | tr '\n' ' ')"
+            printf '0.0.0.0 %s\n:: %s\n' "$h" "$h" | sudo tee -a /etc/hosts >/dev/null
+          done
+          echo "block drop out quick proto { tcp udp } to { $(echo $IPS | tr ' ' ',') }" | sudo pfctl -a com.apple/hortenia -f - 2>/dev/null
+          sudo pfctl -E 2>/dev/null || true
+          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder || true
+          echo "adresses refusées : $IPS"
+
+      - name: Simulateur
+        env:
+          MODELE_IOS: ${{ matrix.simulateur }}
+          VERSION_IOS: ${{ matrix.ios }}
+        run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false
+          python3 outils/ios/simulateur.py "$MODELE_IOS" "$VERSION_IOS" | tee -a "$GITHUB_ENV"
+          source <(grep UDID= "$GITHUB_ENV" | tail -1)
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b > /dev/null
+
+      - name: Claude
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          PERSONAS: ${{ matrix.persona }}
+          MODELE: ${{ inputs.modele }}
+          RUN_ID: ${{ github.run_id }}
+          TAILLE_TEXTE: ${{ matrix.taille_texte }}
+          THEME: ${{ matrix.theme }}
+          POSITION: ${{ matrix.position }}
+          ESSAI: ${{ inputs.essai && '1' || '0' }}
+        run: bash outils/ios/lancer_claude.sh
+
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-${{ matrix.persona }}
+          path: resultats.chiffres/
+          retention-days: 14
+
+      - name: Résumé
+        if: always()
+        run: |
+          echo "Build testé : ${{ steps.build.outputs.version || 'essai sans app' }} (persona ${{ matrix.persona }}, $APPAREIL)" >> "$GITHUB_STEP_SUMMARY"
