@@ -1,0 +1,75 @@
+# Build Android de l'app Hortenia sur les machines Linux gratuites de ce
+# dépôt public (sans build Expo ni minute du dépôt privé), voulu par Pierre
+# le 29/10. Même principe que ios-build.yml : code lu avec APP_REPO_TOKEN
+# (lecture seule) et jamais affiché, clé de signature gardée par Expo
+# (EXPO_TOKEN), journaux chiffrés. L'aab est déposé chez Expo (eas upload)
+# pour android-claude.yml, et envoyé en test interne Google Play si
+# « envoyer » est coché (secret PLAY_SERVICE_ACCOUNT_JSON).
+name: Android - build
+
+on:
+  workflow_dispatch:
+    inputs:
+      envoyer:
+        description: Envoyer l'aab en test interne Google Play
+        required: false
+        type: boolean
+        default: false
+      ref:
+        description: Branche ou commit de l'app à construire (dépôt Hortenia)
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Code de l'app (dépôt privé)
+        uses: actions/checkout@v4
+        with:
+          repository: pierridotite/Hortenia
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.APP_REPO_TOKEN }}
+          path: app
+          persist-credentials: false
+          sparse-checkout: Frontend
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: EAS CLI
+        run: npm install -g --silent eas-cli
+
+      - name: Build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          ENVOYER: ${{ inputs.envoyer }}
+        run: bash outils/build_android.sh "$GITHUB_WORKSPACE/app/Frontend"
+
+      - name: Chiffrer les journaux
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: journaux-chiffres-android
+          path: resultats.chiffres/
+          retention-days: 14
+
+      - name: Nettoyage
+        if: always()
+        run: rm -rf app "$RUNNER_TEMP/sortie" resultats
