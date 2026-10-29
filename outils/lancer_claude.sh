@@ -4,6 +4,14 @@
 # (chiffré ensuite), jamais dans le journal public.
 set -uo pipefail
 adb wait-for-device
+# PostHog doit être injoignable depuis l'émulateur, sinon on n'y va pas.
+for i in 1 2 3; do
+  r=$(adb shell ping -c 1 -W 2 eu.i.posthog.com 2>&1 | head -1)
+  case "$r" in *"(0.0.0.0)"*|*"unknown host"*) echo "PostHog bloqué"; break;; esac
+  [ "$i" = 3 ] && { echo "PostHog joignable depuis l'émulateur : test annulé"; exit 1; }
+  sleep 5
+done
+adb shell ping -c 1 -W 3 api.expo.dev >/dev/null 2>&1 && echo "réseau OK" || echo "attention : pas de réseau dans l'émulateur"
 adb install -r -g app.apk || adb install -r app.apk
 mkdir -p photos resultats
 [ -s photos/feuille-tomate-mildiou.jpg ] || curl -sSL --retry 3 -A "hortenia-tests-agents (github.com/pierridotite/hortenia-tests-agents)" \
