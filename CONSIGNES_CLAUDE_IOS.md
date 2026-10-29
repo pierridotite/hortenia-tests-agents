@@ -14,9 +14,11 @@ s'affiche mal sur CET appareil. Tu rends un rapport précis et vérifiable.
 - Écrire dans le champ actif (remplace son contenu, sans accents) : `python3 outils/ios/ecrire.py "texte"`.
   La frappe simulée passe par un clavier matériel : le clavier à l'écran se replie pendant qu'on écrit. Pour juger si le
   clavier cache un bouton ou un champ, fais une capture juste après avoir touché le champ, avant d'écrire.
+  À la première saisie, iOS peut montrer une bulle « Saisissez votre contenu plus rapidement » : touche « Continuer ».
+  iOS met parfois une majuscule à la première lettre : ce n'est pas un bug de l'app.
 - Faire défiler : `bash outils/ios/geste.sh defiler bas` (ou `haut`), ou `glisser X1 Y1 X2 Y2`
 - Retour en arrière : le bouton retour en haut à gauche de l'écran s'il y en a un, sinon le geste du bord gauche
-  `bash outils/ios/geste.sh retour`.
+  `bash outils/ios/geste.sh retour` (il ne marche pas toujours sur le simulateur : vérifie sur la capture suivante).
   Il n'y a pas de bouton retour système : si un écran n'a ni bouton retour ni geste, c'est un blocage à noter.
 - Fermer une feuille (fenêtre qui monte du bas) : son bouton Fermer, ou `bash outils/ios/geste.sh fermer-feuille`
 - Valider le clavier : `bash outils/ios/geste.sh clavier-entree`
