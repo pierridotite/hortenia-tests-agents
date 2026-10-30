@@ -22,7 +22,7 @@ import time
 import requests
 
 API = os.environ.get("MIROFISH_API", "http://127.0.0.1:5001")
-TOURS = int(os.environ.get("TOURS", "12"))
+TOURS = int(os.environ.get("TOURS", "6"))
 PLATEFORME = "reddit"  # fil avec commentaires, le plus proche de Facebook
 
 
@@ -106,7 +106,7 @@ def main():
         "enable_twitter": False, "enable_reddit": True})
     sim = d["simulation_id"]
     d = appel("POST", "/api/simulation/prepare", timeout=900, json={
-        "simulation_id": sim, "use_llm_for_profiles": True, "parallel_profile_count": 8})
+        "simulation_id": sim, "use_llm_for_profiles": True, "parallel_profile_count": 16})
     if d.get("task_id"):
         attendre_tache("/api/simulation/prepare/status",
                        {"task_id": d["task_id"], "simulation_id": sim})

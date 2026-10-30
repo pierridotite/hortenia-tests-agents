@@ -15,7 +15,7 @@ on:
       tours:
         description: Nombre de tours de simulation
         required: false
-        default: "12"
+        default: "6"
       modele:
         description: Modèle Claude
         required: false
@@ -46,7 +46,7 @@ jobs:
         ports: ["11434:11434"]
     env:
       LOT: mirofish/${{ inputs.lot || 'lot-1' }}
-      TOURS: ${{ inputs.tours || '12' }}
+      TOURS: ${{ inputs.tours || '6' }}
       MODELE: ${{ inputs.modele || 'claude-sonnet-5-5' }}
     steps:
       - uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           RELAIS_MODELE: ${{ env.MODELE }}
-          RELAIS_PARALLELE: "10"
+          RELAIS_PARALLELE: "16"
         run: |
           mkdir -p resultats
           nohup python mirofish/relais_claude.py > resultats/relais.log 2>&1 &
@@ -107,6 +107,7 @@ jobs:
         if: always()
         run: |
           cp -r mf/backend/logs resultats/journaux-mirofish 2>/dev/null || true
+          [ -d resultats/simulation ] || cp -r mf/backend/uploads/simulations resultats/simulations-brutes 2>/dev/null || true
           tail -n 3 resultats/relais.log || true
 
       - name: Chiffrer les résultats

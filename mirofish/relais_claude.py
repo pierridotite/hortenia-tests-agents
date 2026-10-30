@@ -23,6 +23,7 @@ PORT = int(os.environ.get("RELAIS_PORT", "8787"))
 STATS = {"requetes": 0, "outils": 0, "echecs": 0, "secondes": 0.0}
 VERROU = threading.Lock()
 
+CONSIGNE_FIN_ACTION = "\n\nTon action de ce tour est faite. Réponds en une phrase courte, sans appeler de fonction."
 CONSIGNE_JSON = "\n\nRéponds uniquement par un objet JSON valide, sans texte autour ni bloc de code."
 
 
@@ -106,7 +107,13 @@ def repondre(corps):
     systeme, prompt = transcrire(corps.get("messages", []))
     outils = corps.get("tools") or []
     choix = corps.get("tool_choice")
-    if outils and choix != "none":
+    messages = corps.get("messages") or []
+    if outils and choix != "none" and messages and messages[-1].get("role") == "tool" and choix != "required":
+        # L'agent vient d'agir : une action par tour, sinon OASIS reboucle
+        # tant que le modèle appelle des fonctions.
+        systeme += CONSIGNE_FIN_ACTION
+        outils = []
+    elif outils and choix != "none":
         systeme += consigne_outils(outils, choix)
     elif (corps.get("response_format") or {}).get("type") in ("json_object", "json_schema"):
         systeme += CONSIGNE_JSON
