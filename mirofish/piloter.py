@@ -16,6 +16,7 @@ ce que produisent les agents ne passe dans le journal public.
 import json
 import os
 import shutil
+import sqlite3
 import sys
 import time
 
@@ -56,6 +57,21 @@ def attendre_tache(chemin, corps=None, limite=3 * 3600):
             raise RuntimeError(f"tâche en échec : {str(d.get('error') or d.get('message'))[:300]}")
         time.sleep(10)
     raise TimeoutError(chemin)
+
+
+def lire_json(chemin):
+    try:
+        return json.load(open(chemin, encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def actions_faites(base):
+    try:
+        with sqlite3.connect(f"file:{base}?mode=ro", uri=True, timeout=5) as c:
+            return c.execute("select count(*) from trace").fetchone()[0]
+    except sqlite3.Error:
+        return 0
 
 
 def relais():
@@ -154,21 +170,24 @@ def main():
     appel("POST", "/api/simulation/start", json={
         "simulation_id": sim, "platform": PLATEFORME, "max_rounds": TOURS,
         "enable_graph_memory_update": False, "force": True})
+    # run-status ne suit pas les tours de cette version : la fin se lit dans
+    # env_status.json (« alive » = tours finis, environnement en attente
+    # d'entretiens) et l'avancement dans la base du fil (table trace).
     debut, dernier, depuis, bloque = time.time(), None, time.time(), False
     while True:
-        d = appel("GET", f"/api/simulation/{sim}/run-status")
-        etat, tour = d.get("runner_status"), d.get("current_round")
-        if (etat, tour) != dernier:
-            log(f"  {etat} tour {tour}/{d.get('total_rounds')} · {relais()}")
-            dernier, depuis = (etat, tour), time.time()
-        if etat in ("completed", "stopped", "failed"):
+        etat = lire_json(os.path.join(dossier_sim, "env_status.json")).get("status")
+        n = actions_faites(os.path.join(dossier_sim, "reddit_simulation.db"))
+        if (etat, n) != dernier:
+            log(f"  {etat} · {n} actions · {relais()}")
+            dernier, depuis = (etat, n), time.time()
+        if etat in ("alive", "stopped"):
             break
-        # Garde-fou : un tour qui n'avance plus en 15 min, ou plus de 90 min en tout
+        # Garde-fou : rien de nouveau en 15 min, ou plus de 90 min en tout
         if time.time() - depuis > 15 * 60 or time.time() - debut > 90 * 60:
             log(f"  simulation bloquée, arrêt · {relais()}")
             bloque = True
             break
-        time.sleep(20)
+        time.sleep(15)
 
     # 5. Ce que les agents ont fait
     for nom, chemin in (("posts", f"/api/simulation/{sim}/posts?platform={PLATEFORME}&limit=1000"),
@@ -194,8 +213,12 @@ def main():
     try:
         if bloque:
             raise RuntimeError("simulation bloquée")
-        d = appel("POST", "/api/simulation/interview/all", timeout=1900, json={
-            "simulation_id": sim, "prompt": question, "platform": PLATEFORME, "timeout": 1800})
+        # Seuls les jardiniers du panel sont interrogés
+        jardiniers = [c["agent_id"] for c in config.get("agent_configs", []) if c.get("activity_level") == 0.7]
+        log(f"entretiens de {len(jardiniers)} jardiniers")
+        d = appel("POST", "/api/simulation/interview/batch", timeout=1300, json={
+            "simulation_id": sim, "platform": PLATEFORME, "timeout": 1200,
+            "interviews": [{"agent_id": a, "prompt": question} for a in jardiniers]})
         ecrire(sortie, "entretiens.json", d)
         log("entretiens faits")
     except Exception as e:
