@@ -15,6 +15,7 @@ ce que produisent les agents ne passe dans le journal public.
 
 import json
 import os
+import re
 import shutil
 import sqlite3
 import sys
@@ -149,8 +150,10 @@ def main():
     # Tous les tours en journée et seuls les jardiniers du panel agissent : la
     # configuration générée commence à minuit (presque personne d'actif) et
     # fait parler les autres entités du graphe.
-    panel = open(os.path.join(lot, "panel.md"), encoding="utf-8").read().lower()
-    noms = {p.get("user_id"): f"{p.get('name', '')}".lower() for p in profils}
+    # Noms du panel : début des lignes « 1. Prénom Nom, âge… »
+    panel = [re.sub(r"^\d+\.\s*", "", l).split(",")[0].lower()
+             for l in open(os.path.join(lot, "panel.md"), encoding="utf-8") if re.match(r"\d+\.", l)]
+    noms = {p.get("user_id"): f"{p.get('name', '')}".lower().split() for p in profils}
     tc = config.setdefault("time_config", {})
     tc.update({"peak_hours": list(range(24)), "off_peak_hours": [], "peak_activity_multiplier": 1.0,
                "agents_per_hour_min": 10, "agents_per_hour_max": 16})
@@ -159,7 +162,7 @@ def main():
         c["active_hours"] = list(range(24))
         if c.get("agent_id") == page.get("user_id"):
             c["activity_level"] = 0.3
-        elif nom and nom.split()[-1] in panel:
+        elif len(nom) > 1 and any(nom[0] in l.split() and nom[-1] in l.split() for l in panel):
             c["activity_level"] = 0.7
         else:
             c["activity_level"] = 0.0
