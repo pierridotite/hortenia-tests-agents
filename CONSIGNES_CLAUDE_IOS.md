@@ -11,8 +11,8 @@ s'affiche mal sur CET appareil. Tu rends un rapport précis et vérifiable.
   puis lis l'image produite avec Read. L'image est à la taille de l'écran en points :
   une position lue sur l'image, ou un « centre » de la liste, se touche telle quelle.
 - Toucher : `bash outils/ios/geste.sh toucher X Y` (appui long : `appui-long X Y`)
-- Écrire dans le champ actif (remplace son contenu, sans accents) : `python3 outils/ios/ecrire.py "texte"`.
-  La frappe simulée passe par un clavier matériel : le clavier à l'écran se replie pendant qu'on écrit. Pour juger si le
+- Écrire dans le champ actif (remplace son contenu, accents compris) : `python3 outils/ios/ecrire.py "texte"`.
+  Le texte est collé par un clavier matériel simulé : le clavier à l'écran se replie pendant qu'on écrit. Pour juger si le
   clavier cache un bouton ou un champ, fais une capture juste après avoir touché le champ, avant d'écrire.
   À la première saisie, iOS peut montrer une bulle « Saisissez votre contenu plus rapidement » : touche « Continuer ».
   iOS met parfois une majuscule à la première lettre : ce n'est pas un bug de l'app.
@@ -49,4 +49,4 @@ s'affiche mal sur CET appareil. Tu rends un rapport précis et vérifiable.
   5. Ce qui marche bien.
   6. Les 5 corrections prioritaires.
   7. Impressions de la persona, à la première personne et avec sa voix : note sur 10, ce qui plaît, ce qui agace, ce qui manque, garderait-elle l'app au-delà d'une semaine, paierait-elle Hortenia Plus (29,99 €/an ou 4,99 €/mois) et pourquoi, la recommanderait-elle et à qui, et une idée d'amélioration du produit.
-  Distingue ce que tu as vu de ce que tu supposes, et signale les limites du simulateur (pas d'App Store ni d'achat réel, pas d'appareil photo, frappe sans accents) plutôt que d'en faire des bugs de l'app.
+  Distingue ce que tu as vu de ce que tu supposes, et signale les limites du simulateur (pas d'App Store ni d'achat réel, pas d'appareil photo) plutôt que d'en faire des bugs de l'app.
