@@ -19,7 +19,10 @@ def adb(*a, binaire=False):
 
 dossier, numero = Path(sys.argv[1]), sys.argv[2]
 dossier.mkdir(parents=True, exist_ok=True)
-img = Image.open(io.BytesIO(adb("exec-out", "screencap", "-p", binaire=True))).convert("RGB")
+brut = adb("exec-out", "screencap", "-p", binaire=True)
+# Écrans multiples (pliable) : screencap écrit un avertissement avant le PNG
+brut = brut[brut.find(b"\x89PNG"):] if b"\x89PNG" in brut else brut
+img = Image.open(io.BytesIO(brut)).convert("RGB")
 l, h = img.size
 chemin = dossier / f"{numero}.png"
 img.resize((l // 2, h // 2)).save(chemin)
