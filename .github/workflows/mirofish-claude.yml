@@ -1,0 +1,121 @@
+# Simulation MiroFish (fork hors ligne) : un panel de jardiniers virtuels
+# réagit à un lot de vidéos Facebook d'Hortenia. Le LLM de tous les agents est
+# Claude, sur l'abonnement de Pierre (secret CLAUDE_CODE_OAUTH_TOKEN), via
+# mirofish/relais_claude.py. Sortie chiffrée, rien d'écrit dans le journal
+# public en dehors des étapes et des compteurs.
+name: MiroFish - Claude
+
+on:
+  workflow_dispatch:
+    inputs:
+      lot:
+        description: Dossier du lot à tester (dans mirofish/)
+        required: false
+        default: lot-1
+      tours:
+        description: Nombre de tours de simulation
+        required: false
+        default: "12"
+      modele:
+        description: Modèle Claude
+        required: false
+        default: claude-sonnet-5-5
+  push:
+    branches: [claude/project-thread-lqjm86]
+    paths: [mirofish/**, .github/workflows/mirofish-claude.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirofish
+  cancel-in-progress: false
+
+jobs:
+  simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    services:
+      neo4j:
+        image: neo4j:5.15-community
+        env:
+          NEO4J_AUTH: neo4j/mirofish
+        ports: ["7687:7687"]
+      ollama:
+        image: ollama/ollama:latest
+        ports: ["11434:11434"]
+    env:
+      LOT: mirofish/${{ inputs.lot || 'lot-1' }}
+      TOURS: ${{ inputs.tours || '12' }}
+      MODELE: ${{ inputs.modele || 'claude-sonnet-5-5' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Claude Code
+        run: npm install -g --silent @anthropic-ai/claude-code
+
+      - name: MiroFish
+        run: |
+          git clone -q https://github.com/nikmcfly/MiroFish-Offline.git mf
+          git -C mf checkout -q 313fe642853ff9fff05e3ecae2e439886c2d29f4
+          pip install -q -r mf/backend/requirements.txt "mcp<2" requests
+
+      - name: Modèle d'embeddings
+        run: |
+          for i in $(seq 30); do curl -sf http://127.0.0.1:11434/api/tags >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:11434/api/pull -d '{"model":"nomic-embed-text","stream":false}' | tail -c 200
+
+      - name: Relais Claude
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          RELAIS_MODELE: ${{ env.MODELE }}
+          RELAIS_PARALLELE: "10"
+        run: |
+          mkdir -p resultats
+          nohup python mirofish/relais_claude.py > resultats/relais.log 2>&1 &
+          for i in $(seq 30); do curl -sf http://127.0.0.1:8787/v1/models >/dev/null && break; sleep 1; done
+          # Vérifie l'abonnement avant de lancer quoi que ce soit (réponse non affichée)
+          curl -sf http://127.0.0.1:8787/v1/chat/completions -H 'Content-Type: application/json' \
+            -d '{"messages":[{"role":"user","content":"Réponds juste OK."}]}' -o /dev/null
+          echo "relais prêt"
+
+      - name: Serveur MiroFish
+        run: |
+          cat > mf/.env <<EOF
+          LLM_API_KEY=claude
+          LLM_BASE_URL=http://127.0.0.1:8787/v1
+          LLM_MODEL_NAME=$MODELE
+          OPENAI_API_KEY=claude
+          OPENAI_API_BASE_URL=http://127.0.0.1:8787/v1
+          NEO4J_URI=bolt://127.0.0.1:7687
+          NEO4J_USER=neo4j
+          NEO4J_PASSWORD=mirofish
+          EMBEDDING_MODEL=nomic-embed-text
+          EMBEDDING_BASE_URL=http://127.0.0.1:11434
+          FLASK_DEBUG=false
+          EOF
+          cd mf/backend && nohup python run.py > ../../resultats/mirofish.log 2>&1 &
+
+      - name: Simulation
+        run: python mirofish/piloter.py "$LOT" mf resultats
+
+      - name: Journaux
+        if: always()
+        run: |
+          cp -r mf/backend/logs resultats/journaux-mirofish 2>/dev/null || true
+          tail -n 3 resultats/relais.log || true
+
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-mirofish
+          path: resultats.chiffres/
+          retention-days: 14
