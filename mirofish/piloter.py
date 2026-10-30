@@ -58,6 +58,15 @@ def attendre_tache(chemin, corps=None, limite=3 * 3600):
     raise TimeoutError(chemin)
 
 
+def relais():
+    # Compteurs du relais Claude (aucun texte), pour suivre l'avancement
+    try:
+        d = requests.get("http://127.0.0.1:8787/", timeout=5).json()
+        return f"relais {d['requetes']} réponses, {d.get('en_cours', '?')} en cours, {d['echecs']} échecs"
+    except Exception:
+        return "relais muet"
+
+
 def ecrire(sortie, nom, donnees):
     with open(os.path.join(sortie, nom), "w", encoding="utf-8") as f:
         json.dump(donnees, f, ensure_ascii=False, indent=1)
@@ -121,6 +130,23 @@ def main():
     config["event_config"]["initial_posts"] = [
         {"content": texte_video(v), "poster_type": "Hortenia",
          "poster_agent_id": page.get("user_id", 0)} for v in videos]
+    # Tous les tours en journée et seuls les jardiniers du panel agissent : la
+    # configuration générée commence à minuit (presque personne d'actif) et
+    # fait parler les autres entités du graphe.
+    panel = open(os.path.join(lot, "panel.md"), encoding="utf-8").read().lower()
+    noms = {p.get("user_id"): f"{p.get('name', '')}".lower() for p in profils}
+    tc = config.setdefault("time_config", {})
+    tc.update({"peak_hours": list(range(24)), "off_peak_hours": [], "peak_activity_multiplier": 1.0,
+               "agents_per_hour_min": 10, "agents_per_hour_max": 16})
+    for c in config.get("agent_configs", []):
+        nom = noms.get(c.get("agent_id"), "")
+        c["active_hours"] = list(range(24))
+        if c.get("agent_id") == page.get("user_id"):
+            c["activity_level"] = 0.3
+        elif nom and nom.split()[-1] in panel:
+            c["activity_level"] = 0.7
+        else:
+            c["activity_level"] = 0.0
     json.dump(config, open(chemin_config, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     log(f"{len(profils)} agents, {len(videos)} vidéos publiées par l'agent {page.get('user_id', 0)}")
 
@@ -128,18 +154,19 @@ def main():
     appel("POST", "/api/simulation/start", json={
         "simulation_id": sim, "platform": PLATEFORME, "max_rounds": TOURS,
         "enable_graph_memory_update": False, "force": True})
-    debut, dernier = time.time(), None
+    debut, dernier, depuis, bloque = time.time(), None, time.time(), False
     while True:
         d = appel("GET", f"/api/simulation/{sim}/run-status")
         etat, tour = d.get("runner_status"), d.get("current_round")
         if (etat, tour) != dernier:
-            log(f"  {etat} tour {tour}/{d.get('total_rounds')}")
-            dernier = (etat, tour)
+            log(f"  {etat} tour {tour}/{d.get('total_rounds')} · {relais()}")
+            dernier, depuis = (etat, tour), time.time()
         if etat in ("completed", "stopped", "failed"):
             break
-        if time.time() - debut > 4 * 3600:
-            log("  simulation trop longue, arrêt")
-            appel("POST", "/api/simulation/stop", json={"simulation_id": sim})
+        # Garde-fou : un tour qui n'avance plus en 15 min, ou plus de 90 min en tout
+        if time.time() - depuis > 15 * 60 or time.time() - debut > 90 * 60:
+            log(f"  simulation bloquée, arrêt · {relais()}")
+            bloque = True
             break
         time.sleep(20)
 
@@ -165,6 +192,8 @@ def main():
         "et installé l'app gratuite ? Termine par une ligne exacte au format "
         "TOP3: Vxx, Vxx, Vxx | PIRE: Vxx | INSTALLE: oui/non")
     try:
+        if bloque:
+            raise RuntimeError("simulation bloquée")
         d = appel("POST", "/api/simulation/interview/all", timeout=1900, json={
             "simulation_id": sim, "prompt": question, "platform": PLATEFORME, "timeout": 1800})
         ecrire(sortie, "entretiens.json", d)

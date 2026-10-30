@@ -20,7 +20,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 MODELE = os.environ.get("RELAIS_MODELE", "claude-sonnet-5-5")
 PARALLELE = threading.Semaphore(int(os.environ.get("RELAIS_PARALLELE", "8")))
 PORT = int(os.environ.get("RELAIS_PORT", "8787"))
-STATS = {"requetes": 0, "outils": 0, "echecs": 0, "secondes": 0.0}
+STATS = {"requetes": 0, "outils": 0, "echecs": 0, "secondes": 0.0, "en_cours": 0}
 VERROU = threading.Lock()
 
 CONSIGNE_FIN_ACTION = "\n\nTon action de ce tour est faite. Réponds en une phrase courte, sans appeler de fonction."
@@ -91,8 +91,13 @@ def claude(systeme, prompt):
         "--strict-mcp-config", "--disable-slash-commands",
         "--system-prompt", systeme or "Tu es un assistant utile.",
     ]
-    for essai in range(4):
-        r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=600)
+    code = "délai dépassé"
+    for essai in range(3):
+        try:
+            r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=180)
+        except subprocess.TimeoutExpired:
+            continue
+        code = r.returncode
         try:
             sortie = json.loads(r.stdout)
             if not sortie.get("is_error") and sortie.get("result") is not None:
@@ -100,7 +105,7 @@ def claude(systeme, prompt):
         except json.JSONDecodeError:
             pass
         time.sleep(10 * (essai + 1) ** 2)
-    raise RuntimeError(f"claude -p a échoué (code {r.returncode})")
+    raise RuntimeError(f"claude -p a échoué ({code})")
 
 
 def repondre(corps):
@@ -119,8 +124,14 @@ def repondre(corps):
         systeme += CONSIGNE_JSON
 
     with PARALLELE:
+        with VERROU:
+            STATS["en_cours"] += 1
         debut = time.time()
-        brut = claude(systeme, prompt)
+        try:
+            brut = claude(systeme, prompt)
+        finally:
+            with VERROU:
+                STATS["en_cours"] -= 1
         duree = time.time() - debut
 
     message = {"role": "assistant", "content": brut}
