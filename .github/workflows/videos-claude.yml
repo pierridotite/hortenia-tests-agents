@@ -1,0 +1,53 @@
+# Les jardiniers du panel (un Claude par personne, abonnement de Pierre,
+# secret CLAUDE_CODE_OAUTH_TOKEN) regardent un lot de vidéos montées, image par
+# image, et les classent. Réponses chiffrées, compteurs seulement dans le journal.
+name: Vidéos - Claude
+
+on:
+  workflow_dispatch:
+    inputs:
+      lot:
+        description: Dossier du lot de vidéos (dans mirofish/)
+        required: false
+        default: videos-lot-1
+      modele:
+        description: Modèle Claude
+        required: false
+        default: claude-sonnet-5-5
+  push:
+    branches: [claude/project-thread-lqjm86]
+    paths: [mirofish/videos-*/**, mirofish/juger_videos.py, .github/workflows/videos-claude.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  jugement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Claude Code
+        run: npm install -g --silent @anthropic-ai/claude-code
+
+      - name: Jugement des vidéos
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          MODELE: ${{ inputs.modele || 'claude-sonnet-5-5' }}
+        run: |
+          # Le lot du push : le dossier videos-* le plus récent
+          LOT="${{ inputs.lot }}"
+          [ -n "$LOT" ] || LOT=$(git log -1 --name-only --format= -- 'mirofish/videos-*' | head -1 | cut -d/ -f2)
+          python3 mirofish/juger_videos.py "mirofish/${LOT:-videos-lot-1}" resultats
+
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-videos
+          path: resultats.chiffres/
+          retention-days: 14

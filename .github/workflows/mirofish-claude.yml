@@ -22,7 +22,7 @@ on:
         default: claude-sonnet-5-5
   push:
     branches: [claude/project-thread-lqjm86]
-    paths: [mirofish/**, .github/workflows/mirofish-claude.yml]
+    paths: [mirofish/**, "!mirofish/videos-*/**", "!mirofish/juger_videos.py", .github/workflows/mirofish-claude.yml]
 
 permissions:
   contents: read

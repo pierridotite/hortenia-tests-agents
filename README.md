@@ -12,6 +12,7 @@ plantages et blocages qu'ils rencontrent.
 - `.github/workflows/android-build.yml` : build Android de l'app sur les machines Linux gratuites de ce dépôt (aab déposé chez Expo pour les tests, envoi en test interne Google Play).
 - `.github/workflows/ios-build.yml` : build iOS de l'app sur les Mac gratuits de ce dépôt (simulateur pour les tests, ipa pour TestFlight). Le code de l'app est lu avec un jeton en lecture seule (secret `APP_REPO_TOKEN`) et n'est jamais affiché ; les journaux de build sont chiffrés.
 - `.github/workflows/mirofish-claude.yml` : simulation MiroFish (fork hors ligne) où un panel de jardiniers virtuels réagit à un lot de vidéos Facebook (`mirofish/lot-*`). Tous les agents parlent à Claude via `mirofish/relais_claude.py` (abonnement de Pierre), `mirofish/piloter.py` enchaîne les étapes et interroge chaque agent à la fin.
+- `.github/workflows/videos-claude.yml` : les jardiniers du panel (un Claude par personne) regardent un lot de vidéos montées, image par image (`mirofish/videos-lot-*`), et les classent (`mirofish/juger_videos.py`).
 
 Chaque version de l'app passe par ces testeurs avant sa sortie, et tous les builds iOS et Android de l'app se font ici (décisions de Pierre, 29/10/2026).
 
