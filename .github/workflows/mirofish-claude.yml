@@ -11,7 +11,7 @@ on:
       lot:
         description: Dossier du lot à tester (dans mirofish/)
         required: false
-        default: lot-1
+        default: ""
       tours:
         description: Nombre de tours de simulation
         required: false
@@ -45,11 +45,20 @@ jobs:
         image: ollama/ollama:latest
         ports: ["11434:11434"]
     env:
-      LOT: mirofish/${{ inputs.lot || 'lot-1' }}
       TOURS: ${{ inputs.tours || '6' }}
       MODELE: ${{ inputs.modele || 'claude-sonnet-5-5' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Lot à tester
+        run: |
+          # Le lot du push : le dossier lot-* modifié par le dernier commit
+          LOT="${{ inputs.lot }}"
+          [ -n "$LOT" ] || LOT=$(git log -1 --name-only --format= -- 'mirofish/lot-*' | head -1 | cut -d/ -f2)
+          echo "LOT=mirofish/${LOT:-lot-1}" >> "$GITHUB_ENV"
+          echo "lot : ${LOT:-lot-1}"
 
       - uses: actions/setup-python@v5
         with:

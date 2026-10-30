@@ -1,0 +1,72 @@
+[
+ {
+  "id": "L01",
+  "titre": "Les feuilles mortes",
+  "accroche": "Ne jetez pas vos feuilles mortes.",
+  "voix": "Ne jetez pas vos feuilles mortes. Étalées sur la terre nue, elles la protègent du froid et de la pluie, et nourrissent les vers de terre tout l'hiver. Au printemps, le sol est souple, prêt à semer. Seule exception : le noyer, à mettre plutôt au compost. Hortenia vous rappelle chaque semaine le bon geste au bon moment. Gratuit sur Android et iPhone.",
+  "images": "feuilles mortes ramassées au râteau → couche de feuilles sur un carré de potager → vers de terre → sol souple au printemps → planning Hortenia."
+ },
+ {
+  "id": "L02",
+  "titre": "Ail blanc, violet ou rose ?",
+  "accroche": "Ail : blanc, violet ou rose ?",
+  "voix": "Ail blanc, violet ou rose : lequel planter maintenant ? Le blanc et le violet se plantent à l'automne, jusqu'en décembre. Le rose, lui, attend la fin de l'hiver, de janvier à mars. Planter le bon ail au bon moment, c'est des têtes plus grosses en été. Hortenia vous le rappelle, selon votre région. Gratuit sur Android et iPhone.",
+  "images": "trois têtes d'ail posées côte à côte (blanc, violet, rose) → calendrier animé automne / fin d'hiver → récolte en été → planning Hortenia."
+ },
+ {
+  "id": "L03",
+  "titre": "Arroser avant le gel ?",
+  "accroche": "Arroser avant le gel : bonne ou mauvaise idée ?",
+  "voix": "Arroser avant une nuit de gel : bonne ou mauvaise idée ? Bonne, si c'est un gel léger et que vous arrosez la terre en journée, pas les feuilles. Un sol humide garde mieux la chaleur et la rend la nuit. Mais si le gel est fort, posez plutôt un voile. Hortenia vous prévient la veille, avec la météo de votre commune. Gratuit sur Android et iPhone.",
+  "images": "thermomètre à 0 °C le soir → arrosoir au pied d'une salade en plein jour → schéma sol humide qui rend la chaleur → voile posé → notification gel Hortenia."
+ },
+ {
+  "id": "L04",
+  "titre": "Que semer encore en novembre ?",
+  "accroche": "Que semer encore en novembre ?",
+  "voix": "Que semer encore en novembre ? Pas grand-chose… mais quelques valeurs sûres. Les fèves et les petits pois d'hiver, dans les régions douces. La mâche, sous un abri. Et l'ail, à planter jusqu'en décembre. Pour savoir ce qui marche chez vous, Hortenia adapte la liste à la météo de votre commune. Gratuit sur Android et iPhone.",
+  "images": "sachets de graines sur une table → fèves, petits pois, mâche sous tunnel, ail → liste « Quoi semer chez moi » de l'app."
+ },
+ {
+  "id": "L05",
+  "titre": "Les poireaux tout l'hiver",
+  "accroche": "Des poireaux frais jusqu'en mars.",
+  "voix": "Vos poireaux, ne les arrachez pas tous d'un coup. Laissez-les en terre et récoltez-les au fur et à mesure, tout l'hiver, jusqu'en mars. Par grand froid, un peu de paille au pied, et c'est tout. Un légume frais au jardin quand tout dort. Hortenia vous dit quand pailler, selon la météo de chez vous. Gratuit sur Android et iPhone.",
+  "images": "rang de poireaux sous le givre → main qui en arrache un seul → paille au pied → soupe fumante → planning Hortenia."
+ },
+ {
+  "id": "L06",
+  "titre": "Le voile d'hivernage",
+  "accroche": "Voile d'hivernage : quand le poser ?",
+  "voix": "Le voile d'hivernage, on le pose quand ? Le soir où le gel est annoncé, pas avant. Il fait gagner quelques degrés, juste ce qu'il faut pour sauver salades et choux. Et en journée, s'il fait doux, on le retire pour laisser respirer. Hortenia vous prévient la veille au soir. Gratuit sur Android et iPhone.",
+  "images": "voile blanc déroulé sur un rang de salades au crépuscule → givre au petit matin dessus, salades intactes dessous → notification gel Hortenia."
+ },
+ {
+  "id": "L07",
+  "titre": "Rentrer les géraniums",
+  "accroche": "Géraniums : rentrez-les avant ça.",
+  "voix": "Vos géraniums passent l'hiver dehors ? Rentrez-les avant les premières gelées, dès que les nuits approchent cinq degrés. Un endroit clair et frais, hors gel, et un arrosage très léger jusqu'au printemps. Ils refleuriront l'an prochain. Hortenia vous prévient quand le froid arrive chez vous. Gratuit sur Android et iPhone.",
+  "images": "géraniums en pot sur un balcon → thermomètre qui descend vers 5 °C → pots rentrés près d'une fenêtre → floraison au printemps → notification Hortenia."
+ },
+ {
+  "id": "L08",
+  "titre": "Un engrais vert en novembre ?",
+  "accroche": "Engrais vert : encore temps en novembre ?",
+  "voix": "Un engrais vert, c'est encore possible en novembre ? Oui, jusqu'au début du mois, avec le seigle, la vesce ou la féverole. La moutarde, c'est trop tard. Il couvre la terre tout l'hiver, et au printemps, on le coupe pour nourrir le sol. Hortenia vous rappelle quand semer et quand le faucher. Gratuit sur Android et iPhone.",
+  "images": "sol nu → poignée de graines de seigle et de vesce semées à la volée → tapis vert en hiver → coupe au printemps → planning Hortenia."
+ },
+ {
+  "id": "L09",
+  "titre": "Quel jour jardiner ?",
+  "accroche": "Quel jour jardiner cette semaine ?",
+  "voix": "Quel jour sortir au jardin cette semaine ? Pas de pluie, peu de vent, une température douce : le bon jour existe, il suffit de le trouver. Hortenia regarde la météo de votre commune et vous dit, par exemple : jour idéal pour jardiner, mardi. Le reste de la semaine, vous restez au chaud. Gratuit sur Android et iPhone.",
+  "images": "fenêtre avec pluie → calendrier de la semaine qui s'anime → carte météo de l'app « Jour idéal pour jardiner : mardi » → jardinier au soleil."
+ },
+ {
+  "id": "L10",
+  "titre": "Trois choses avant l'hiver",
+  "accroche": "Trois choses à faire avant l'hiver.",
+  "voix": "Trois choses à faire au potager avant l'hiver. Un : couvrir la terre nue, avec des feuilles ou de la paille. Deux : vider et ranger les tuyaux d'arrosage, avant qu'ils gèlent. Trois : noter ce qui a marché cette année, et ce qui a raté. Hortenia vous garde le planning de la saison prochaine. Gratuit sur Android et iPhone.",
+  "images": " liste animée en 3 points sur photos réelles (terre paillée, tuyau enroulé, carnet) → planning Hortenia."
+ }
+]
