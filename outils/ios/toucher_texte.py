@@ -3,6 +3,7 @@ donnés, puis le touche en son centre. Sert aux enregistrements sans Claude
 (alerte système comprise, quand AXe la voit).
 
 Usage : python3 outils/ios/toucher_texte.py <secondes> "texte 1" ["texte 2"…]
+Avec EXACT=1, seul un libellé identique au texte compte.
 Code de sortie 0 si touché, 1 sinon.
 """
 import json, os, subprocess, sys, time
@@ -32,7 +33,7 @@ while time.time() < fin:
     candidats = [n for n in noeuds(arbre) if (n.get("AXLabel") or n.get("title")) and n.get("frame")]
     exacts = [n for n in candidats if (n.get("AXLabel") or n.get("title")).strip().lower() in textes]
     contient = [n for n in candidats if any(t in (n.get("AXLabel") or n.get("title")).lower() for t in textes)]
-    for n in (exacts or contient)[:1]:
+    for n in (exacts if os.environ.get("EXACT") == "1" else exacts or contient)[:1]:
         libelle = (n.get("AXLabel") or n.get("title")).strip()
         f = n["frame"]
         if True:

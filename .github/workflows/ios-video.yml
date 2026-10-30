@@ -83,7 +83,8 @@ jobs:
           sleep 3
           xcrun simctl launch "$UDID" com.hortenia.app
           sleep 6; c 01-lancement
-          python3 outils/ios/toucher_texte.py 30 "Autoriser" "Allow" || axe tap -x 201 -y 622 --udid "$UDID" | tee resultats/journal.txt || true
+          # Bouton « Autoriser » de la demande de suivi (iPhone 17 : 201,622 en points si AXe ne le voit pas)
+          { EXACT=1 python3 outils/ios/toucher_texte.py 25 "Autoriser" "Allow" || axe tap -x 201 -y 622 --udid "$UDID"; } | tee resultats/journal.txt || true
           sleep 3; c 02-apres-suivi
           python3 outils/ios/toucher_texte.py 20 "Créer mon jardin" | tee -a resultats/journal.txt || true
           sleep 5; c 03-onboarding
