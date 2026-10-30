@@ -27,10 +27,15 @@ while time.time() < fin:
         arbre = json.loads(sortie)
     except json.JSONDecodeError:
         arbre = []
-    for n in noeuds(arbre):
-        libelle = (n.get("AXLabel") or n.get("title") or "").strip()
-        f = n.get("frame") or {}
-        if libelle and f and any(t in libelle.lower() for t in textes):
+    # Libellé exact d'abord (bouton « Autoriser »), sinon libellé qui contient
+    # le texte : le titre d'une alerte peut aussi contenir le mot cherché
+    candidats = [n for n in noeuds(arbre) if (n.get("AXLabel") or n.get("title")) and n.get("frame")]
+    exacts = [n for n in candidats if (n.get("AXLabel") or n.get("title")).strip().lower() in textes]
+    contient = [n for n in candidats if any(t in (n.get("AXLabel") or n.get("title")).lower() for t in textes)]
+    for n in (exacts or contient)[:1]:
+        libelle = (n.get("AXLabel") or n.get("title")).strip()
+        f = n["frame"]
+        if True:
             x, y = f["x"] + f["width"] / 2, f["y"] + f["height"] / 2
             subprocess.run(["axe", "tap", "-x", str(round(x)), "-y", str(round(y)), "--udid", UDID])
             print(f"touché « {libelle} » en {round(x)},{round(y)}")
