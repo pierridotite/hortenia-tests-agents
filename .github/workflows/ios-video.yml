@@ -1,0 +1,102 @@
+# Vidéo d'un premier lancement sur un simulateur iPhone neuf, sans Claude :
+# installation du build simulateur Expo, lancement, demande de suivi (ATT)
+# acceptée, premiers écrans de l'onboarding. Sert aux réponses à l'examen
+# d'Apple. Vidéo et captures chiffrées comme les résultats des testeurs.
+name: iOS - vidéo
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_id:
+        description: Build simulateur Expo (vide = dernier build simulateur terminé)
+        required: false
+        default: ""
+      modele:
+        description: Modèle de simulateur
+        required: false
+        default: "iPhone 17"
+      ios:
+        description: Version d'iOS (majeure)
+        required: false
+        default: "26"
+
+permissions:
+  contents: read
+
+jobs:
+  video:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode 26
+        run: |
+          XC=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC"
+
+      - name: Outils (AXe)
+        run: |
+          brew install -q cameroncooke/axe/axe
+          python3 -m pip install -q --break-system-packages -r requirements.txt
+
+      - name: Build simulateur chez Expo
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: ${{ inputs.build_id }}
+        run: |
+          python3 outils/telecharger_build.py ios-simulateur app.tar.gz
+          mkdir -p app && tar xzf app.tar.gz -C app && rm app.tar.gz
+
+      - name: Couper PostHog
+        run: |
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com us.i.posthog.com app.posthog.com graph.facebook.com; do
+            printf '0.0.0.0 %s\n:: %s\n' "$h" "$h" | sudo tee -a /etc/hosts >/dev/null
+          done
+          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder || true
+
+      - name: Simulateur neuf en français
+        env:
+          MODELE_IOS: ${{ inputs.modele }}
+          VERSION_IOS: ${{ inputs.ios }}
+        run: |
+          python3 outils/ios/simulateur.py "$MODELE_IOS" "$VERSION_IOS" > "$RUNNER_TEMP/sim.env"
+          cat "$RUNNER_TEMP/sim.env" | tee -a "$GITHUB_ENV"
+          UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b > /dev/null
+          xcrun simctl spawn "$UDID" defaults write -g AppleLanguages -array fr-FR
+          xcrun simctl spawn "$UDID" defaults write -g AppleLocale -string fr_FR
+          xcrun simctl shutdown "$UDID"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b > /dev/null
+          xcrun simctl status_bar "$UDID" override --time "9:41" --batteryState charged --batteryLevel 100 || true
+          APPLI=$(find app -maxdepth 3 -name "*.app" -type d | head -1)
+          xcrun simctl install "$UDID" "$APPLI"
+
+      - name: Enregistrement
+        run: |
+          mkdir -p resultats
+          c() { xcrun simctl io "$UDID" screenshot --type=png "resultats/$1.png" >/dev/null 2>&1 || true; }
+          xcrun simctl io "$UDID" recordVideo --codec=h264 --force resultats/att-simulateur.mp4 &
+          ENR=$!
+          sleep 3
+          xcrun simctl launch "$UDID" com.hortenia.app
+          sleep 6; c 01-lancement
+          python3 outils/ios/toucher_texte.py 30 "Autoriser" "Allow" | tee resultats/journal.txt || true
+          sleep 3; c 02-apres-suivi
+          python3 outils/ios/toucher_texte.py 20 "Créer mon jardin" | tee -a resultats/journal.txt || true
+          sleep 5; c 03-onboarding
+          kill -INT $ENR; wait $ENR || true
+          ls -la resultats
+
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-video
+          path: resultats.chiffres/
+          retention-days: 14
