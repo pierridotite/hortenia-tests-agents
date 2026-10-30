@@ -80,7 +80,7 @@ jobs:
           node-version: 22
 
       - name: EAS CLI
-        run: npm install -g --silent eas-cli
+        run: npm install -g --silent eas-cli@27.1.0  # version figée : le greffon de build local sort parfois après la CLI
 
       - name: Build
         id: build
