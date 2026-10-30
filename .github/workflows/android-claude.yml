@@ -19,6 +19,10 @@ on:
         description: Build Expo précis (vide = dernier build Android terminé)
         required: false
         default: ""
+      consignes:
+        description: Fichier de consignes (enquête ciblée ; vide = test complet CONSIGNES_CLAUDE.md)
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -120,6 +124,8 @@ jobs:
           TAILLE_TEXTE: ${{ matrix.taille_texte }}
           THEME: ${{ matrix.theme }}
           POSITION: ${{ matrix.position }}
+          CONSIGNES: ${{ inputs.consignes }}
+          LOGCAT_COMPLET: ${{ inputs.consignes != '' && '1' || '0' }}
         with:
           api-level: ${{ matrix.api }}
           target: google_apis

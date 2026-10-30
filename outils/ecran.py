@@ -6,7 +6,7 @@ et affiche les éléments (texte, description, champ de saisie) avec la
 position de leur centre en pixels RÉELS de l'écran, à passer à
 `adb shell input tap X Y`. Signale aussi les plantages récents (logcat).
 """
-import io, re, subprocess, sys
+import io, os, re, subprocess, sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from PIL import Image
@@ -49,6 +49,9 @@ for n in noeuds:
 app = adb("shell", "dumpsys", "activity", "activities")
 m = re.search(r"(mResumedActivity|topResumedActivity)[^\n]*", app)
 print("premier plan :", m.group(0).split()[-2] if m else "?")
+# Enquête : journal complet de l'appareil gardé avec chaque capture
+if os.environ.get("LOGCAT_COMPLET") == "1":
+    (dossier / f"{numero}-logcat.txt").write_text(adb("logcat", "-d", "-v", "time"))
 crash = adb("logcat", "-d", "-b", "crash") + adb("logcat", "-d", "AndroidRuntime:E", "ReactNativeJS:E", "*:S")
 adb("logcat", "-c")
 lignes = [x for x in crash.splitlines() if x.strip() and not x.startswith("-----")]
