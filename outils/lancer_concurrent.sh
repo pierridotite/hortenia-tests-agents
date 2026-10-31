@@ -17,8 +17,17 @@ for i in 1 2 3 4 5 6; do
   sleep 5
 done
 adb shell ping -c 1 -W 3 google.com >/dev/null 2>&1 && echo "réseau OK" || echo "attention : pas de réseau dans l'émulateur"
+# Téléphone en français, heure de Paris (image google_apis : adb root possible)
+if adb root >/dev/null 2>&1; then
+  sleep 3; adb wait-for-device
+  adb shell setprop persist.sys.locale fr-FR
+  adb shell setprop persist.sys.timezone Europe/Paris
+  adb shell setprop ctl.restart zygote
+  sleep 5; adb wait-for-device
+  for i in $(seq 1 60); do [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 2; done
+  sleep 10
+fi
 echo "Langue : $(adb shell getprop persist.sys.locale) ; fuseau : $(adb shell getprop persist.sys.timezone)"
-adb shell service call alarm 3 s16 Europe/Paris >/dev/null 2>&1 || true
 
 if [ "$PAQUET" = com.hortenia.app ]; then
   adb install -r -g app.apk || adb install -r app.apk
@@ -28,7 +37,7 @@ fi
 adb shell pm list packages | grep -qx "package:$PAQUET" || { echo "Installation de $PAQUET échouée"; mkdir -p resultats; echo "installation échouée" > resultats/ECHEC.txt; exit 0; }
 echo "Version installée : $(adb shell dumpsys package "$PAQUET" | grep -m1 versionName)"
 # L'app en français même si le téléphone ne l'est pas
-adb shell cmd locale set-app-locales "$PAQUET" --user 0 --locales fr-FR >/dev/null 2>&1 || true
+adb shell cmd locale set-app-locales "$PAQUET" --user 0 --locales fr-FR 2>&1 | head -2
 
 mkdir -p photos resultats
 curl -sSL --retry 3 -A "hortenia-tests-agents (github.com/pierridotite/hortenia-tests-agents)" \
