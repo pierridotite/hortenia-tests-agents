@@ -10,9 +10,14 @@ if [ ! -x outils-bin/apkeep ]; then
     https://github.com/EFForg/apkeep/releases/latest/download/apkeep-x86_64-unknown-linux-gnu
   chmod +x outils-bin/apkeep
 fi
-for essai in 1 2 3; do
-  outils-bin/apkeep -a "$paquet" -d apk-pure -o 'acknowledge_dangers=true,arch=x86_64;arm64-v8a;armeabi-v7a' apk/ && ls apk/* >/dev/null 2>&1 && break
-  echo "Téléchargement $essai échoué, nouvel essai"; sleep $((essai * 10))
+# L'émulateur x86_64 (Android 14) exécute aussi le code ARM 64 bits, pas le
+# 32 bits : variante arm64 d'abord, puis x86_64, puis celle par défaut.
+for arch in arm64-v8a x86_64 ""; do
+  opt="acknowledge_dangers=true${arch:+,arch=$arch}"
+  for essai in 1 2; do
+    outils-bin/apkeep -a "$paquet" -d apk-pure -o "$opt" apk/ && ls apk/* >/dev/null 2>&1 && break 2
+    echo "Téléchargement ($arch) essai $essai échoué"; sleep $((essai * 10))
+  done
 done
 ls -la apk/
 ls apk/* >/dev/null 2>&1 || { echo "Aucun APK pour $paquet"; exit 1; }
