@@ -2,9 +2,11 @@
 # dépôt public (sans build Expo ni minute du dépôt privé), voulu par Pierre
 # le 29/10. Même principe que ios-build.yml : code lu avec APP_REPO_TOKEN
 # (lecture seule) et jamais affiché, clé de signature gardée par Expo
-# (EXPO_TOKEN), journaux chiffrés. L'aab est déposé chez Expo (eas upload)
-# pour android-claude.yml, et envoyé en test interne Google Play si
-# « envoyer » est coché (secret PLAY_SERVICE_ACCOUNT_JSON).
+# (EXPO_TOKEN), journaux chiffrés. Sans « envoyer », l'aab est déposé chez
+# Expo (eas upload) pour android-claude.yml. Avec « envoyer », c'est le build
+# store : secret TikTok ajouté, envoi en test interne Google Play (secret
+# PLAY_SERVICE_ACCOUNT_JSON), et pas de dépôt chez Expo, pour que les
+# testeurs ne le reprennent jamais.
 name: Android - build
 
 on:
@@ -51,6 +53,20 @@ jobs:
 
       - name: EAS CLI
         run: npm install -g --silent eas-cli@27.1.0  # version figée : le greffon de build local sort parfois après la CLI
+
+      # Secret de l'app TikTok (signature des envois du SDK), pour le build
+      # store seulement : les builds de test des testeurs IA restent sans
+      # secret (SDK inactif, aucune fausse installation chez TikTok). Même
+      # ligne que l'étape « Identifiants TikTok » de app-build.yml (dépôt privé).
+      - name: Identifiants TikTok (build store)
+        if: ${{ inputs.envoyer }}
+        working-directory: app/Frontend
+        env:
+          TIKTOK_APP_SECRET: ${{ secrets.TIKTOK_APP_SECRET }}
+        run: |
+          if [ -z "$TIKTOK_APP_SECRET" ]; then echo "TIKTOK_APP_SECRET absent : SDK TikTok inactif dans ce build"; exit 0; fi
+          node -e "const fs=require('fs');const a=JSON.parse(fs.readFileSync('app.json','utf8'));a.expo.extra.tiktok.secret=process.env.TIKTOK_APP_SECRET;fs.writeFileSync('app.json',JSON.stringify(a,null,2)+'\\n')"
+          echo "Secret TikTok ajouté à app.json pour ce build"
 
       - name: Build
         env:

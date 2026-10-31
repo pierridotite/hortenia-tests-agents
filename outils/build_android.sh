@@ -34,10 +34,14 @@ debut=$(date +%s)
 eas build --local --platform android --profile production --non-interactive --output "$SORTIE" >> "$LOG" 2>&1 || echec "build Gradle"
 echo "Build fait en $(( ($(date +%s) - debut) / 60 )) min ($(du -h "$SORTIE" | cut -f1))"
 
-eas upload --platform android --build-path "$SORTIE" --non-interactive --json > "$RUNNER_TEMP/upload.json" 2>> "$LOG" || echec "dépôt chez Expo"
-ID=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['url'].rstrip('/').split('/')[-1])" "$RUNNER_TEMP/upload.json")
-echo "Build Android déposé chez Expo : $ID"
-builtin echo "Build Android $VERSION : \`$ID\` (à passer en build_id à android-claude.yml)" >> "$GITHUB_STEP_SUMMARY"
+# Build store (ENVOYER=true, secret TikTok possible) : jamais déposé chez
+# Expo, les testeurs IA ne doivent pas le reprendre
+if [ "${ENVOYER:-false}" != true ]; then
+  eas upload --platform android --build-path "$SORTIE" --non-interactive --json > "$RUNNER_TEMP/upload.json" 2>> "$LOG" || echec "dépôt chez Expo"
+  ID=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['url'].rstrip('/').split('/')[-1])" "$RUNNER_TEMP/upload.json")
+  echo "Build Android déposé chez Expo : $ID"
+  builtin echo "Build Android $VERSION : \`$ID\` (à passer en build_id à android-claude.yml)" >> "$GITHUB_STEP_SUMMARY"
+fi
 
 if [ "${ENVOYER:-false}" = true ]; then
   [ -s credentials/play-service-account.json ] || echec "secret PLAY_SERVICE_ACCOUNT_JSON absent, envoi Google Play impossible"
