@@ -18,13 +18,14 @@ for i in 1 2 3 4 5 6; do
 done
 adb shell ping -c 1 -W 3 google.com >/dev/null 2>&1 && echo "réseau OK" || echo "attention : pas de réseau dans l'émulateur"
 # Téléphone en français, heure de Paris (image google_apis : adb root possible)
-if adb root >/dev/null 2>&1; then
-  sleep 3; adb wait-for-device
-  adb shell setprop persist.sys.locale fr-FR
-  adb shell setprop persist.sys.timezone Europe/Paris
-  adb shell setprop ctl.restart zygote
-  sleep 5; adb wait-for-device
-  for i in $(seq 1 60); do [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 2; done
+# Chaque attente est bornée : un adbd qui ne revient pas bloquait le job jusqu'au délai de 150 min.
+if timeout 60 adb root >/dev/null 2>&1; then
+  sleep 3; timeout 90 adb wait-for-device || echo "attention : adb lent après adb root"
+  timeout 20 adb shell setprop persist.sys.locale fr-FR
+  timeout 20 adb shell setprop persist.sys.timezone Europe/Paris
+  timeout 20 adb shell setprop ctl.restart zygote
+  sleep 5; timeout 90 adb wait-for-device || echo "attention : adb lent après le redémarrage"
+  for i in $(seq 1 60); do [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 2; done
   sleep 10
 fi
 echo "Langue : $(adb shell getprop persist.sys.locale) ; fuseau : $(adb shell getprop persist.sys.timezone)"
