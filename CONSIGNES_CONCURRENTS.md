@@ -34,13 +34,17 @@ valider à ta place) : en cas de refus, reprends la forme exacte ci-dessus.
   « S'abonner »…). Le téléphone n'a pas de compte Google, donc aucun paiement
   n'est possible, mais n'essaie pas quand même. Pour sortir d'un paywall :
   croix, « Plus tard », « Non merci », lien discret, ou touche Retour.
-- **Ne crée aucun compte** (ni e-mail, ni Google, ni Apple, ni Facebook). Choisis
-  toujours « Passer », « Plus tard », « Continuer sans compte », « Invité ».
-  Si l'app exige un compte pour aller plus loin : capture cet écran, note
-  « compte obligatoire » et l'étape, explore tout ce qui reste accessible, puis
-  termine. Seule exception : Hortenia, où tu crées le compte e-mail
-  `success+concurrents-<RUN_ID>@simulator.amazonses.com`, mot de passe
-  `Potager-<6 derniers chiffres de RUN_ID>!`.
+- **Compte : seulement si l'app l'exige.** Choisis d'abord « Passer », « Plus
+  tard », « Continuer sans compte », « Invité ». Si l'app bloque sans compte :
+  capture l'écran (noter « compte obligatoire » et l'étape dans la fiche), puis
+  crée un compte **par e-mail uniquement** (jamais Google, Apple ou Facebook)
+  avec une boîte jetable : `python3 outils/boite_mail.py creer <id>` donne
+  l'adresse et le mot de passe ; prénom « Camille » si demandé. Si l'app envoie
+  un code ou un lien de confirmation : `python3 outils/boite_mail.py lire <id>`
+  (pour un lien, ouvre-le avec `adb shell am start -a android.intent.action.VIEW -d "<lien>"`).
+  Refuse toutes les cases marketing / newsletter. Un seul compte par app.
+  Hortenia : compte e-mail `success+concurrents-<RUN_ID>@simulator.amazonses.com`,
+  mot de passe `Potager-<6 derniers chiffres de RUN_ID>!`.
 - Ne publie rien, ne commente pas, n'envoie aucun avis, message ou signalement.
 - Au plus **un diagnostic photo et une identification** : la photo d'une feuille
   atteinte de mildiou est dans la galerie (DCIM / Camera, IMG_20261030_feuille.jpg).

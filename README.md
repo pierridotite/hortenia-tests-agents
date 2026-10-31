@@ -26,7 +26,7 @@ avec des adresses du simulateur d'e-mails d'Amazon SES (aucun e-mail réel).
 Workflow `concurrents.yml` (lancement manuel) : un émulateur Android par app de
 `concurrents.json`, en parallèle. L'APK public est récupéré sur le miroir
 APKPure avec [apkeep](https://github.com/EFForg/apkeep) (sans compte Google),
-puis Claude Code parcourt l'app comme une nouvelle utilisatrice, **sans compte
-ni achat**, et capture chaque écran (onboarding, paywall, essai, écrans clés)
+puis Claude Code parcourt l'app comme une nouvelle utilisatrice, **sans achat**
+(compte e-mail jetable mail.tm seulement si l'app l'exige, accord de Pierre du 31/10), et capture chaque écran (onboarding, paywall, essai, écrans clés)
 selon `CONSIGNES_CONCURRENTS.md`. Hortenia est relevée dans les mêmes
 conditions comme référence. Les résultats sont chiffrés comme ceux des tests.
