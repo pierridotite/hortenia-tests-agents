@@ -17,8 +17,13 @@ on:
         required: false
         type: boolean
         default: false
+      tiktok_debug:
+        description: "Build de vérification TikTok : secret + mode debug du SDK, sans envoi (jamais pour les testeurs IA)"
+        required: false
+        type: boolean
+        default: false
       ref:
-        description: Branche ou commit de l'app à construire (dépôt Hortenia)
+        description: Branche ou commit de l'app à construire (dépôt Hortenia, sha complet)
         required: false
         default: main
 
@@ -58,15 +63,27 @@ jobs:
       # store seulement : les builds de test des testeurs IA restent sans
       # secret (SDK inactif, aucune fausse installation chez TikTok). Même
       # ligne que l'étape « Identifiants TikTok » de app-build.yml (dépôt privé).
-      - name: Identifiants TikTok (build store)
-        if: ${{ inputs.envoyer }}
+      - name: Identifiants TikTok (build store ou vérification)
+        if: ${{ inputs.envoyer || inputs.tiktok_debug }}
         working-directory: app/Frontend
         env:
           TIKTOK_APP_SECRET: ${{ secrets.TIKTOK_APP_SECRET }}
+          ENVOYER: ${{ inputs.envoyer }}
+          DEBUG: ${{ inputs.tiktok_debug }}
         run: |
-          if [ -z "$TIKTOK_APP_SECRET" ]; then echo "TIKTOK_APP_SECRET absent : SDK TikTok inactif dans ce build"; exit 0; fi
-          node -e "const fs=require('fs');const a=JSON.parse(fs.readFileSync('app.json','utf8'));a.expo.extra.tiktok.secret=process.env.TIKTOK_APP_SECRET;fs.writeFileSync('app.json',JSON.stringify(a,null,2)+'\\n')"
+          # Le mode debug ne part jamais sur Google Play
+          if [ "$DEBUG" = true ] && [ "$ENVOYER" = true ]; then echo "tiktok_debug et envoyer ne vont pas ensemble"; exit 1; fi
+          if [ -z "$TIKTOK_APP_SECRET" ]; then
+            echo "TIKTOK_APP_SECRET absent : SDK TikTok inactif dans ce build"
+            [ "$DEBUG" = true ] && exit 1
+            exit 0
+          fi
+          node -e "const fs=require('fs');const a=JSON.parse(fs.readFileSync('app.json','utf8'));a.expo.extra.tiktok.secret=process.env.TIKTOK_APP_SECRET;if(process.env.DEBUG==='true')a.expo.extra.tiktok.debug=true;fs.writeFileSync('app.json',JSON.stringify(a,null,2)+'\\n')"
           echo "Secret TikTok ajouté à app.json pour ce build"
+          if [ "$DEBUG" = true ]; then
+            echo "Mode debug TikTok activé"
+            echo "Build de vérification TikTok (secret + debug) : à ne JAMAIS passer aux testeurs IA" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Build
         env:
