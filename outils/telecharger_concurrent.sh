@@ -10,8 +10,8 @@ if [ ! -x outils-bin/apkeep ]; then
     https://github.com/EFForg/apkeep/releases/latest/download/apkeep-x86_64-unknown-linux-gnu
   chmod +x outils-bin/apkeep
 fi
-# L'émulateur x86_64 (Android 14) exécute aussi le code ARM 64 bits, pas le
-# 32 bits : variante arm64 d'abord, puis x86_64, puis celle par défaut.
+# APKPure livre souvent le code natif en ARM 32 bits : l'émulateur tourne
+# donc sous Android 11 (input api), qui le traduit. arm64 demandé d'abord.
 for arch in arm64-v8a x86_64 ""; do
   opt="acknowledge_dangers=true${arch:+,arch=$arch}"
   for essai in 1 2; do

@@ -1,7 +1,6 @@
 # Mission : relever tous les écrans d'une app de jardinage
 
-Tu pilotes un téléphone Android virtuel (Pixel 6, Android 14, en français, à
-Lyon) où une seule app est installée : celle nommée dans ta consigne de
+Tu pilotes un téléphone Android virtuel (Pixel 6, en français, à Lyon) où une seule app est installée : celle nommée dans ta consigne de
 départ. Hortenia, une petite app française de potager, veut comprendre
 comment les apps de jardinage qui convertissent le mieux sont construites :
 parcours d'accueil (onboarding), écran d'abonnement (paywall), offre d'essai,
