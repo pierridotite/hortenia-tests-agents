@@ -40,10 +40,18 @@ echo "Version installée : $(adb shell dumpsys package "$PAQUET" | grep -m1 vers
 adb shell cmd locale set-app-locales "$PAQUET" --user 0 --locales fr-FR 2>&1 | head -2
 
 mkdir -p photos resultats
-curl -sSL --retry 3 -A "hortenia-tests-agents (github.com/pierridotite/hortenia-tests-agents)" \
-  -o photos/feuille-tomate-mildiou.jpg "https://commons.wikimedia.org/wiki/Special:FilePath/Tomato_late_blight.jpg?width=1200" || true
-adb push photos/feuille-tomate-mildiou.jpg /sdcard/Pictures/feuille-tomate.jpg >/dev/null 2>&1 \
-  && adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/feuille-tomate.jpg >/dev/null 2>&1
+# Photo d'une feuille atteinte de mildiou (Wikimedia Commons), visible dans la galerie
+for essai in 1 2 3 4; do
+  curl -sSL -A "Mozilla/5.0 (hortenia-tests-agents; github.com/pierridotite/hortenia-tests-agents)" \
+    -o photos/feuille-mildiou.jpg "https://commons.wikimedia.org/wiki/Special:FilePath/Late_blight_on_potato_leaf_2.jpg?width=1200"
+  file photos/feuille-mildiou.jpg | grep -q JPEG && break
+  sleep $((essai * 15))
+done
+file photos/feuille-mildiou.jpg
+adb shell mkdir -p /sdcard/DCIM/Camera
+adb push photos/feuille-mildiou.jpg /sdcard/DCIM/Camera/IMG_20261030_feuille.jpg >/dev/null 2>&1
+adb shell am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/DCIM/Camera/IMG_20261030_feuille.jpg >/dev/null 2>&1
+adb shell content call --uri content://media --method scan_volume --arg external_primary >/dev/null 2>&1 || true
 adb emu geo fix 4.8357 45.7640 >/dev/null 2>&1   # Lyon
 adb logcat -c
 claude -p "Lis CONSIGNES_CONCURRENTS.md, puis fais la mission jusqu'à la fiche finale. App étudiée : ${NOM} (paquet ${PAQUET}, id ${APP}). RUN_ID='${RUN_ID}'." \

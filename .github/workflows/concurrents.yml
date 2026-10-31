@@ -92,8 +92,8 @@ jobs:
           sudo systemctl restart dnsmasq
           test "$(dig +short eu.i.posthog.com @127.0.0.1)" = "0.0.0.0"
           for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com; do
-            for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$'); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; done
-            for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep ':'); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
+            for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$' || true); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; done
+            for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep -E '^[0-9a-f:]+$' || true); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
           done
 
       - name: Accélération KVM

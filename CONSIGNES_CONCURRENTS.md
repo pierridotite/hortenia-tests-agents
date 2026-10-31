@@ -43,7 +43,7 @@ valider à ta place) : en cas de refus, reprends la forme exacte ci-dessus.
   `Potager-<6 derniers chiffres de RUN_ID>!`.
 - Ne publie rien, ne commente pas, n'envoie aucun avis, message ou signalement.
 - Au plus **un diagnostic photo et une identification** : la photo d'une feuille
-  de tomate malade est dans la galerie (Pictures / feuille-tomate.jpg).
+  atteinte de mildiou est dans la galerie (DCIM / Camera, IMG_20261030_feuille.jpg).
   L'appareil photo de l'émulateur est virtuel : passe par la galerie / « importer ».
 - Autorise les notifications et la position si l'app les demande (capture
   d'abord la demande et l'écran qui la précède).
