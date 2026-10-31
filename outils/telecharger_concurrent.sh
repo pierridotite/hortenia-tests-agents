@@ -11,7 +11,7 @@ if [ ! -x outils-bin/apkeep ]; then
   chmod +x outils-bin/apkeep
 fi
 for essai in 1 2 3; do
-  outils-bin/apkeep -a "$paquet" -d apk-pure apk/ && ls apk/* >/dev/null 2>&1 && break
+  outils-bin/apkeep -a "$paquet" -d apk-pure -o 'acknowledge_dangers=true,arch=x86_64;arm64-v8a;armeabi-v7a' apk/ && ls apk/* >/dev/null 2>&1 && break
   echo "Téléchargement $essai échoué, nouvel essai"; sleep $((essai * 10))
 done
 ls -la apk/

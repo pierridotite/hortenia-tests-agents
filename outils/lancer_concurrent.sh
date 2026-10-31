@@ -39,6 +39,6 @@ adb emu geo fix 4.8357 45.7640 >/dev/null 2>&1   # Lyon
 adb logcat -c
 claude -p "Lis CONSIGNES_CONCURRENTS.md, puis fais la mission jusqu'à la fiche finale. App étudiée : ${NOM} (paquet ${PAQUET}, id ${APP}). RUN_ID='${RUN_ID}'." \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 450 --output-format json \
-  --allowedTools "Bash(adb:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
+  --allowedTools "Bash(adb:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*),Bash(mkdir:*),Bash(ls:*),Read,Write,Edit" < /dev/null \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt
 echo "Claude terminé (code $?), $(find resultats -name '*.png' | wc -l) captures"
