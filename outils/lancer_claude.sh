@@ -31,9 +31,25 @@ adb push photos/feuille-tomate-mildiou.jpg /sdcard/Pictures/feuille-tomate.jpg >
 [ "${THEME:-clair}" = sombre ] && adb shell cmd uimode night yes
 # Position du jardin de la persona (latitude,longitude)
 [ -n "${POSITION:-}" ] && adb emu geo fix "${POSITION#*,}" "${POSITION%,*}" >/dev/null 2>&1
+# Localisation de la persona (personas.json) : refus = autorisation de position
+# retirée (install -g l'accorde) pour que l'app la demande ; sans_gps = position
+# coupée sur le téléphone
+CONSIGNE_POSITION=""
+case "${LOCALISATION:-}" in
+  refus)
+    adb shell pm revoke com.hortenia.app android.permission.ACCESS_FINE_LOCATION 2>/dev/null || true
+    adb shell pm revoke com.hortenia.app android.permission.ACCESS_COARSE_LOCATION 2>/dev/null || true
+    CONSIGNE_POSITION=" Localisation de ce test : ta persona refuse de partager sa position. À chaque demande d'autorisation de position, réponds « Ne pas autoriser » (ou « Refuser »), puis termine l'onboarding sans position (ville tapée à la main). Note si l'app explique pourquoi elle demande, si un bouton tourne sans fin, si « Placer mon jardin ici » reste en chargement ou si l'app redemande avec insistance, et vérifie ensuite que la météo et le planning marchent avec la ville choisie." ;;
+  sans_gps)
+    adb shell pm revoke com.hortenia.app android.permission.ACCESS_FINE_LOCATION 2>/dev/null || true
+    adb shell pm revoke com.hortenia.app android.permission.ACCESS_COARSE_LOCATION 2>/dev/null || true
+    adb shell cmd location set-location-enabled false 2>/dev/null || adb shell settings put secure location_mode 0
+    CONSIGNE_POSITION=" Localisation de ce test : ce téléphone ne donne aucune position (pas de signal GPS). À l'étape « Où est votre jardin ? », accepte la demande d'autorisation, touche « Position approximative » puis « Position précise », capture toutes les 5 s et note combien de secondes passent avant un message ou un retour à la normale (plus de 20 s = bug). Vérifie que « Placer mon jardin ici » ne reste pas en chargement, puis tape une ville pendant qu'une recherche de position tourne encore, et termine l'onboarding avec cette ville. Sur Android, si l'app propose d'activer la localisation du téléphone, refuse : le GPS reste coupé." ;;
+esac
+[ -n "${LOCALISATION:-}" ] && echo "Localisation : $LOCALISATION"
 echo "Téléphone : ${APPAREIL:-Pixel 6, Android 14} (texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair})"
 adb logcat -c
-claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée)." \
+claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée).${CONSIGNE_POSITION}" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
   --allowedTools "Bash(adb:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt

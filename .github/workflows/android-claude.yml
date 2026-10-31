@@ -124,6 +124,7 @@ jobs:
           TAILLE_TEXTE: ${{ matrix.taille_texte }}
           THEME: ${{ matrix.theme }}
           POSITION: ${{ matrix.position }}
+          LOCALISATION: ${{ matrix.localisation }}
           CONSIGNES: ${{ inputs.consignes }}
           LOGCAT_COMPLET: ${{ inputs.consignes != '' && '1' || '0' }}
         with:

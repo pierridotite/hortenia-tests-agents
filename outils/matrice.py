@@ -1,6 +1,8 @@
 """Matrice des workflows : une entrée par persona demandée, avec son appareil
 (personas.json, champ « appareil »). PLATEFORME=android (défaut) ou ios.
-Android sans appareil : Pixel 6, Android 14."""
+Android sans appareil : Pixel 6, Android 14.
+Champ « localisation » d'une persona : refus (elle refuse la position) ou
+sans_gps (le téléphone ne donne aucune position)."""
 import json
 import os
 
@@ -12,7 +14,8 @@ for pid in demandees:
     p = personas.get(pid, {})
     a = p.get("appareil", {})
     pos = p.get("position") or [45.764, 4.8357]
-    ligne = {"persona": pid, "theme": a.get("theme", "clair"), "position": f"{pos[0]},{pos[1]}"}
+    ligne = {"persona": pid, "theme": a.get("theme", "clair"), "position": f"{pos[0]},{pos[1]}",
+             "localisation": p.get("localisation", "")}
     if plateforme == "ios":
         ligne.update({"simulateur": a.get("simulateur", "iPhone 16"), "ios": str(a.get("ios", "18")),
                       "taille_texte": a.get("taille_texte", "large"), "appareil": a.get("nom", "iPhone 16, iOS 18"),

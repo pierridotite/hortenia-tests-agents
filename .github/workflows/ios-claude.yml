@@ -129,6 +129,7 @@ jobs:
           TAILLE_TEXTE: ${{ matrix.taille_texte }}
           THEME: ${{ matrix.theme }}
           POSITION: ${{ matrix.position }}
+          LOCALISATION: ${{ matrix.localisation }}
           ESSAI: ${{ inputs.essai && '1' || '0' }}
         run: bash outils/ios/lancer_claude.sh
 
