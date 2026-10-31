@@ -17,6 +17,10 @@ on:
         description: Modèle Claude
         required: false
         default: claude-sonnet-5-5
+      api:
+        description: Version d'Android (30 = Android 11, la dernière dont l'émulateur exécute l'ARM 32 bits que livre APKPure)
+        required: false
+        default: "30"
       image:
         description: Image Android (google_apis = téléphone en français via adb root ; google_apis_playstore = avec Play Store, reste en anglais)
         required: false
@@ -108,7 +112,7 @@ jobs:
           MODELE: ${{ inputs.modele }}
           RUN_ID: ${{ github.run_id }}
         with:
-          api-level: 34
+          api-level: ${{ inputs.api }}
           target: ${{ inputs.image }}
           arch: x86_64
           profile: pixel_6
