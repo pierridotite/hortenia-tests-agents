@@ -23,6 +23,12 @@ même chose : elle sert de référence, dans les mêmes conditions.
 - Relancer à froid : `adb shell am force-stop <paquet>` puis la commande de lancement
 - Attendre : `sleep N`
 
+**Lance chaque commande seule, exactement sous ces formes**, depuis le dossier
+courant : pas de `cd`, pas de chemin absolu, pas de `&&`, `;`, `|` ni de
+redirection. Toute autre forme est refusée automatiquement (personne ne peut
+valider à ta place) : en cas de refus, reprends la forme exacte ci-dessus.
+`ecran.py` crée lui-même le dossier `resultats/<id>`.
+
 ## Règles (impératives)
 - **Ne paie rien.** N'appuie jamais sur un bouton qui lance un achat, un essai
   ou un abonnement (« Commencer l'essai », « Continuer » sur un paywall,
