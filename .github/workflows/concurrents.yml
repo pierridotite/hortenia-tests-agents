@@ -1,0 +1,129 @@
+# Relevé des écrans des apps de jardinage concurrentes : un émulateur
+# Android par app (concurrents.json), en parallèle. L'APK public vient du
+# miroir APKPure (apkeep, sans compte Google) ; Hortenia (référence) vient du
+# dernier build Expo. Claude Code (abonnement de Pierre, CLAUDE_CODE_OAUTH_TOKEN)
+# parcourt l'app sans compte ni achat et capture chaque écran
+# (CONSIGNES_CONCURRENTS.md). Sortie chiffrée, rien dans le journal public.
+name: Concurrents - écrans
+
+on:
+  workflow_dispatch:
+    inputs:
+      apps:
+        description: Apps à relever (ids de concurrents.json séparés par des virgules ; vide = toutes)
+        required: false
+        default: ""
+      modele:
+        description: Modèle Claude
+        required: false
+        default: claude-sonnet-5-5
+      image:
+        description: Image Android (google_apis_playstore ou google_apis)
+        required: false
+        default: google_apis_playstore
+
+permissions:
+  contents: read
+
+jobs:
+  liste:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.l.outputs.apps }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: l
+        env:
+          APPS: ${{ inputs.apps }}
+        run: python3 outils/matrice_concurrents.py >> "$GITHUB_OUTPUT"
+
+  releve:
+    needs: liste
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      max-parallel: 13
+      matrix:
+        include: ${{ fromJSON(needs.liste.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -q -r requirements.txt
+
+      - name: APK public de l'app
+        if: matrix.paquet != 'com.hortenia.app'
+        run: bash outils/telecharger_concurrent.sh "${{ matrix.paquet }}"
+
+      - name: Dernier build Android d'Hortenia
+        id: build
+        if: matrix.paquet == 'com.hortenia.app'
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: python outils/telecharger_build.py android app.bin
+
+      - uses: actions/setup-java@v4
+        if: matrix.paquet == 'com.hortenia.app'
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: APK d'Hortenia pour l'émulateur
+        if: matrix.paquet == 'com.hortenia.app'
+        run: bash outils/apk_universel.sh app.bin app.apk "${{ steps.build.outputs.extension }}"
+
+      - name: Claude Code
+        run: npm install -g --silent @anthropic-ai/claude-code
+
+      # PostHog et Facebook coupés comme pour les testeurs (Hortenia ne doit
+      # rien envoyer à ses analytics depuis un émulateur).
+      - name: DNS local
+        run: |
+          sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null
+          printf 'listen-address=127.0.0.1\nbind-interfaces\nno-resolv\nserver=8.8.8.8\nserver=1.1.1.1\naddress=/posthog.com/0.0.0.0\naddress=/posthog.com/::\naddress=/facebook.com/0.0.0.0\naddress=/facebook.net/0.0.0.0\n' | sudo tee /etc/dnsmasq.d/hortenia.conf
+          sudo systemctl restart dnsmasq
+          test "$(dig +short eu.i.posthog.com @127.0.0.1)" = "0.0.0.0"
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com; do
+            for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$'); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; done
+            for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep ':'); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
+          done
+
+      - name: Accélération KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Émulateur et Claude
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          APP: ${{ matrix.app }}
+          NOM: ${{ matrix.nom }}
+          PAQUET: ${{ matrix.paquet }}
+          MODELE: ${{ inputs.modele }}
+          RUN_ID: ${{ github.run_id }}
+        with:
+          api-level: 34
+          target: ${{ inputs.image }}
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1 -prop persist.sys.locale=fr-FR -prop persist.sys.timezone=Europe/Paris
+          script: bash outils/lancer_concurrent.sh
+
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: concurrent-chiffre-${{ matrix.app }}
+          path: resultats.chiffres/
+          retention-days: 14

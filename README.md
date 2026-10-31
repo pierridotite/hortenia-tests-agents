@@ -20,3 +20,13 @@ comme artefact ; seul le détenteur de la clé privée peut les lire.
 
 Les agents ne paient rien, ne publient rien dans la communauté et s'inscrivent
 avec des adresses du simulateur d'e-mails d'Amazon SES (aucun e-mail réel).
+
+## Relevé des écrans des apps concurrentes
+
+Workflow `concurrents.yml` (lancement manuel) : un émulateur Android par app de
+`concurrents.json`, en parallèle. L'APK public est récupéré sur le miroir
+APKPure avec [apkeep](https://github.com/EFForg/apkeep) (sans compte Google),
+puis Claude Code parcourt l'app comme une nouvelle utilisatrice, **sans compte
+ni achat**, et capture chaque écran (onboarding, paywall, essai, écrans clés)
+selon `CONSIGNES_CONCURRENTS.md`. Hortenia est relevée dans les mêmes
+conditions comme référence. Les résultats sont chiffrés comme ceux des tests.

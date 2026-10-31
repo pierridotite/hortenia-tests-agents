@@ -1,0 +1,18 @@
+{
+  "_note": "Apps étudiées par le workflow concurrents.yml (captures de tous les écrans, sans compte ni achat). « hortenia » sert de référence, testé dans les mêmes conditions.",
+  "apps": [
+    {"id": "picturethis", "nom": "PictureThis", "paquet": "cn.danatech.xingseus", "genre": "plantes, diagnostic photo (Glority, 84 M)"},
+    {"id": "growit", "nom": "GrowIt", "paquet": "com.growit.ai", "genre": "potager, diagnostic photo (Glority)"},
+    {"id": "plantin", "nom": "PlantIn", "paquet": "com.myplantin.app", "genre": "plantes, diagnostic photo"},
+    {"id": "blossom", "nom": "Blossom", "paquet": "com.conceptivapps.blossom", "genre": "plantes, soins et diagnostic"},
+    {"id": "planta", "nom": "Planta", "paquet": "com.stromming.planta", "genre": "plantes, rappels de soins"},
+    {"id": "plantix", "nom": "Plantix", "paquet": "com.peat.GartenBank", "genre": "diagnostic maladies, gratuit (40 M)"},
+    {"id": "plantparent", "nom": "Plant Parent", "paquet": "com.plantparentai.app", "genre": "plantes, soins"},
+    {"id": "fryd", "nom": "Fryd", "paquet": "org.alphabeet.app", "genre": "potager, plan et planning"},
+    {"id": "grainly", "nom": "Grainly", "paquet": "com.grainly.app", "genre": "potager français"},
+    {"id": "biogarden", "nom": "BioGarden365", "paquet": "com.biogarden365.biogardenapp", "genre": "potager bio, docteur des plantes"},
+    {"id": "seedtime", "nom": "Seedtime", "paquet": "us.seedtime.app", "genre": "potager, calendrier de semis"},
+    {"id": "drjonquille", "nom": "Dr. Jonquille & Mr. Ail", "paquet": "fr.djma.app", "genre": "potager français, graines"},
+    {"id": "hortenia", "nom": "Hortenia", "paquet": "com.hortenia.app", "genre": "référence : notre app, dernier build Android"}
+  ]
+}
