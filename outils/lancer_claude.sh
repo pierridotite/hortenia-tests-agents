@@ -30,7 +30,7 @@ adb push photos/feuille-tomate-mildiou.jpg /sdcard/Pictures/feuille-tomate.jpg >
 [ -n "${TAILLE_TEXTE:-}" ] && adb shell settings put system font_scale "$TAILLE_TEXTE"
 [ "${THEME:-clair}" = sombre ] && adb shell cmd uimode night yes
 # Position du jardin de la persona (latitude,longitude)
-[ -n "${POSITION:-}" ] && adb emu geo fix "${POSITION#*,}" "${POSITION%,*}" >/dev/null 2>&1
+[ -n "${POSITION:-}" ] && [ "${LOCALISATION:-}" != sans_gps ] && adb emu geo fix "${POSITION#*,}" "${POSITION%,*}" >/dev/null 2>&1
 # Localisation de la persona (personas.json) : refus = autorisation de position
 # retirée (install -g l'accorde) pour que l'app la demande ; sans_gps = position
 # coupée sur le téléphone
