@@ -211,8 +211,9 @@ def main():
         "en faisant défiler ton fil (donne les numéros) ? 2) Ton top 3, du meilleur au moins bon, "
         "pour te donner envie d'installer Hortenia, avec pour chacune la raison en une phrase. "
         "3) La vidéo qui t'agace ou te fait fuir, et pourquoi. 4) Aurais-tu cliqué sur le lien "
-        "et installé l'app gratuite ? Termine par une ligne exacte au format "
-        "TOP3: Vxx, Vxx, Vxx | PIRE: Vxx | INSTALLE: oui/non")
+        "et installé l'app gratuite ? 5) Lesquelles aurais-tu enregistrées pour les garder "
+        "(aucune si aucune) ? Termine par une ligne exacte au format "
+        "TOP3: Vxx, Vxx, Vxx | PIRE: Vxx | INSTALLE: oui/non | GARDE: Vxx, Vxx")
     try:
         if bloque:
             raise RuntimeError("simulation bloquée")
