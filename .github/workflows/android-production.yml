@@ -1,0 +1,67 @@
+# Passe en production sur Google Play un build Android déjà envoyé sur
+# une piste (test interne par android-build.yml), sans renvoyer d'aab :
+# piste production avec ce versionCode, nouveautés fr-FR et part des
+# utilisateurs (100 % = déploiement complet). Clé : PLAY_SERVICE_ACCOUNT_JSON.
+# À lancer seulement avec le oui de Pierre pour la sortie.
+name: Android - production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: versionCode du build déjà dans Google Play (ex. 134)
+        required: true
+      part:
+        description: Part des utilisateurs en pourcentage (1 à 100)
+        required: false
+        default: "100"
+      notes:
+        description: Nouveautés (fr-FR), 500 caractères au plus
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Outils
+        run: python3 -m pip install -q --break-system-packages google-auth requests
+
+      - name: Piste production
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          VERSION_CODE: ${{ inputs.version_code }}
+          PART: ${{ inputs.part }}
+          NOTES: ${{ inputs.notes }}
+        shell: python
+        run: |
+          import json, os, sys
+          import requests
+          from google.oauth2 import service_account
+          from google.auth.transport.requests import Request
+          info = json.loads(os.environ["PLAY_SERVICE_ACCOUNT_JSON"])
+          cred = service_account.Credentials.from_service_account_info(info, scopes=["https://www.googleapis.com/auth/androidpublisher"])
+          cred.refresh(Request())
+          h = {"Authorization": f"Bearer {cred.token}"}
+          base = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.hortenia.app"
+          vc, part, notes = os.environ["VERSION_CODE"].strip(), float(os.environ["PART"]), os.environ["NOTES"].strip()[:500]
+          if not vc.isdigit() or not 0 < part <= 100:
+              sys.exit("versionCode ou part invalide")
+          edit = requests.post(f"{base}/edits", headers=h, timeout=30).json()["id"]
+          bundles = requests.get(f"{base}/edits/{edit}/bundles", headers=h, timeout=30).json().get("bundles", [])
+          if int(vc) not in [b["versionCode"] for b in bundles]:
+              sys.exit(f"versionCode {vc} absent de Google Play : l'envoyer d'abord (android-build.yml, envoyer)")
+          release = {"versionCodes": [vc], "releaseNotes": [{"language": "fr-FR", "text": notes}]}
+          release.update({"status": "completed"} if part == 100 else {"status": "inProgress", "userFraction": part / 100})
+          r = requests.put(f"{base}/edits/{edit}/tracks/production", headers=h, json={"track": "production", "releases": [release]}, timeout=30)
+          if not r.ok:
+              sys.exit(f"piste production refusée : HTTP {r.status_code}")
+          c = requests.post(f"{base}/edits/{edit}:commit", headers=h, timeout=60)
+          if not c.ok:
+              sys.exit(f"validation refusée : HTTP {c.status_code}")
+          print(f"versionCode {vc} en production pour {part:g} % des utilisateurs")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write(f"versionCode {vc} en production Google Play ({part:g} %)\n")
