@@ -18,9 +18,9 @@ on:
         required: false
         default: claude-sonnet-5-5
       image:
-        description: Image Android (google_apis_playstore ou google_apis)
+        description: Image Android (google_apis = téléphone en français via adb root ; google_apis_playstore = avec Play Store, reste en anglais)
         required: false
-        default: google_apis_playstore
+        default: google_apis
 
 permissions:
   contents: read
@@ -114,7 +114,7 @@ jobs:
           profile: pixel_6
           ram-size: 4096M
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1 -prop persist.sys.locale=fr-FR -prop persist.sys.timezone=Europe/Paris
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1
           script: bash outils/lancer_concurrent.sh
 
       - name: Chiffrer les résultats
