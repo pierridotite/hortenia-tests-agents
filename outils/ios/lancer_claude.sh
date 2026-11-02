@@ -42,7 +42,7 @@ else
   APPDIR=$(find app -maxdepth 3 -name "*.app" -type d | head -1)
   xcrun simctl install "$UDID" "$APPDIR" || { echo "installation impossible"; exit 1; }
   xcrun simctl launch "$UDID" com.hortenia.app
-  CONSIGNE="Lis CONSIGNES_CLAUDE_IOS.md et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Appareil de ce test : ${APPAREIL}, taille du texte ${TAILLE_TEXTE:-large}, thème ${THEME:-light} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, sous l'encoche ou la barre d'accueil, mise en page cassée).${CONSIGNE_POSITION}"
+  CONSIGNE="Lis ${CONSIGNES:-CONSIGNES_CLAUDE_IOS.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Appareil de ce test : ${APPAREIL}, taille du texte ${TAILLE_TEXTE:-large}, thème ${THEME:-light} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, sous l'encoche ou la barre d'accueil, mise en page cassée).${CONSIGNE_POSITION}"
 fi
 sleep 8
 # Première capture : mémorise la taille de l'écran en points pour les outils

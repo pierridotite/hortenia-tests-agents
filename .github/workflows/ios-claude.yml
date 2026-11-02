@@ -21,6 +21,10 @@ on:
         description: Modèle Claude
         required: false
         default: claude-sonnet-5-5
+      consignes:
+        description: Fichier de consignes (vide = test complet CONSIGNES_CLAUDE_IOS.md)
+        required: false
+        default: ""
       essai:
         description: Essai des outils sur l'app Réglages, sans Hortenia
         required: false
@@ -131,6 +135,7 @@ jobs:
           POSITION: ${{ matrix.position }}
           LOCALISATION: ${{ matrix.localisation }}
           ESSAI: ${{ inputs.essai && '1' || '0' }}
+          CONSIGNES: ${{ inputs.consignes }}
         run: bash outils/ios/lancer_claude.sh
 
       - name: Chiffrer les résultats

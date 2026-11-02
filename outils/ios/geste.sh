@@ -10,6 +10,7 @@
 #   geste.sh clavier-entree       touche Entrée du clavier
 #   geste.sh accueil              bouton principal (l'app passe en arrière-plan)
 #   geste.sh ouvrir               relance l'app au premier plan
+#   geste.sh relancer             ferme complètement l'app puis la relance
 set -euo pipefail
 : "${UDID:?UDID manquant}"
 # Taille de l'écran en points (pour défiler et revenir en arrière)
@@ -32,6 +33,7 @@ case "${1:-}" in
   clavier-entree) axe key 40 --udid "$UDID" ;;
   accueil) axe button home --udid "$UDID" ;;
   ouvrir) xcrun simctl launch "$UDID" "$([ "${ESSAI:-0}" = 1 ] && echo com.apple.Preferences || echo com.hortenia.app)" >/dev/null ;;
+  relancer) xcrun simctl terminate "$UDID" com.hortenia.app >/dev/null 2>&1 || true; sleep 1; xcrun simctl launch "$UDID" com.hortenia.app >/dev/null; sleep 5 ;;
   *) echo "geste inconnu : ${1:-}"; exit 2 ;;
 esac
 sleep 1
