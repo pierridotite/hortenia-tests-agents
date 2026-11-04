@@ -22,6 +22,11 @@ on:
         required: false
         type: boolean
         default: false
+      banc:
+        description: "Build des testeurs 1.7 et suivantes : mode banc (marque HMAC du secret TESTS_JETON), jamais avec envoyer"
+        required: false
+        type: boolean
+        default: false
       ref:
         description: Branche ou commit de l'app à construire (dépôt Hortenia, sha complet)
         required: false
@@ -84,6 +89,19 @@ jobs:
             echo "Mode debug TikTok activé"
             echo "Build de vérification TikTok (secret + debug) : à ne JAMAIS passer aux testeurs IA" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: Marque du banc (build des testeurs seulement)
+        if: ${{ inputs.banc }}
+        env:
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          ENVOYER: ${{ inputs.envoyer }}
+        run: |
+          if [ "$ENVOYER" = true ]; then echo "banc et envoyer ne vont pas ensemble : jamais de marque du banc dans un build des stores"; exit 1; fi
+          if [ -z "$TESTS_JETON" ]; then echo "secret TESTS_JETON absent"; exit 1; fi
+          M=$(python3 -c "import hmac,hashlib,os;print(hmac.new(os.environ['TESTS_JETON'].encode(),b'hortenia-banc',hashlib.sha256).hexdigest())")
+          echo "::add-mask::$M"
+          echo "EXPO_PUBLIC_BANC_MARQUE=$M" >> "$GITHUB_ENV"
+          echo "Build du banc (mode banc actif) : à ne JAMAIS envoyer dans les stores" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Build
         env:

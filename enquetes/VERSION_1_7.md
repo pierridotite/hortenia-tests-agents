@@ -10,7 +10,7 @@ pour ta persona. Compte environ 100 gestes (pas 25).
 `python3 outils/site_tests.py …` parle à l'onglet « Testeurs » de hortenia.com/tests (`python3 outils/site_tests.py aide`).
 1. **Tout au début**, avant de toucher l'app : `python3 outils/site_tests.py preparer` (impose tes versions à cet
    appareil), puis relance l'app (Android : `adb shell am force-stop com.hortenia.app` puis la commande de lancement ;
-   iOS : `bash outils/ios/geste.sh relancer`). Vérifie avec `site_tests.py versions` que tes versions sont actives.
+   iOS : `bash outils/ios/geste.sh relancer`). Vérifie avec `site_tests.py etat` que tes versions sont actives (l'appli du banc les reprend au lancement et au retour au premier plan).
 2. Une date (hiver, 1er mars, J+7…) : `site_tests.py date AAAA-MM-JJ`, relance l'app, vérifie, puis `site_tests.py date aucune`.
 3. Les notifications et messages du serveur (rappels, récap, relance, e-mail, essai…) : `site_tests.py liste` pour
    leurs noms, `site_tests.py apercu <message> [version]` pour le texte, `site_tests.py envoyer <notification>` pour la

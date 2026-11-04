@@ -1,9 +1,10 @@
 """Outil des testeurs pour la 1.7 : parle à l'onglet « Testeurs » de
 hortenia.com/tests (API du serveur Hortenia). Le jeton vient du secret GitHub
-TESTS_JETON et l'adresse de TESTS_API : rien de secret dans ce dépôt public.
+TESTS_JETON (adresse par défaut : https://admin.hortenia.com/tests/banc) : rien de secret dans ce dépôt public.
 Aucun mot de passe ni jeton n'est jamais affiché.
 
   python3 outils/site_tests.py preparer            impose les versions de ta persona (plan_1_7.json) à cet appareil
+  python3 outils/site_tests.py etat               état du banc pour cet appareil / compte (versions, date, compte)
   python3 outils/site_tests.py versions            versions actives de cet appareil / compte
   python3 outils/site_tests.py imposer T5=B [T25=C]   change une ou plusieurs versions
   python3 outils/site_tests.py date 2027-03-01     impose une date (« aucune » pour revenir à aujourd'hui) ; relance l'app ensuite
@@ -17,7 +18,7 @@ Aucun mot de passe ni jeton n'est jamais affiché.
 L'appli reprend les versions et la date à son lancement suivant : relance-la après « preparer », « imposer » ou « date »."""
 import json, os, subprocess, sys, urllib.request, urllib.error
 
-API = os.environ.get("TESTS_API", "").rstrip("/")
+API = (os.environ.get("TESTS_API") or "https://admin.hortenia.com/tests/banc").rstrip("/")
 JETON = os.environ.get("TESTS_JETON", "")
 ETAT = "resultats/.site_tests.json"
 PERSONA = (os.environ.get("PERSONAS") or "").split(",")[0].strip()
@@ -31,6 +32,21 @@ def appareil():
     return {"plateforme": "android", "modele": m, "api": a}
 
 
+def id_journal():
+    """L'appli du banc écrit « [banc] appareil_id=… » dans son journal au lancement."""
+    import re
+    try:
+        if os.environ.get("UDID"):
+            out = subprocess.run(["xcrun", "simctl", "spawn", os.environ["UDID"], "log", "show", "--last", "30m", "--style", "compact",
+                                  "--predicate", 'eventMessage CONTAINS "[banc] appareil_id="'], capture_output=True, text=True, timeout=60).stdout
+        else:
+            out = subprocess.run(["adb", "logcat", "-d", "-s", "ReactNativeJS"], capture_output=True, text=True, timeout=30).stdout
+        ids = re.findall(r"\[banc\] appareil_id=([\w-]+)", out)
+        return ids[-1] if ids else None
+    except Exception:
+        return None
+
+
 def etat():
     try:
         return json.load(open(ETAT))
@@ -39,9 +55,12 @@ def etat():
 
 
 def appel(methode, chemin, corps=None):
-    if not API or not JETON:
-        sys.exit("outil indisponible : TESTS_API ou TESTS_JETON manquant (à signaler dans le rapport)")
+    if not JETON:
+        sys.exit("outil indisponible : TESTS_JETON manquant (à signaler dans le rapport)")
     e = etat()
+    j = id_journal()
+    if j:
+        e["appareil_id"] = j
     corps = dict(corps or {}, persona=PERSONA, appareil=appareil(), appareil_id=e.get("appareil_id"), compte=e.get("compte"))
     req = urllib.request.Request(API + chemin, method=methode, data=json.dumps(corps).encode(),
                                  headers={"Authorization": "Bearer " + JETON, "Content-Type": "application/json"})
@@ -71,6 +90,8 @@ def main(a):
         rep = appel("POST", "/imposer", {"versions": plan["versions"]})
     elif c == "imposer":
         rep = appel("POST", "/imposer", {"versions": kv(r)})
+    elif c == "etat":
+        rep = appel("POST", "/etat")
     elif c == "versions":
         rep = appel("POST", "/versions")
     elif c == "date":
