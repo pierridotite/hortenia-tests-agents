@@ -136,6 +136,9 @@ jobs:
           LOCALISATION: ${{ matrix.localisation }}
           ESSAI: ${{ inputs.essai && '1' || '0' }}
           CONSIGNES: ${{ inputs.consignes }}
+          TESTS_API: ${{ secrets.TESTS_API }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
         run: bash outils/ios/lancer_claude.sh
 
       - name: Chiffrer les résultats

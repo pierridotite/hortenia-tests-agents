@@ -1,500 +1,900 @@
 [
-  {
-    "id": "camille",
-    "nom": "Camille, 29 ans, balcon à Lyon",
-    "profil": "Camille, 29 ans, Lyon, balcon de 6 m², débutante complète, à l'aise avec son téléphone mais impatiente. Elle a trouvé l'app sur le Play Store.",
-    "but": "Créer un compte, décrire son balcon, ajouter des tomates cerises et du basilic, puis trouver ce qu'elle doit faire cette semaine.",
-    "appareil": {
-      "profil": "pixel_6",
-      "android_api": 34,
-      "taille_texte": 1.0,
-      "nom": "Pixel 6, Android 14, texte normal (référence)"
-    },
-    "plateforme": "android"
+ {
+  "id": "camille",
+  "nom": "Camille, 29 ans, balcon à Lyon",
+  "profil": "Camille, 29 ans, Lyon, balcon de 6 m², débutante complète, à l'aise avec son téléphone mais impatiente. Elle a trouvé l'app sur le Play Store.",
+  "but": "Créer un compte, décrire son balcon, ajouter des tomates cerises et du basilic, puis trouver ce qu'elle doit faire cette semaine.",
+  "appareil": {
+   "profil": "pixel_6",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "nom": "Pixel 6, Android 14, texte normal (référence)"
   },
-  {
-    "id": "monique",
-    "nom": "Monique, 68 ans, grand potager",
-    "profil": "Monique, 68 ans, retraitée à Angers, potager de 150 m² depuis 30 ans, peu à l'aise avec les applications, lit lentement, se méfie des abonnements.",
-    "but": "S'inscrire, ajouter ses poireaux et ses choux, puis savoir quand semer les fèves.",
-    "appareil": {
-      "profil": "pixel_3a",
-      "android_api": 33,
-      "taille_texte": 1.3,
-      "nom": "Pixel 3a (écran 5,6 pouces), Android 13, très grand texte"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "monique",
+  "nom": "Monique, 68 ans, grand potager",
+  "profil": "Monique, 68 ans, retraitée à Angers, potager de 150 m² depuis 30 ans, peu à l'aise avec les applications, lit lentement, se méfie des abonnements.",
+  "but": "S'inscrire, ajouter ses poireaux et ses choux, puis savoir quand semer les fèves.",
+  "appareil": {
+   "profil": "pixel_3a",
+   "android_api": 33,
+   "taille_texte": 1.3,
+   "nom": "Pixel 3a (écran 5,6 pouces), Android 13, très grand texte"
   },
-  {
-    "id": "karim",
-    "nom": "Karim, 39 ans, plante malade",
-    "profil": "Karim, 39 ans, jardin familial loué à la mairie, ses tomates ont des taches brunes sur les feuilles. Pressé, il veut une réponse rapide.",
-    "but": "S'inscrire, faire un diagnostic de sa plante malade (photo depuis la galerie si possible) et poser une question à l'assistant HortenIA, puis regarder ce que propose l'abonnement Plus sans payer.",
-    "appareil": {
-      "profil": "pixel_2",
-      "android_api": 30,
-      "taille_texte": 1.0,
-      "nom": "Pixel 2 (petit écran 5 pouces), Android 11"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "karim",
+  "nom": "Karim, 39 ans, plante malade",
+  "profil": "Karim, 39 ans, jardin familial loué à la mairie, ses tomates ont des taches brunes sur les feuilles. Pressé, il veut une réponse rapide.",
+  "but": "S'inscrire, faire un diagnostic de sa plante malade (photo depuis la galerie si possible) et poser une question à l'assistant HortenIA, puis regarder ce que propose l'abonnement Plus sans payer.",
+  "appareil": {
+   "profil": "pixel_2",
+   "android_api": 30,
+   "taille_texte": 1.0,
+   "nom": "Pixel 2 (petit écran 5 pouces), Android 11"
   },
-  {
-    "id": "thomas",
-    "nom": "Thomas, 34 ans, développeur exigeant",
-    "profil": "Thomas, 34 ans, développeur à Lille, jardin partagé. Il explore tout, appuie partout, revient en arrière souvent et repère les défauts.",
-    "but": "S'inscrire puis visiter chaque onglet et chaque réglage, passer de la vue plan à la vue 3D, se déconnecter puis se reconnecter. Noter tout ce qui ne marche pas.",
-    "appareil": {
-      "profil": "pixel_tablet",
-      "android_api": 34,
-      "taille_texte": 1.0,
-      "nom": "Pixel Tablet (tablette 10,9 pouces), Android 14"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "thomas",
+  "nom": "Thomas, 34 ans, développeur exigeant",
+  "profil": "Thomas, 34 ans, développeur à Lille, jardin partagé. Il explore tout, appuie partout, revient en arrière souvent et repère les défauts.",
+  "but": "S'inscrire puis visiter chaque onglet et chaque réglage, passer de la vue plan à la vue 3D, se déconnecter puis se reconnecter. Noter tout ce qui ne marche pas.",
+  "appareil": {
+   "profil": "pixel_tablet",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "nom": "Pixel Tablet (tablette 10,9 pouces), Android 14"
   },
-  {
-    "id": "elodie",
-    "nom": "Élodie, 42 ans, a perdu ses tomates",
-    "profil": "Élodie, 42 ans, Clermont-Ferrand, a perdu ses tomates à cause du mildiou cet été. Elle veut être prévenue la prochaine fois.",
-    "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue.",
-    "appareil": {
-      "profil": "pixel_7_pro",
-      "android_api": 35,
-      "taille_texte": 1.0,
-      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 15"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "elodie",
+  "nom": "Élodie, 42 ans, a perdu ses tomates",
+  "profil": "Élodie, 42 ans, Clermont-Ferrand, a perdu ses tomates à cause du mildiou cet été. Elle veut être prévenue la prochaine fois.",
+  "but": "S'inscrire, ajouter des tomates, trouver la météo du jardin et l'alerte mildiou, et activer les notifications pour être prévenue.",
+  "appareil": {
+   "profil": "pixel_7_pro",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 15"
   },
-  {
-    "id": "bernard",
-    "nom": "Bernard, 72 ans, peu à l'aise",
-    "profil": "Bernard, 72 ans, retraité près de Limoges, grand potager familial, lit Rustica. Sa petite-fille lui a installé l'app. Il lit lentement, a peur de « casser quelque chose » et se perd vite.",
-    "but": "S'inscrire, retrouver ses légumes (pommes de terre, haricots, salades) et comprendre ce qu'il doit faire au jardin cette semaine.",
-    "appareil": {
-      "profil": "pixel_6",
-      "android_api": 34,
-      "taille_texte": 1.3,
-      "nom": "Pixel 6, Android 14, très grand texte"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "bernard",
+  "nom": "Bernard, 72 ans, peu à l'aise",
+  "profil": "Bernard, 72 ans, retraité près de Limoges, grand potager familial, lit Rustica. Sa petite-fille lui a installé l'app. Il lit lentement, a peur de « casser quelque chose » et se perd vite.",
+  "but": "S'inscrire, retrouver ses légumes (pommes de terre, haricots, salades) et comprendre ce qu'il doit faire au jardin cette semaine.",
+  "appareil": {
+   "profil": "pixel_6",
+   "android_api": 34,
+   "taille_texte": 1.3,
+   "nom": "Pixel 6, Android 14, très grand texte"
   },
-  {
-    "id": "lea",
-    "nom": "Léa, 24 ans, rebord de fenêtre",
-    "profil": "Léa, 24 ans, étudiante à Toulouse, rebord de fenêtre et aromatiques, utilise PictureThis en gratuit, budget serré, très exigeante sur le design.",
-    "but": "S'inscrire comme jardin de fenêtre, ajouter basilic, menthe et persil, regarder la vue 3D et dire si elle garderait l'app.",
-    "appareil": {
-      "profil": "pixel_3a",
-      "android_api": 30,
-      "taille_texte": 1.0,
-      "nom": "Pixel 3a (écran 5,6 pouces), Android 11"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "lea",
+  "nom": "Léa, 24 ans, rebord de fenêtre",
+  "profil": "Léa, 24 ans, étudiante à Toulouse, rebord de fenêtre et aromatiques, utilise PictureThis en gratuit, budget serré, très exigeante sur le design.",
+  "but": "S'inscrire comme jardin de fenêtre, ajouter basilic, menthe et persil, regarder la vue 3D et dire si elle garderait l'app.",
+  "appareil": {
+   "profil": "pixel_3a",
+   "android_api": 30,
+   "taille_texte": 1.0,
+   "nom": "Pixel 3a (écran 5,6 pouces), Android 11"
   },
-  {
-    "id": "marc",
-    "nom": "Marc, 52 ans, ancien abonné Planta",
-    "profil": "Marc, 52 ans, Alsace, potager de 300 m², a payé Planta puis résilié. Il compare tout, lit les prix et les conditions de l'essai.",
-    "but": "S'inscrire, ajouter une dizaine de légumes, regarder le planning et l'offre Plus en détail (prix, essai, ce qui est inclus) et dire s'il paierait et pourquoi.",
-    "appareil": {
-      "profil": "pixel_7_pro",
-      "android_api": 34,
-      "taille_texte": 1.0,
-      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 14"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "marc",
+  "nom": "Marc, 52 ans, ancien abonné Planta",
+  "profil": "Marc, 52 ans, Alsace, potager de 300 m², a payé Planta puis résilié. Il compare tout, lit les prix et les conditions de l'essai.",
+  "but": "S'inscrire, ajouter une dizaine de légumes, regarder le planning et l'offre Plus en détail (prix, essai, ce qui est inclus) et dire s'il paierait et pourquoi.",
+  "appareil": {
+   "profil": "pixel_7_pro",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 14"
   },
-  {
-    "id": "nadia",
-    "nom": "Nadia, 45 ans, terrasse à Marseille",
-    "profil": "Nadia, 45 ans, Marseille, terrasse en pots, chaleur et sécheresse, cherche surtout quand et combien arroser.",
-    "but": "S'inscrire, ajouter tomates, poivrons et courgettes en pots, et trouver des conseils d'arrosage et la météo de chez elle.",
-    "appareil": {
-      "profil": "pixel_2",
-      "android_api": 35,
-      "taille_texte": 1.0,
-      "nom": "Pixel 2 (petit écran 5 pouces), Android 15"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "nadia",
+  "nom": "Nadia, 45 ans, terrasse à Marseille",
+  "profil": "Nadia, 45 ans, Marseille, terrasse en pots, chaleur et sécheresse, cherche surtout quand et combien arroser.",
+  "but": "S'inscrire, ajouter tomates, poivrons et courgettes en pots, et trouver des conseils d'arrosage et la météo de chez elle.",
+  "appareil": {
+   "profil": "pixel_2",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "nom": "Pixel 2 (petit écran 5 pouces), Android 15"
   },
-  {
-    "id": "jeanpierre",
-    "nom": "Jean-Pierre, 66 ans, jardinier confirmé",
-    "profil": "Jean-Pierre, 66 ans, Normandie, jardinier confirmé, laisse souvent des avis sur le Play Store, repère vite les conseils approximatifs.",
-    "but": "S'inscrire, lire les fiches de 3 légumes qu'il connaît bien (poireau, ail, fève) et juger la justesse des conseils et du calendrier.",
-    "appareil": {
-      "profil": "pixel_7_pro",
-      "android_api": 33,
-      "taille_texte": 1.15,
-      "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 13, grand texte"
-    },
-    "plateforme": "android"
+  "plateforme": "android"
+ },
+ {
+  "id": "jeanpierre",
+  "nom": "Jean-Pierre, 66 ans, jardinier confirmé",
+  "profil": "Jean-Pierre, 66 ans, Normandie, jardinier confirmé, laisse souvent des avis sur le Play Store, repère vite les conseils approximatifs.",
+  "but": "S'inscrire, lire les fiches de 3 légumes qu'il connaît bien (poireau, ail, fève) et juger la justesse des conseils et du calendrier.",
+  "appareil": {
+   "profil": "pixel_7_pro",
+   "android_api": 33,
+   "taille_texte": 1.15,
+   "nom": "Pixel 7 Pro (grand écran 6,7 pouces), Android 13, grand texte"
   },
-  {
-    "id": "sophie",
-    "plateforme": "android",
-    "nom": "Sophie, 34 ans, jardin familial à Nantes",
-    "profil": "Sophie, 34 ans, Nantes, jardin de 30 m², deux enfants de 5 et 8 ans, débutante motivée, utilise son téléphone le soir quand les enfants dorment.",
-    "but": "Créer un compte, décrire son jardin, ajouter fraises, radis et tomates (des plantes faciles pour les enfants), comprendre quoi semer maintenant et quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      47.2184,
-      -1.5536
-    ],
-    "appareil": {
-      "profil": "pixel_8",
-      "android_api": 35,
-      "taille_texte": 1.0,
-      "theme": "sombre",
-      "nom": "Pixel 8, Android 15, mode sombre"
-    }
-  },
-  {
-    "id": "yves",
-    "plateforme": "android",
-    "nom": "Yves, 71 ans, grand potager en Dordogne",
-    "profil": "Yves, 71 ans, retraité près de Périgueux, potager de 200 m² depuis 40 ans, peu à l'aise avec le téléphone (offert par sa fille), lit mal les petits caractères, tape lentement.",
-    "but": "S'inscrire, décrire son grand potager, ajouter pommes de terre, haricots verts, poireaux et courges, puis voir les prochaines tâches et la météo. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      45.184,
-      0.7218
-    ],
-    "appareil": {
-      "profil": "pixel",
-      "android_api": 29,
-      "taille_texte": 1.3,
-      "theme": "clair",
-      "nom": "Pixel (5 pouces), Android 10, texte x1,3"
-    },
-    "localisation": "sans_gps"
-  },
-  {
-    "id": "ines",
-    "plateforme": "android",
-    "nom": "Inès, 22 ans, rebord de fenêtre à Lille",
-    "profil": "Inès, 22 ans, étudiante à Lille, studio avec un rebord de fenêtre au nord, veut des herbes aromatiques, très à l'aise avec les apps, zappe vite si c'est lent.",
-    "but": "Créer un compte, indiquer un rebord de fenêtre, ajouter basilic, persil, ciboulette et menthe, savoir si c'est possible à l'ombre, et poser une question à HortenIA. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      50.6292,
-      3.0573
-    ],
-    "appareil": {
-      "profil": "pixel_4",
-      "android_api": 31,
-      "taille_texte": 0.85,
-      "theme": "clair",
-      "nom": "Pixel 4 (5,7 pouces), Android 12, petit texte x0,85"
-    },
-    "localisation": "refus"
-  },
-  {
-    "id": "francois",
-    "plateforme": "android",
-    "nom": "François, 52 ans, carrés potagers à Bordeaux",
-    "profil": "François, 52 ans, cadre à Bordeaux, 4 carrés potagers surélevés, organisé, veut un planning précis avec des rappels, utilise un téléphone pliable.",
-    "but": "Créer un compte, décrire ses 4 carrés, ajouter salades, carottes, oignons et tomates, régler les notifications, puis vérifier le planning semaine par semaine, plié puis déplié si possible. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      44.8378,
-      -0.5792
-    ],
-    "appareil": {
-      "profil": "pixel_fold",
-      "android_api": 34,
-      "taille_texte": 1.0,
-      "theme": "clair",
-      "nom": "Pixel Fold (pliable, écran intérieur), Android 14"
-    }
-  },
-  {
-    "id": "amandine",
-    "plateforme": "android",
-    "nom": "Amandine, 41 ans, jardin partagé à Toulouse",
-    "profil": "Amandine, 41 ans, Toulouse, membre d'un jardin partagé en permaculture, curieuse des associations de plantes, utilise une tablette à la maison.",
-    "but": "Créer un compte, décrire une parcelle de jardin partagé, ajouter courgettes, capucines, haricots et maïs, regarder les associations et la vue du jardin, lire la communauté sans rien publier. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      43.6047,
-      1.4442
-    ],
-    "appareil": {
-      "profil": "pixel_c",
-      "android_api": 33,
-      "taille_texte": 1.0,
-      "theme": "clair",
-      "nom": "Tablette Pixel C (10,2 pouces), Android 13"
-    }
-  },
-  {
-    "id": "gerard",
-    "plateforme": "android",
-    "nom": "Gérard, 66 ans, potager en Bretagne",
-    "profil": "Gérard, 66 ans, près de Quimper, potager de 80 m², a peur du gel sur ses semis, vue fatiguée : son téléphone est réglé en très grand texte.",
-    "but": "S'inscrire, décrire son potager, ajouter choux, fèves et salades d'hiver, trouver l'alerte gel et la météo, et voir quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      47.996,
-      -4.102
-    ],
-    "appareil": {
-      "profil": "pixel_5",
-      "android_api": 34,
-      "taille_texte": 2.0,
-      "theme": "clair",
-      "nom": "Pixel 5, Android 14, texte très grand x2,0"
-    }
-  },
-  {
-    "id": "julie",
-    "plateforme": "android",
-    "nom": "Julie, 30 ans, balcon plein sud à Marseille",
-    "profil": "Julie, 30 ans, Marseille, balcon plein sud de 8 m², a déjà grillé ses plants l'été dernier, veut savoir combien et quand arroser.",
-    "but": "Créer un compte, décrire son balcon, ajouter tomates, poivrons et aubergines en pot, utiliser l'outil de calcul d'arrosage et la météo, puis voir ses tâches. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      43.2965,
-      5.3698
-    ],
-    "appareil": {
-      "profil": "pixel_7",
-      "android_api": 36,
-      "taille_texte": 1.0,
-      "theme": "sombre",
-      "nom": "Pixel 7, Android 16, mode sombre"
-    },
-    "localisation": "sans_gps"
-  },
-  {
-    "id": "hugo",
-    "plateforme": "android",
-    "nom": "Hugo, 38 ans, nouveau jardin à Strasbourg",
-    "profil": "Hugo, 38 ans, vient d'acheter une maison à Strasbourg avec 150 m² de terrain, veut dessiner son futur potager, aime les beaux outils, prêt à payer si ça vaut le coup.",
-    "but": "Créer un compte, tracer son jardin (plan ou 3D), placer quelques légumes, regarder ce qu'apporte Hortenia Plus sans payer, puis voir le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      48.5734,
-      7.7521
-    ],
-    "appareil": {
-      "profil": "pixel_8_pro",
-      "android_api": 35,
-      "taille_texte": 1.0,
-      "theme": "clair",
-      "nom": "Pixel 8 Pro (6,7 pouces), Android 15"
-    }
-  },
-  {
-    "id": "martine",
-    "plateforme": "android",
-    "nom": "Martine, 59 ans, courgettes malades à Clermont",
-    "profil": "Martine, 59 ans, Clermont-Ferrand, potager de 50 m², ses feuilles de courgettes et de tomates ont des taches, inquiète, pas très technophile.",
-    "but": "S'inscrire, ajouter courgettes et tomates, faire un diagnostic photo (photo de la galerie), comprendre le résultat et quoi faire, puis voir le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      45.7772,
-      3.087
-    ],
-    "appareil": {
-      "profil": "pixel_4_xl",
-      "android_api": 32,
-      "taille_texte": 1.15,
-      "theme": "clair",
-      "nom": "Pixel 4 XL, Android 12L, texte x1,15"
-    }
-  },
-  {
-    "id": "tom",
-    "plateforme": "android",
-    "nom": "Tom, 26 ans, pressé et exigeant à Paris",
-    "profil": "Tom, 26 ans, Paris, jardinières sur une terrasse, a déjà essayé deux autres apps de jardinage, très exigeant, teste tout vite, se déconnecte et se reconnecte.",
-    "but": "Créer un compte, ajouter 3 plantes, ouvrir l'offre Plus et la fermer, se déconnecter, utiliser « mot de passe oublié » puis se reconnecter, et juger si l'app vaut mieux que les autres. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      48.8566,
-      2.3522
-    ],
-    "appareil": {
-      "profil": "pixel_6_pro",
-      "android_api": 33,
-      "taille_texte": 1.0,
-      "theme": "sombre",
-      "nom": "Pixel 6 Pro, Android 13, mode sombre"
-    },
-    "localisation": "refus"
-  },
-  {
-    "id": "chloe",
-    "plateforme": "ios",
-    "nom": "Chloé, 27 ans, balcon à Paris",
-    "profil": "Chloé, 27 ans, Paris, balcon de 4 m² au 5e étage, débutante, a trouvé Hortenia sur l'App Store, utilise son iPhone pour tout.",
-    "but": "Créer un compte, décrire son balcon, ajouter tomates cerises, fraises et basilic, puis trouver ce qu'elle doit faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      48.8622,
-      2.3631
-    ],
-    "appareil": {
-      "simulateur": "iPhone 17",
-      "ios": "26",
-      "taille_texte": "large",
-      "theme": "light",
-      "nom": "iPhone 17, iOS 26, texte standard"
-    }
-  },
-  {
-    "id": "raymond",
-    "plateforme": "ios",
-    "nom": "Raymond, 78 ans, jardin en Normandie",
-    "profil": "Raymond, 78 ans, près de Caen, jardine depuis toujours, vieil iPhone SE à bouton, a réglé le texte très grand, lit lentement, se méfie des abonnements.",
-    "but": "S'inscrire, décrire son jardin, ajouter pommes de terre, poireaux et carottes, comprendre le planning et la météo, sans rien payer. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      49.1829,
-      -0.3707
-    ],
-    "appareil": {
-      "simulateur": "iPhone SE (3rd generation)",
-      "ios": "18",
-      "taille_texte": "accessibility-medium",
-      "theme": "light",
-      "nom": "iPhone SE 3 (4,7 pouces, bouton principal), iOS 18, texte très grand"
-    },
-    "localisation": "sans_gps"
-  },
-  {
-    "id": "lucie",
-    "plateforme": "ios",
-    "nom": "Lucie, 35 ans, potager familial à Rennes",
-    "profil": "Lucie, 35 ans, Rennes, potager de 25 m² avec ses enfants, utilise son téléphone le soir en mode sombre avec un texte un peu plus grand.",
-    "but": "Créer un compte, décrire son potager, ajouter haricots, courgettes, radis et fraises, activer les rappels, puis suivre le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      48.1173,
-      -1.6778
-    ],
-    "appareil": {
-      "simulateur": "iPhone 17 Pro Max",
-      "ios": "26",
-      "taille_texte": "extra-large",
-      "theme": "dark",
-      "nom": "iPhone 17 Pro Max, iOS 26, mode sombre, texte grand"
-    }
-  },
-  {
-    "id": "antoine",
-    "plateforme": "ios",
-    "nom": "Antoine, 44 ans, grand potager près de Lyon, sur iPad",
-    "profil": "Antoine, 44 ans, Monts du Lyonnais, potager de 120 m², organise tout sur son iPad le dimanche, veut un planning détaillé.",
-    "but": "Créer un compte, décrire son potager, ajouter une dizaine de légumes variés, regarder la vue du jardin, le planning du mois et la météo, sur iPad. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      45.764,
-      4.8357
-    ],
-    "appareil": {
-      "simulateur": "iPad (A16)",
-      "ios": "26",
-      "taille_texte": "large",
-      "theme": "light",
-      "nom": "iPad 11 pouces (A16), iOS 26"
-    }
-  },
-  {
-    "id": "emma",
-    "plateforme": "ios",
-    "nom": "Emma, 19 ans, rebord de fenêtre à Grenoble",
-    "profil": "Emma, 19 ans, étudiante à Grenoble, petit iPhone mini, texte réglé petit, rebord de fenêtre, impatiente, mode sombre.",
-    "but": "Créer un compte vite, ajouter basilic et menthe sur un rebord de fenêtre, poser une question à HortenIA, juger si l'app est pour elle. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      45.1885,
-      5.7245
-    ],
-    "appareil": {
-      "simulateur": "iPhone 13 mini",
-      "ios": "18",
-      "taille_texte": "small",
-      "theme": "dark",
-      "nom": "iPhone 13 mini (5,4 pouces), iOS 18, mode sombre, petit texte"
-    },
-    "localisation": "refus"
-  },
-  {
-    "id": "paul",
-    "plateforme": "ios",
-    "nom": "Paul, 63 ans, sécheresse en Provence",
-    "profil": "Paul, 63 ans, près d'Aix-en-Provence, potager de 60 m², restrictions d'eau l'été, texte réglé très grand.",
-    "but": "S'inscrire, ajouter tomates, melons et courgettes, utiliser le calcul d'arrosage et la météo, puis voir ses tâches de la semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      43.5297,
-      5.4474
-    ],
-    "appareil": {
-      "simulateur": "iPhone 16 Plus",
-      "ios": "18",
-      "taille_texte": "extra-extra-large",
-      "theme": "light",
-      "nom": "iPhone 16 Plus, iOS 18, texte très grand"
-    }
-  },
-  {
-    "id": "nathalie",
-    "plateforme": "ios",
-    "nom": "Nathalie, 48 ans, tomates malades à Angers",
-    "profil": "Nathalie, 48 ans, Angers, ses tomates ont des taches brunes, cherche une réponse rapide, à l'aise avec son iPhone.",
-    "but": "Créer un compte, ajouter des tomates, faire un diagnostic photo (photo de la photothèque), comprendre le résultat, regarder l'alerte mildiou, puis le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      47.4784,
-      -0.5632
-    ],
-    "appareil": {
-      "simulateur": "iPhone Air",
-      "ios": "26",
-      "taille_texte": "large",
-      "theme": "light",
-      "nom": "iPhone Air, iOS 26"
-    }
-  },
-  {
-    "id": "kevin",
-    "plateforme": "ios",
-    "nom": "Kévin, 31 ans, curieux de tout à Lille",
-    "profil": "Kévin, 31 ans, Lille, petit jardin de ville, passionné de technologie, essaie toutes les fonctions et les gestes iOS, juge la finition.",
-    "but": "Créer un compte, ajouter 4 plantes, tester la vue du jardin en plan et en 3D, partager son jardin (sans l'envoyer), ouvrir l'offre Plus et la fermer, puis le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      50.6292,
-      3.0573
-    ],
-    "appareil": {
-      "simulateur": "iPhone 17 Pro",
-      "ios": "26",
-      "taille_texte": "large",
-      "theme": "dark",
-      "nom": "iPhone 17 Pro, iOS 26, mode sombre"
-    },
-    "localisation": "refus"
-  },
-  {
-    "id": "simone",
-    "plateforme": "ios",
-    "nom": "Simone, 70 ans, jardin ouvrier en Alsace, sur iPad mini",
-    "profil": "Simone, 70 ans, Colmar, jardin ouvrier de 100 m², vient de recevoir un iPad mini de ses petits-enfants, découvre les apps, texte réglé grand.",
-    "but": "S'inscrire avec l'aide de personne, décrire son jardin, ajouter salades, haricots et dahlias, trouver l'alerte gel, puis voir quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      48.0794,
-      7.3585
-    ],
-    "appareil": {
-      "simulateur": "iPad mini (A17 Pro)",
-      "ios": "18",
-      "taille_texte": "extra-large",
-      "theme": "light",
-      "nom": "iPad mini (A17 Pro), iOS 18, texte grand"
-    }
-  },
-  {
-    "id": "mehdi",
-    "plateforme": "ios",
-    "nom": "Mehdi, 37 ans, jardin d'association à Montpellier",
-    "profil": "Mehdi, 37 ans, Montpellier, s'occupe d'une parcelle de jardin associatif avec des voisins, veut des rappels pour ne rien oublier.",
-    "but": "Créer un compte, décrire la parcelle, ajouter oignons, ail, fèves et salades, activer les notifications, vérifier le planning et la météo. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
-    "position": [
-      43.6108,
-      3.8767
-    ],
-    "appareil": {
-      "simulateur": "iPhone 16",
-      "ios": "18",
-      "taille_texte": "large",
-      "theme": "light",
-      "nom": "iPhone 16, iOS 18"
-    },
-    "localisation": "sans_gps"
+  "plateforme": "android"
+ },
+ {
+  "id": "sophie",
+  "plateforme": "android",
+  "nom": "Sophie, 34 ans, jardin familial à Nantes",
+  "profil": "Sophie, 34 ans, Nantes, jardin de 30 m², deux enfants de 5 et 8 ans, débutante motivée, utilise son téléphone le soir quand les enfants dorment.",
+  "but": "Créer un compte, décrire son jardin, ajouter fraises, radis et tomates (des plantes faciles pour les enfants), comprendre quoi semer maintenant et quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   47.2184,
+   -1.5536
+  ],
+  "appareil": {
+   "profil": "pixel_8",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 8, Android 15, mode sombre"
   }
+ },
+ {
+  "id": "yves",
+  "plateforme": "android",
+  "nom": "Yves, 71 ans, grand potager en Dordogne",
+  "profil": "Yves, 71 ans, retraité près de Périgueux, potager de 200 m² depuis 40 ans, peu à l'aise avec le téléphone (offert par sa fille), lit mal les petits caractères, tape lentement.",
+  "but": "S'inscrire, décrire son grand potager, ajouter pommes de terre, haricots verts, poireaux et courges, puis voir les prochaines tâches et la météo. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   45.184,
+   0.7218
+  ],
+  "appareil": {
+   "profil": "pixel",
+   "android_api": 29,
+   "taille_texte": 1.3,
+   "theme": "clair",
+   "nom": "Pixel (5 pouces), Android 10, texte x1,3"
+  },
+  "localisation": "sans_gps"
+ },
+ {
+  "id": "ines",
+  "plateforme": "android",
+  "nom": "Inès, 22 ans, rebord de fenêtre à Lille",
+  "profil": "Inès, 22 ans, étudiante à Lille, studio avec un rebord de fenêtre au nord, veut des herbes aromatiques, très à l'aise avec les apps, zappe vite si c'est lent.",
+  "but": "Créer un compte, indiquer un rebord de fenêtre, ajouter basilic, persil, ciboulette et menthe, savoir si c'est possible à l'ombre, et poser une question à HortenIA. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   50.6292,
+   3.0573
+  ],
+  "appareil": {
+   "profil": "pixel_4",
+   "android_api": 31,
+   "taille_texte": 0.85,
+   "theme": "clair",
+   "nom": "Pixel 4 (5,7 pouces), Android 12, petit texte x0,85"
+  },
+  "localisation": "refus"
+ },
+ {
+  "id": "francois",
+  "plateforme": "android",
+  "nom": "François, 52 ans, carrés potagers à Bordeaux",
+  "profil": "François, 52 ans, cadre à Bordeaux, 4 carrés potagers surélevés, organisé, veut un planning précis avec des rappels, utilise un téléphone pliable.",
+  "but": "Créer un compte, décrire ses 4 carrés, ajouter salades, carottes, oignons et tomates, régler les notifications, puis vérifier le planning semaine par semaine, plié puis déplié si possible. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   44.8378,
+   -0.5792
+  ],
+  "appareil": {
+   "profil": "pixel_fold",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel Fold (pliable, écran intérieur), Android 14"
+  }
+ },
+ {
+  "id": "amandine",
+  "plateforme": "android",
+  "nom": "Amandine, 41 ans, jardin partagé à Toulouse",
+  "profil": "Amandine, 41 ans, Toulouse, membre d'un jardin partagé en permaculture, curieuse des associations de plantes, utilise une tablette à la maison.",
+  "but": "Créer un compte, décrire une parcelle de jardin partagé, ajouter courgettes, capucines, haricots et maïs, regarder les associations et la vue du jardin, lire la communauté sans rien publier. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   43.6047,
+   1.4442
+  ],
+  "appareil": {
+   "profil": "pixel_c",
+   "android_api": 33,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Tablette Pixel C (10,2 pouces), Android 13"
+  }
+ },
+ {
+  "id": "gerard",
+  "plateforme": "android",
+  "nom": "Gérard, 66 ans, potager en Bretagne",
+  "profil": "Gérard, 66 ans, près de Quimper, potager de 80 m², a peur du gel sur ses semis, vue fatiguée : son téléphone est réglé en très grand texte.",
+  "but": "S'inscrire, décrire son potager, ajouter choux, fèves et salades d'hiver, trouver l'alerte gel et la météo, et voir quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   47.996,
+   -4.102
+  ],
+  "appareil": {
+   "profil": "pixel_5",
+   "android_api": 34,
+   "taille_texte": 2.0,
+   "theme": "clair",
+   "nom": "Pixel 5, Android 14, texte très grand x2,0"
+  }
+ },
+ {
+  "id": "julie",
+  "plateforme": "android",
+  "nom": "Julie, 30 ans, balcon plein sud à Marseille",
+  "profil": "Julie, 30 ans, Marseille, balcon plein sud de 8 m², a déjà grillé ses plants l'été dernier, veut savoir combien et quand arroser.",
+  "but": "Créer un compte, décrire son balcon, ajouter tomates, poivrons et aubergines en pot, utiliser l'outil de calcul d'arrosage et la météo, puis voir ses tâches. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   43.2965,
+   5.3698
+  ],
+  "appareil": {
+   "profil": "pixel_7",
+   "android_api": 36,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 7, Android 16, mode sombre"
+  },
+  "localisation": "sans_gps"
+ },
+ {
+  "id": "hugo",
+  "plateforme": "android",
+  "nom": "Hugo, 38 ans, nouveau jardin à Strasbourg",
+  "profil": "Hugo, 38 ans, vient d'acheter une maison à Strasbourg avec 150 m² de terrain, veut dessiner son futur potager, aime les beaux outils, prêt à payer si ça vaut le coup.",
+  "but": "Créer un compte, tracer son jardin (plan ou 3D), placer quelques légumes, regarder ce qu'apporte Hortenia Plus sans payer, puis voir le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   48.5734,
+   7.7521
+  ],
+  "appareil": {
+   "profil": "pixel_8_pro",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel 8 Pro (6,7 pouces), Android 15"
+  }
+ },
+ {
+  "id": "martine",
+  "plateforme": "android",
+  "nom": "Martine, 59 ans, courgettes malades à Clermont",
+  "profil": "Martine, 59 ans, Clermont-Ferrand, potager de 50 m², ses feuilles de courgettes et de tomates ont des taches, inquiète, pas très technophile.",
+  "but": "S'inscrire, ajouter courgettes et tomates, faire un diagnostic photo (photo de la galerie), comprendre le résultat et quoi faire, puis voir le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   45.7772,
+   3.087
+  ],
+  "appareil": {
+   "profil": "pixel_4_xl",
+   "android_api": 32,
+   "taille_texte": 1.15,
+   "theme": "clair",
+   "nom": "Pixel 4 XL, Android 12L, texte x1,15"
+  }
+ },
+ {
+  "id": "tom",
+  "plateforme": "android",
+  "nom": "Tom, 26 ans, pressé et exigeant à Paris",
+  "profil": "Tom, 26 ans, Paris, jardinières sur une terrasse, a déjà essayé deux autres apps de jardinage, très exigeant, teste tout vite, se déconnecte et se reconnecte.",
+  "but": "Créer un compte, ajouter 3 plantes, ouvrir l'offre Plus et la fermer, se déconnecter, utiliser « mot de passe oublié » puis se reconnecter, et juger si l'app vaut mieux que les autres. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   48.8566,
+   2.3522
+  ],
+  "appareil": {
+   "profil": "pixel_6_pro",
+   "android_api": 33,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 6 Pro, Android 13, mode sombre"
+  },
+  "localisation": "refus"
+ },
+ {
+  "id": "chloe",
+  "plateforme": "ios",
+  "nom": "Chloé, 27 ans, balcon à Paris",
+  "profil": "Chloé, 27 ans, Paris, balcon de 4 m² au 5e étage, débutante, a trouvé Hortenia sur l'App Store, utilise son iPhone pour tout.",
+  "but": "Créer un compte, décrire son balcon, ajouter tomates cerises, fraises et basilic, puis trouver ce qu'elle doit faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   48.8622,
+   2.3631
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPhone 17, iOS 26, texte standard"
+  }
+ },
+ {
+  "id": "raymond",
+  "plateforme": "ios",
+  "nom": "Raymond, 78 ans, jardin en Normandie",
+  "profil": "Raymond, 78 ans, près de Caen, jardine depuis toujours, vieil iPhone SE à bouton, a réglé le texte très grand, lit lentement, se méfie des abonnements.",
+  "but": "S'inscrire, décrire son jardin, ajouter pommes de terre, poireaux et carottes, comprendre le planning et la météo, sans rien payer. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   49.1829,
+   -0.3707
+  ],
+  "appareil": {
+   "simulateur": "iPhone SE (3rd generation)",
+   "ios": "18",
+   "taille_texte": "accessibility-medium",
+   "theme": "light",
+   "nom": "iPhone SE 3 (4,7 pouces, bouton principal), iOS 18, texte très grand"
+  },
+  "localisation": "sans_gps"
+ },
+ {
+  "id": "lucie",
+  "plateforme": "ios",
+  "nom": "Lucie, 35 ans, potager familial à Rennes",
+  "profil": "Lucie, 35 ans, Rennes, potager de 25 m² avec ses enfants, utilise son téléphone le soir en mode sombre avec un texte un peu plus grand.",
+  "but": "Créer un compte, décrire son potager, ajouter haricots, courgettes, radis et fraises, activer les rappels, puis suivre le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   48.1173,
+   -1.6778
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17 Pro Max",
+   "ios": "26",
+   "taille_texte": "extra-large",
+   "theme": "dark",
+   "nom": "iPhone 17 Pro Max, iOS 26, mode sombre, texte grand"
+  }
+ },
+ {
+  "id": "antoine",
+  "plateforme": "ios",
+  "nom": "Antoine, 44 ans, grand potager près de Lyon, sur iPad",
+  "profil": "Antoine, 44 ans, Monts du Lyonnais, potager de 120 m², organise tout sur son iPad le dimanche, veut un planning détaillé.",
+  "but": "Créer un compte, décrire son potager, ajouter une dizaine de légumes variés, regarder la vue du jardin, le planning du mois et la météo, sur iPad. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   45.764,
+   4.8357
+  ],
+  "appareil": {
+   "simulateur": "iPad (A16)",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPad 11 pouces (A16), iOS 26"
+  }
+ },
+ {
+  "id": "emma",
+  "plateforme": "ios",
+  "nom": "Emma, 19 ans, rebord de fenêtre à Grenoble",
+  "profil": "Emma, 19 ans, étudiante à Grenoble, petit iPhone mini, texte réglé petit, rebord de fenêtre, impatiente, mode sombre.",
+  "but": "Créer un compte vite, ajouter basilic et menthe sur un rebord de fenêtre, poser une question à HortenIA, juger si l'app est pour elle. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   45.1885,
+   5.7245
+  ],
+  "appareil": {
+   "simulateur": "iPhone 13 mini",
+   "ios": "18",
+   "taille_texte": "small",
+   "theme": "dark",
+   "nom": "iPhone 13 mini (5,4 pouces), iOS 18, mode sombre, petit texte"
+  },
+  "localisation": "refus"
+ },
+ {
+  "id": "paul",
+  "plateforme": "ios",
+  "nom": "Paul, 63 ans, sécheresse en Provence",
+  "profil": "Paul, 63 ans, près d'Aix-en-Provence, potager de 60 m², restrictions d'eau l'été, texte réglé très grand.",
+  "but": "S'inscrire, ajouter tomates, melons et courgettes, utiliser le calcul d'arrosage et la météo, puis voir ses tâches de la semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   43.5297,
+   5.4474
+  ],
+  "appareil": {
+   "simulateur": "iPhone 16 Plus",
+   "ios": "18",
+   "taille_texte": "extra-extra-large",
+   "theme": "light",
+   "nom": "iPhone 16 Plus, iOS 18, texte très grand"
+  }
+ },
+ {
+  "id": "nathalie",
+  "plateforme": "ios",
+  "nom": "Nathalie, 48 ans, tomates malades à Angers",
+  "profil": "Nathalie, 48 ans, Angers, ses tomates ont des taches brunes, cherche une réponse rapide, à l'aise avec son iPhone.",
+  "but": "Créer un compte, ajouter des tomates, faire un diagnostic photo (photo de la photothèque), comprendre le résultat, regarder l'alerte mildiou, puis le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   47.4784,
+   -0.5632
+  ],
+  "appareil": {
+   "simulateur": "iPhone Air",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPhone Air, iOS 26"
+  }
+ },
+ {
+  "id": "kevin",
+  "plateforme": "ios",
+  "nom": "Kévin, 31 ans, curieux de tout à Lille",
+  "profil": "Kévin, 31 ans, Lille, petit jardin de ville, passionné de technologie, essaie toutes les fonctions et les gestes iOS, juge la finition.",
+  "but": "Créer un compte, ajouter 4 plantes, tester la vue du jardin en plan et en 3D, partager son jardin (sans l'envoyer), ouvrir l'offre Plus et la fermer, puis le planning. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   50.6292,
+   3.0573
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17 Pro",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "dark",
+   "nom": "iPhone 17 Pro, iOS 26, mode sombre"
+  },
+  "localisation": "refus"
+ },
+ {
+  "id": "simone",
+  "plateforme": "ios",
+  "nom": "Simone, 70 ans, jardin ouvrier en Alsace, sur iPad mini",
+  "profil": "Simone, 70 ans, Colmar, jardin ouvrier de 100 m², vient de recevoir un iPad mini de ses petits-enfants, découvre les apps, texte réglé grand.",
+  "but": "S'inscrire avec l'aide de personne, décrire son jardin, ajouter salades, haricots et dahlias, trouver l'alerte gel, puis voir quoi faire cette semaine. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   48.0794,
+   7.3585
+  ],
+  "appareil": {
+   "simulateur": "iPad mini (A17 Pro)",
+   "ios": "18",
+   "taille_texte": "extra-large",
+   "theme": "light",
+   "nom": "iPad mini (A17 Pro), iOS 18, texte grand"
+  }
+ },
+ {
+  "id": "mehdi",
+  "plateforme": "ios",
+  "nom": "Mehdi, 37 ans, jardin d'association à Montpellier",
+  "profil": "Mehdi, 37 ans, Montpellier, s'occupe d'une parcelle de jardin associatif avec des voisins, veut des rappels pour ne rien oublier.",
+  "but": "Créer un compte, décrire la parcelle, ajouter oignons, ail, fèves et salades, activer les notifications, vérifier le planning et la météo. Avant de finir : relis la page de fin d'onboarding (ce qu'elle annonce) et vérifie que le planning reprend bien ces gestes, pour tes plantes.",
+  "position": [
+   43.6108,
+   3.8767
+  ],
+  "appareil": {
+   "simulateur": "iPhone 16",
+   "ios": "18",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPhone 16, iOS 18"
+  },
+  "localisation": "sans_gps"
+ },
+ {
+  "id": "odile",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Odile, Dunkerque",
+  "profil": "Odile, 66 ans, Dunkerque, retraitée, potager de 40 m² venté, lit lentement et grossit le texte de son téléphone.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   51.0343,
+   2.3768
+  ],
+  "appareil": {
+   "profil": "pixel_2",
+   "android_api": 33,
+   "taille_texte": 1.3,
+   "theme": "clair",
+   "nom": "Pixel 2 (5 pouces), Android 13, texte x1,3"
+  }
+ },
+ {
+  "id": "rachid",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Rachid, Perpignan",
+  "profil": "Rachid, 41 ans, Perpignan, jardin de 120 m² au soleil, arrosage difficile l'été, pressé, téléphone en mode sombre.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   42.6887,
+   2.8948
+  ],
+  "appareil": {
+   "profil": "pixel_7_pro",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 7 Pro, Android 15, mode sombre"
+  }
+ },
+ {
+  "id": "colette",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Colette, Strasbourg",
+  "profil": "Colette, 58 ans, Strasbourg, potager familial de 60 m², prépare tout sur sa tablette dans la cuisine.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   48.5839,
+   7.7455
+  ],
+  "appareil": {
+   "profil": "pixel_tablet",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel Tablet (10,9 pouces), Android 14"
+  }
+ },
+ {
+  "id": "baptiste",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Baptiste, Annecy",
+  "profil": "Baptiste, 35 ans, Annecy, abonné Hortenia Plus, grand jardin en pente avec serre, curieux de la 3D et d'HortenIA.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "plus",
+  "position": [
+   45.8992,
+   6.1294
+  ],
+  "appareil": {
+   "profil": "pixel_6",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel 6, Android 14"
+  }
+ },
+ {
+  "id": "agathe",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Agathe, Rennes",
+  "profil": "Agathe, 24 ans, Rennes, étudiante, 3 bacs sur une terrasse partagée, ne veut pas créer de compte tout de suite.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   48.1173,
+   -1.6778
+  ],
+  "appareil": {
+   "profil": "pixel_3a",
+   "android_api": 33,
+   "taille_texte": 1.15,
+   "theme": "clair",
+   "nom": "Pixel 3a (5,6 pouces), Android 13, texte x1,15"
+  }
+ },
+ {
+  "id": "lucien",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Lucien, Briançon",
+  "profil": "Lucien, 71 ans, Briançon (1 300 m), potager de montagne, gel tôt et tard, téléphone ancien qu'il garde longtemps.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   44.8986,
+   6.6436
+  ],
+  "appareil": {
+   "profil": "pixel_5",
+   "android_api": 31,
+   "taille_texte": 1.15,
+   "theme": "clair",
+   "nom": "Pixel 5, Android 12 (ancien téléphone), texte x1,15"
+  }
+ },
+ {
+  "id": "maeva",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Maëva, Montpellier",
+  "profil": "Maëva, 30 ans, Montpellier, balcon plein sud de 5 m², vient d'une vidéo TikTok, très active sur les réseaux.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   43.6108,
+   3.8767
+  ],
+  "appareil": {
+   "profil": "pixel_8",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 8, Android 15, mode sombre"
+  }
+ },
+ {
+  "id": "denis",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Denis, Pontarlier",
+  "profil": "Denis, 52 ans, Pontarlier, jardinier confirmé, hiver très froid, veut un planning fiable et des alertes.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   46.9046,
+   6.3543
+  ],
+  "appareil": {
+   "profil": "pixel_4",
+   "android_api": 33,
+   "taille_texte": 1.3,
+   "theme": "clair",
+   "nom": "Pixel 4 (5,7 pouces), Android 13, texte x1,3"
+  }
+ },
+ {
+  "id": "salome",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Salomé, Bordeaux",
+  "profil": "Salomé, 37 ans, Bordeaux, jardin de ville de 30 m² avec ses enfants, aime les défis photo.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   44.8378,
+   -0.5792
+  ],
+  "appareil": {
+   "profil": "pixel_7",
+   "android_api": 36,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel 7, Android 16"
+  }
+ },
+ {
+  "id": "henri",
+  "plateforme": "android",
+  "version": "1.7",
+  "nom": "Henri, Lille",
+  "profil": "Henri, 45 ans, Lille, jardin ombragé au nord de 50 m², technophile, utilise son téléphone pliable déplié.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   50.6292,
+   3.0573
+  ],
+  "appareil": {
+   "profil": "pixel_fold",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "theme": "clair",
+   "nom": "Pixel Fold (pliable, écran intérieur), Android 14"
+  }
+ },
+ {
+  "id": "margaux",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Margaux, Caen",
+  "profil": "Margaux, 63 ans, Caen, petit potager de 20 m², vue fatiguée, texte très grand, n'aime pas créer des comptes.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   49.1829,
+   -0.3707
+  ],
+  "appareil": {
+   "simulateur": "iPhone SE (3rd generation)",
+   "ios": "18",
+   "taille_texte": "accessibility-medium",
+   "theme": "light",
+   "nom": "iPhone SE 3 (4,7 pouces), iOS 18, texte très grand"
+  }
+ },
+ {
+  "id": "yannick",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Yannick, Toulon",
+  "profil": "Yannick, 39 ans, Toulon, jardin de 80 m² en restanques, chaleur et sécheresse, mode sombre.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   43.1242,
+   5.928
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17 Pro Max",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "dark",
+   "nom": "iPhone 17 Pro Max, iOS 26, mode sombre"
+  }
+ },
+ {
+  "id": "brigitte",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Brigitte, Orléans",
+  "profil": "Brigitte, 61 ans, Orléans, grand potager de 150 m², planifie sur son iPad le soir.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   47.9029,
+   1.9093
+  ],
+  "appareil": {
+   "simulateur": "iPad (A16)",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPad 11 pouces (A16), iOS 26"
+  }
+ },
+ {
+  "id": "theo",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Théo, Grenoble",
+  "profil": "Théo, 33 ans, Grenoble, abonné Hortenia Plus, jardin partagé de 70 m², veut aménager son jardin à partir de photos.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "plus",
+  "position": [
+   45.1885,
+   5.7245
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPhone 17, iOS 26"
+  }
+ },
+ {
+  "id": "solene",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Solène, Brest",
+  "profil": "Solène, 28 ans, Brest, jardinière en pots sur un rebord de fenêtre, pluie et vent, curieuse mais pressée.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   48.3904,
+   -4.4861
+  ],
+  "appareil": {
+   "simulateur": "iPhone 13 mini",
+   "ios": "18",
+   "taille_texte": "small",
+   "theme": "dark",
+   "nom": "iPhone 13 mini (5,4 pouces), iOS 18, mode sombre, petit texte"
+  }
+ },
+ {
+  "id": "pascal",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Pascal, Gérardmer",
+  "profil": "Pascal, 57 ans, Gérardmer (670 m), potager de montagne, neige de novembre à mars, prépare ses graines l'hiver.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   48.0727,
+   6.8771
+  ],
+  "appareil": {
+   "simulateur": "iPhone 16",
+   "ios": "18",
+   "taille_texte": "extra-large",
+   "theme": "light",
+   "nom": "iPhone 16, iOS 18, texte grand"
+  }
+ },
+ {
+  "id": "anais",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Anaïs, Nice",
+  "profil": "Anaïs, 26 ans, Nice, balcon de 8 m², découvre le jardinage, partage tout sur les réseaux.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   43.7102,
+   7.262
+  ],
+  "appareil": {
+   "simulateur": "iPhone Air",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "light",
+   "nom": "iPhone Air, iOS 26"
+  }
+ },
+ {
+  "id": "gilles",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Gilles, Amiens",
+  "profil": "Gilles, 68 ans, Amiens, jardin ouvrier de 200 m², confirmé, lit tout en très grand.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   49.8941,
+   2.2958
+  ],
+  "appareil": {
+   "simulateur": "iPhone 16 Plus",
+   "ios": "18",
+   "taille_texte": "extra-extra-large",
+   "theme": "light",
+   "nom": "iPhone 16 Plus, iOS 18, texte très grand"
+  }
+ },
+ {
+  "id": "jeanne",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Jeanne, Avignon",
+  "profil": "Jeanne, 49 ans, Avignon, jardin de 60 m² très chaud, utilise l'iPad mini de sa fille.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "invite",
+  "position": [
+   43.9493,
+   4.8055
+  ],
+  "appareil": {
+   "simulateur": "iPad mini (A17 Pro)",
+   "ios": "18",
+   "taille_texte": "extra-large",
+   "theme": "light",
+   "nom": "iPad mini (A17 Pro), iOS 18, texte grand"
+  }
+ },
+ {
+  "id": "victor",
+  "plateforme": "ios",
+  "version": "1.7",
+  "nom": "Victor, Besançon",
+  "profil": "Victor, 42 ans, Besançon, jardin de 90 m², invite volontiers ses amis, mode sombre.",
+  "but": "Mission 1.7 : voir enquetes/VERSION_1_7.md et ta section de enquetes/VERSION_1_7_PLAN.md.",
+  "compte": "email",
+  "position": [
+   47.2378,
+   6.0241
+  ],
+  "appareil": {
+   "simulateur": "iPhone 17 Pro",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "dark",
+   "nom": "iPhone 17 Pro, iOS 26, mode sombre"
+  }
+ }
 ]

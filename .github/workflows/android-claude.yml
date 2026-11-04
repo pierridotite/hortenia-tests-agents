@@ -126,6 +126,9 @@ jobs:
           POSITION: ${{ matrix.position }}
           LOCALISATION: ${{ matrix.localisation }}
           CONSIGNES: ${{ inputs.consignes }}
+          TESTS_API: ${{ secrets.TESTS_API }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
           LOGCAT_COMPLET: ${{ inputs.consignes != '' && '1' || '0' }}
         with:
           api-level: ${{ matrix.api }}

@@ -5,7 +5,21 @@ Usage : python3 outils/ios/ecrire.py "texte à écrire" """
 import os, subprocess, sys
 
 UDID = os.environ["UDID"]
-t = sys.argv[1]
+
+
+def _secret(t):
+    """@mdp-site (secret TESTS_SITE_MDP) ou @mdp-compte (compte de test de site_tests.py) : jamais affiché."""
+    import json as _j
+    if t == "@mdp-site":
+        return os.environ.get("TESTS_SITE_MDP", "")
+    if t == "@mdp-compte":
+        try:
+            return _j.load(open("resultats/.site_tests.json")).get("mdp_compte") or ""
+        except Exception:
+            return ""
+    return t
+
+t = _secret(sys.argv[1])
 
 
 def axe(*a):
