@@ -18,6 +18,8 @@ et passe à la suivante. Un rapport à moins de 80 gestes est incomplet.
 3. Les notifications et messages du serveur (rappels, récap, relance, e-mail, essai…) : `site_tests.py liste` pour
    leurs noms, `site_tests.py apercu <message> [version]` pour le texte, `site_tests.py envoyer <notification>` pour la
    recevoir sur le téléphone (comptes de test seulement). Recopie le texte obtenu dans ton rapport.
+   Sur l'émulateur Android, une notification envoyée n'arrive pas (pas de services Google) : l'aperçu fait foi, et note
+   « non reçu sur le banc ». En version A de T29, T31 et T42, l'aperçu rend `part: false` : c'est le bon résultat.
 4. Les situations à deux comptes ou à préparer (filleul, publication proche, question sans réponse, alerte imposée,
    absence de 10 jours, semaine factice…) : `site_tests.py simuler <action>`.
 5. Les événements envoyés par l'app : `site_tests.py evenements`.

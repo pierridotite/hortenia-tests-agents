@@ -12,7 +12,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **T26 B** · Sa 3D sur le paywall : sa 3D floutée « Votre jardin en 3D, avec le Plus » : bien ses plantes (et son dessin si T4 B), pas de lenteur
   - **T29 B** · « J'aime » ouvert aux invités : un invité peut aimer ; publier et commenter demandent toujours un compte
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
-  - **R9-gel-gratuit** · Gel réservé à Plus (compte gratuit) : alerte gel imposée (`simuler`) puis date du lendemain : carte « Hortenia Plus vous aurait prévenu hier soir » ; sous une alerte voilée, pas de conseil du même sujet (gel, chaleur, vent) ; le paywall ne s'ouvre que si on le demande
+  - **R9-gel-gratuit** · Gel réservé à Plus (compte gratuit) : `apercu meteo_gel_plus` puis `envoyer meteo_gel_plus` : « Hortenia Plus vous aurait prévenu hier soir » (texte et ce que l'appli montre) ; sous une alerte voilée, pas de conseil du même sujet (gel, chaleur, vent) ; le paywall ne s'ouvre que si on le demande
   - **T11 B** · Pastille sur l'onglet Communauté : point après une nouvelle publication, disparaît à l'ouverture de l'onglet ; pas de cloche dans la Communauté
   - **T36 A** · Partage après « Garder ce plan » : rien
   - **L1-7jours** · Correction « 7 jours » : aperçu du message d'essai pour 7 jours puis 14 jours : la durée annoncée suit l'offre
@@ -44,7 +44,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **T1 B** · Quand demander les notifications : phrase sur « Votre jardin est prêt » puis fenêtre système
   - **T9 B** · Récap du dimanche : avec la photo de la semaine (la toucher ouvre la publication)
   - **T14 A** · Relance d'absence : texte actuel
-  - **T28 B** · « Le Plus vous aurait prévenu » : compte gratuit + alerte imposée : carte le lendemain (date imposée), au plus une par semaine ; le paywall s'ouvre seulement sur « Voir le Plus »
+  - **T28 B** · « Le Plus vous aurait prévenu » : compte gratuit + `simuler alerte code=vent_violent` (ou pluie_forte, chaleur_forte ; pas gel) : carte le jour même, sans changer la date (le serveur suit sa propre horloge), au plus une par semaine ; le paywall s'ouvre seulement sur « Voir le Plus »
   - **L2-e-mail** · E-mail du dimanche (T15) : compte avec e-mail sans notifications : aperçu de l'e-mail ; interrupteur « Recevoir le récap par e-mail » dans Profil › Notifications ; lien de désinscription présent
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
   - **T6 A** · Notification du lendemain : texte actuel
@@ -68,7 +68,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **L6-amenagement** · Aménager son jardin avec l'IA (Plus) : photos d'un jardin réel (galerie), d'un jardin vide, une photo sans jardin ; plan 2D puis 3D ; « Garder ce plan » puis « Annuler » ; compte gratuit : le bouton ouvre le paywall
   - **L6-hortenia-plan** · HortenIA modifie le plan (Plus) : une demande simple, une impossible (« un bananier à Lille »), une annulée ; le plan s'affiche avant d'être gardé
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
-  - **R9-gel-plus** · Alerte gel d'un abonné : compte Plus et alerte gel imposée : l'alerte arrive normalement, sans voile ni carte « vous aurait prévenu »
+  - **R9-gel-plus** · Alerte gel d'un abonné : compte Plus : l'alerte gel s'affiche normalement, sans voile ; `apercu meteo_gel_plus` doit être refusé pour un compte Plus (jamais de « vous aurait prévenu » pour un abonné)
 
 ## agathe (Android) : Pixel 3a (5,6 pouces), Android 13, texte x1,15
 - Persona : Agathe, 24 ans, Rennes, étudiante, 3 bacs sur une terrasse partagée, ne veut pas créer de compte tout de suite.
@@ -235,7 +235,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **L6-amenagement** · Aménager son jardin avec l'IA (Plus) : photos d'un jardin réel (galerie), d'un jardin vide, une photo sans jardin ; plan 2D puis 3D ; « Garder ce plan » puis « Annuler » ; compte gratuit : le bouton ouvre le paywall
   - **L6-hortenia-plan** · HortenIA modifie le plan (Plus) : une demande simple, une impossible (« un bananier à Lille »), une annulée ; le plan s'affiche avant d'être gardé
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
-  - **R9-gel-plus** · Alerte gel d'un abonné : compte Plus et alerte gel imposée : l'alerte arrive normalement, sans voile ni carte « vous aurait prévenu »
+  - **R9-gel-plus** · Alerte gel d'un abonné : compte Plus : l'alerte gel s'affiche normalement, sans voile ; `apercu meteo_gel_plus` doit être refusé pour un compte Plus (jamais de « vous aurait prévenu » pour un abonné)
   - **R9-forme-carte** · Aménager « Taille et forme », jardin tracé sur la carte : onglets « Plantes et décor » et « Taille et forme » sous le plan ; tirer un coin puis un côté (pas de 25 cm, longueurs en direct, vue recadrée au lâcher) ; croiser deux côtés est refusé ; « Revenir à la forme d'avant » ; « Retracer sur la carte » ; rien n'est gardé sans « Enregistrer »
 
 ## solene (iPhone/iPad) : iPhone 13 mini (5,4 pouces), iOS 18, mode sombre, petit texte
@@ -248,7 +248,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **T26 A** · Sa 3D sur le paywall : photo d'illustration actuelle
   - **T37 A** · Une vue 3D offerte : 3D réservée au Plus
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
-  - **R9-gel-gratuit** · Gel réservé à Plus (compte gratuit) : alerte gel imposée (`simuler`) puis date du lendemain : carte « Hortenia Plus vous aurait prévenu hier soir » ; sous une alerte voilée, pas de conseil du même sujet (gel, chaleur, vent) ; le paywall ne s'ouvre que si on le demande
+  - **R9-gel-gratuit** · Gel réservé à Plus (compte gratuit) : `apercu meteo_gel_plus` puis `envoyer meteo_gel_plus` : « Hortenia Plus vous aurait prévenu hier soir » (texte et ce que l'appli montre) ; sous une alerte voilée, pas de conseil du même sujet (gel, chaleur, vent) ; le paywall ne s'ouvre que si on le demande
   - **T11 A** · Pastille sur l'onglet Communauté : pas de pastille
   - **T34 B** · Identifier en premier en hiver : en novembre il s'ouvre sur l'identification ; au 1er mars (date imposée) sur les maladies
   - **L1-outils** · Outils des testeurs : imposer une version, imposer une date, lire les événements, « Envoyer maintenant », aperçu d'un message : chacun marche
@@ -297,7 +297,7 @@ Fichier généré par `python3 outils/plan_1_7.py` (ne pas modifier à la main).
   - **T25 A** · Texte du bouton du paywall : « Commencer l'essai gratuit »
   - **T9 C** · Récap du dimanche : avec un conseil d'HortenIA écrit pour ses plantes et sa météo
   - **T14 B** · Relance d'absence : geste de saison (« Cette semaine au potager : planter l'ail. »)
-  - **T28 B** · « Le Plus vous aurait prévenu » : compte gratuit + alerte imposée : carte le lendemain (date imposée), au plus une par semaine ; le paywall s'ouvre seulement sur « Voir le Plus »
+  - **T28 B** · « Le Plus vous aurait prévenu » : compte gratuit + `simuler alerte code=vent_violent` (ou pluie_forte, chaleur_forte ; pas gel) : carte le jour même, sans changer la date (le serveur suit sa propre horloge), au plus une par semaine ; le paywall s'ouvre seulement sur « Voir le Plus »
   - **L2-e-mail** · E-mail du dimanche (T15) : compte avec e-mail sans notifications : aperçu de l'e-mail ; interrupteur « Recevoir le récap par e-mail » dans Profil › Notifications ; lien de désinscription présent
   - **L6-sans-ia** · Retirer ce qui fait IA : textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles
   - **T6 A** · Notification du lendemain : texte actuel
