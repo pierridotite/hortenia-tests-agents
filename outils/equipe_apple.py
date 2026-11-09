@@ -18,6 +18,19 @@ def lire(chemin):
 # droits de la clé, pour le journal
 for ch in ("/v1/bundleIds?limit=1", "/v1/profiles?limit=1", "/v1/apps?limit=1"):
     print(ch, "ok" if lire(ch) is not None else "refusé", file=sys.stderr)
+# identifiant du widget : créé s'il manque (pour y cocher le groupe d'apps)
+WIDGET = "com.hortenia.app.widget"
+b = lire(f"/v1/bundleIds?filter[identifier]={WIDGET}")
+if b is not None and not [x for x in b["data"] if x["attributes"]["identifier"] == WIDGET]:
+    req = urllib.request.Request("https://api.appstoreconnect.apple.com/v1/bundleIds", method="POST",
+        data=json.dumps({"data": {"type": "bundleIds", "attributes": {"identifier": WIDGET, "name": "Hortenia Widget", "platform": "IOS"}}}).encode(),
+        headers={"Authorization": f"Bearer {jeton}", "Content-Type": "application/json"})
+    try:
+        urllib.request.urlopen(req); print("identifiant", WIDGET, "créé", file=sys.stderr)
+    except urllib.error.HTTPError as e:
+        print("création", WIDGET, e.code, e.read().decode()[:300], file=sys.stderr)
+elif b is not None:
+    print("identifiant", WIDGET, "déjà là", file=sys.stderr)
 certs = lire("/v1/certificates?limit=20") or {"data": []}
 for c in certs["data"]:
     if "DISTRIBUTION" not in c["attributes"]["certificateType"]:
