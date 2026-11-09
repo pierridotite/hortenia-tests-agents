@@ -1,0 +1,44 @@
+# App Store Connect : état, préparation (version, build, nouveautés) puis
+# soumission en revue d'une version iOS. Clé : ASC_API_KEY_P8.
+# « preparer » et « soumettre » seulement avec le oui de Pierre pour la sortie.
+name: iOS - soumission
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: etat, preparer ou soumettre
+        required: true
+        default: etat
+      version:
+        description: Version (ex. 1.7.0)
+        required: true
+      build:
+        description: Numéro de build (ex. 102)
+        required: true
+      nouveautes:
+        description: Nouveautés fr-FR (preparer)
+        required: false
+        default: ""
+      produits:
+        description: Abonnements à joindre (productId séparés par des virgules)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  asc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install -q --break-system-packages "pyjwt[crypto]"
+      - name: App Store Connect
+        env:
+          ASC_CLE: ${{ secrets.ASC_API_KEY_P8 }}
+          NOUVEAUTES: ${{ inputs.nouveautes }}
+        run: |
+          printf '%s' "$NOUVEAUTES" > "$RUNNER_TEMP/nouveautes.txt"
+          python3 outils/asc_soumission.py "${{ inputs.action }}" "${{ inputs.version }}" "${{ inputs.build }}" "$RUNNER_TEMP/nouveautes.txt" "${{ inputs.produits }}"
