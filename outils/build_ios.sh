@@ -33,6 +33,9 @@ EOF
   export XCODE_XCCONFIG_FILE="$RUNNER_TEMP/arm64.xcconfig"
 else
   PROFIL=production; SORTIE="$RUNNER_TEMP/sortie/hortenia.ipa"
+  # Groupe d'apps du widget : coché à la main sur developer.apple.com (l'API
+  # App Store Connect ne sait pas l'attacher ; la synchro d'EAS échoue, 9/11).
+  export EXPO_NO_CAPABILITY_SYNC=1
   if [ -n "${ASC_API_KEY_P8:-}" ]; then
     mkdir -p credentials
     printf '%s\n' "$ASC_API_KEY_P8" | tr -d '\r' > credentials/AuthKey_K78XTPTD68.p8
