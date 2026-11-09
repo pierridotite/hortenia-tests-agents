@@ -26,7 +26,8 @@ Si l'outil répond « indisponible » ou une erreur, note-le dans le rapport et 
 - Personas invitées : ne crée jamais de compte. Personas « e-mail » : compte par e-mail après l'onboarding
   (règles de CONSIGNES). Personas Plus : compte de l'outil, ne paie jamais rien.
 - Toujours rien de publié pour de vrai dans la Communauté : ouvre la publication préremplie, vérifie, puis annule.
-  « J'aime » est permis seulement si ta liste le demande (T29).
+  « J'aime » est permis seulement si ta liste le demande (T29). Les réactions rapides : ouvrir le choix, fermer sans réagir.
+  Un code ou un lien de parrainage (R9-parrainage) s'écrit dans un brouillon et ne part jamais.
 - Au plus 3 diagnostics photo (galerie : feuille de tomate, et les photos de jardin si présentes) et 3 questions à HortenIA.
 - Ce que le banc ne peut pas faire (achat, widget, agenda, QR code…) : note « non testable sur le banc » avec la raison.
   Sur le simulateur iPhone, des prix en dollars ne sont pas un bug.
@@ -39,7 +40,13 @@ Sur **chaque écran** que tu vois, relève ce qui fait encore IA, capture à l'a
 - emoji dans l'app, dégradé décoratif ;
 - textes du genre « Découvrez », « personnalisé », « intelligent », « notre IA experte », « Assistant IA » ;
 - image qui se voit générée par une IA.
-Exception : la mention « réponse générée par IA » sous les réponses d'HortenIA doit rester.
+Exceptions, voulues par Pierre : la mention « réponse générée par IA » sous les réponses d'HortenIA, les 8 réactions
+rapides en emojis sous les publications, et les icônes des outils et des onglets (celles d'avant, gardées le 9/11).
+
+## Retours de Pierre du 9/11
+Les codes R9-… de ta liste viennent des derniers retours de Pierre (clavier, Communauté, gel réservé à Plus, agenda,
+widget, annuel sans essai, Aménager « Taille et forme »). Regarde-les avec autant de soin que le reste : c'est ce que
+Pierre n'a encore vu qu'en maquette.
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 5 lignes.

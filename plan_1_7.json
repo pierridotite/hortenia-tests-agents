@@ -10,10 +10,10 @@
    "T7": "A",
    "T9": "A",
    "T10": "A",
-   "T11": "A",
+   "T11": "B",
    "T13": "A",
    "T14": "A",
-   "T17": "B",
+   "T17": "A",
    "T21": "A",
    "T22": "B",
    "T24": "A",
@@ -39,11 +39,12 @@
    "T26:B",
    "T29:B",
    "L6-sans-ia",
-   "T4:A",
-   "T17:B",
-   "T38:A",
-   "L4-demander",
-   "L7-graines"
+   "R9-gel-gratuit",
+   "T11:B",
+   "T36:A",
+   "L1-7jours",
+   "L6-lien-3d",
+   "R9-forme-carte"
   ]
  },
  "rachid": {
@@ -51,7 +52,7 @@
   "compte": "email",
   "versions": {
    "T1": "A",
-   "T4": "B",
+   "T4": "A",
    "T5": "B",
    "T6": "A",
    "T7": "A",
@@ -73,9 +74,9 @@
    "T32": "A",
    "T33": "A",
    "T34": "A",
-   "T36": "A",
+   "T36": "B",
    "T37": "A",
-   "T38": "B",
+   "T38": "A",
    "T39": "A",
    "T41": "A",
    "T42": "A"
@@ -86,11 +87,12 @@
    "T27:A",
    "T41:A",
    "L6-sans-ia",
-   "T4:B",
-   "T32:A",
-   "T38:B",
-   "L4-filtres",
-   "L7-widget"
+   "R9-sans-essai",
+   "T17:A",
+   "T36:B",
+   "L4-photo-semaine",
+   "L7-agenda",
+   "R9-forme-rectangle"
   ]
  },
  "colette": {
@@ -117,8 +119,8 @@
    "T28": "B",
    "T29": "A",
    "T31": "A",
-   "T32": "A",
-   "T33": "B",
+   "T32": "B",
+   "T33": "A",
    "T34": "A",
    "T36": "A",
    "T37": "A",
@@ -134,10 +136,11 @@
    "T28:B",
    "L2-e-mail",
    "L6-sans-ia",
-   "T7:A",
-   "T33:B",
-   "L1-moteur",
-   "L5-suivi"
+   "T6:A",
+   "T32:B",
+   "T42:A",
+   "L4-compte-hortenia",
+   "L8-dettes"
   ]
  },
  "baptiste": {
@@ -184,7 +187,8 @@
    "L3-prix",
    "L6-amenagement",
    "L6-hortenia-plan",
-   "L6-sans-ia"
+   "L6-sans-ia",
+   "R9-gel-plus"
   ]
  },
  "agathe": {
@@ -192,9 +196,9 @@
   "compte": "invite",
   "versions": {
    "T1": "A",
-   "T4": "A",
+   "T4": "B",
    "T5": "A",
-   "T6": "B",
+   "T6": "A",
    "T7": "A",
    "T9": "A",
    "T10": "A",
@@ -216,10 +220,10 @@
    "T34": "A",
    "T36": "A",
    "T37": "A",
-   "T38": "A",
+   "T38": "B",
    "T39": "B",
    "T41": "A",
-   "T42": "B"
+   "T42": "A"
   },
   "verifs": [
    "T25:A",
@@ -228,10 +232,11 @@
    "T28:A",
    "T39:B",
    "L6-sans-ia",
-   "T6:B",
-   "T33:A",
-   "T42:B",
-   "L5-carnet"
+   "T4:B",
+   "T32:A",
+   "T38:B",
+   "L4-filtres",
+   "L7-widget"
   ]
  },
  "lucien": {
@@ -242,10 +247,10 @@
    "T4": "A",
    "T5": "A",
    "T6": "A",
-   "T7": "A",
+   "T7": "B",
    "T9": "A",
    "T10": "B",
-   "T11": "B",
+   "T11": "A",
    "T13": "A",
    "T14": "A",
    "T17": "A",
@@ -275,10 +280,11 @@
    "T37:B",
    "L1-mesures",
    "L6-sans-ia",
-   "T11:B",
-   "T36:A",
-   "L1-7jours",
-   "L6-lien-3d"
+   "T7:B",
+   "T34:A",
+   "L1-site",
+   "L5-maladies",
+   "R9-parrainage"
   ]
  },
  "maeva": {
@@ -307,8 +313,8 @@
    "T31": "A",
    "T32": "A",
    "T33": "A",
-   "T34": "A",
-   "T36": "B",
+   "T34": "B",
+   "T36": "A",
    "T37": "A",
    "T38": "A",
    "T39": "C",
@@ -322,10 +328,11 @@
    "T29:A",
    "T39:C",
    "L6-sans-ia",
-   "T17:A",
-   "T36:B",
-   "L4-photo-semaine",
-   "L7-agenda"
+   "T11:A",
+   "T34:B",
+   "L1-outils",
+   "L6-3d-saisons",
+   "R9-reactions"
   ]
  },
  "denis": {
@@ -335,8 +342,8 @@
    "T1": "A",
    "T4": "A",
    "T5": "A",
-   "T6": "A",
-   "T7": "B",
+   "T6": "B",
+   "T7": "A",
    "T9": "C",
    "T10": "A",
    "T11": "A",
@@ -360,7 +367,7 @@
    "T38": "A",
    "T39": "A",
    "T41": "A",
-   "T42": "A"
+   "T42": "B"
   },
   "verifs": [
    "T25:B",
@@ -369,10 +376,11 @@
    "T31:B",
    "L2-cartes",
    "L6-sans-ia",
-   "T7:B",
-   "T34:A",
-   "L1-site",
-   "L5-maladies"
+   "T6:B",
+   "T33:A",
+   "T42:B",
+   "L5-carnet",
+   "R9-clavier"
   ]
  },
  "salome": {
@@ -389,7 +397,7 @@
    "T11": "A",
    "T13": "A",
    "T14": "A",
-   "T17": "A",
+   "T17": "B",
    "T21": "A",
    "T22": "A",
    "T24": "A",
@@ -399,7 +407,7 @@
    "T28": "A",
    "T29": "A",
    "T31": "A",
-   "T32": "B",
+   "T32": "A",
    "T33": "A",
    "T34": "A",
    "T36": "A",
@@ -415,11 +423,11 @@
    "T27:B",
    "T39:A",
    "L6-sans-ia",
-   "T6:A",
-   "T32:B",
-   "T42:A",
-   "L4-compte-hortenia",
-   "L8-dettes"
+   "T4:A",
+   "T17:B",
+   "T38:A",
+   "L4-demander",
+   "L7-graines"
   ]
  },
  "henri": {
@@ -447,8 +455,8 @@
    "T29": "A",
    "T31": "A",
    "T32": "A",
-   "T33": "A",
-   "T34": "B",
+   "T33": "B",
+   "T34": "A",
    "T36": "A",
    "T37": "A",
    "T38": "A",
@@ -463,10 +471,11 @@
    "T37:A",
    "L4-reponse24h",
    "L6-sans-ia",
-   "T11:A",
-   "T34:B",
-   "L1-outils",
-   "L6-3d-saisons"
+   "T7:A",
+   "T33:B",
+   "L1-moteur",
+   "L5-suivi",
+   "R9-admins"
   ]
  },
  "margaux": {
@@ -494,8 +503,8 @@
    "T29": "B",
    "T31": "A",
    "T32": "A",
-   "T33": "A",
-   "T34": "B",
+   "T33": "B",
+   "T34": "A",
    "T36": "A",
    "T37": "A",
    "T38": "A",
@@ -510,10 +519,11 @@
    "T29:B",
    "T39:C",
    "L6-sans-ia",
-   "T11:A",
-   "T34:B",
-   "L1-outils",
-   "L6-3d-saisons"
+   "T7:A",
+   "T33:B",
+   "L1-moteur",
+   "L5-suivi",
+   "R9-admins"
   ]
  },
  "yannick": {
@@ -521,7 +531,7 @@
   "compte": "email",
   "versions": {
    "T1": "A",
-   "T4": "B",
+   "T4": "A",
    "T5": "B",
    "T6": "A",
    "T7": "A",
@@ -543,9 +553,9 @@
    "T32": "A",
    "T33": "A",
    "T34": "A",
-   "T36": "A",
+   "T36": "B",
    "T37": "A",
-   "T38": "B",
+   "T38": "A",
    "T39": "A",
    "T41": "B",
    "T42": "A"
@@ -556,11 +566,11 @@
    "T27:A",
    "T41:B",
    "L6-sans-ia",
-   "T4:B",
-   "T32:A",
-   "T38:B",
-   "L4-filtres",
-   "L8-dettes"
+   "R9-sans-essai",
+   "T17:A",
+   "T36:B",
+   "L4-photo-semaine",
+   "L7-agenda"
   ]
  },
  "brigitte": {
@@ -568,9 +578,9 @@
   "compte": "email",
   "versions": {
    "T1": "B",
-   "T4": "A",
+   "T4": "B",
    "T5": "A",
-   "T6": "B",
+   "T6": "A",
    "T7": "A",
    "T9": "B",
    "T10": "A",
@@ -592,10 +602,10 @@
    "T34": "A",
    "T36": "A",
    "T37": "A",
-   "T38": "A",
+   "T38": "B",
    "T39": "A",
    "T41": "A",
-   "T42": "B"
+   "T42": "A"
   },
   "verifs": [
    "T1:B",
@@ -604,10 +614,11 @@
    "T28:A",
    "L1-mesures",
    "L6-sans-ia",
-   "T6:B",
-   "T33:A",
-   "T42:B",
-   "L5-carnet"
+   "T4:B",
+   "T32:A",
+   "T38:B",
+   "L4-filtres",
+   "L7-widget"
   ]
  },
  "theo": {
@@ -654,7 +665,8 @@
    "L6-amenagement",
    "L6-hortenia-plan",
    "L6-sans-ia",
-   "L7-graines"
+   "R9-gel-plus",
+   "R9-forme-carte"
   ]
  },
  "solene": {
@@ -683,8 +695,8 @@
    "T31": "A",
    "T32": "A",
    "T33": "A",
-   "T34": "A",
-   "T36": "B",
+   "T34": "B",
+   "T36": "A",
    "T37": "A",
    "T38": "A",
    "T39": "A",
@@ -697,11 +709,12 @@
    "T26:A",
    "T37:A",
    "L6-sans-ia",
-   "T4:A",
-   "T17:A",
-   "T36:B",
-   "L4-photo-semaine",
-   "L7-agenda"
+   "R9-gel-gratuit",
+   "T11:A",
+   "T34:B",
+   "L1-outils",
+   "L6-3d-saisons",
+   "R9-reactions"
   ]
  },
  "pascal": {
@@ -712,10 +725,10 @@
    "T4": "A",
    "T5": "A",
    "T6": "A",
-   "T7": "A",
+   "T7": "B",
    "T9": "A",
    "T10": "A",
-   "T11": "B",
+   "T11": "A",
    "T13": "A",
    "T14": "C",
    "T17": "A",
@@ -745,10 +758,11 @@
    "T31:B",
    "L2-cartes",
    "L6-sans-ia",
-   "T11:B",
-   "T36:A",
-   "L1-7jours",
-   "L6-lien-3d"
+   "T7:B",
+   "T34:A",
+   "L1-site",
+   "L5-maladies",
+   "R9-parrainage"
   ]
  },
  "anais": {
@@ -765,7 +779,7 @@
    "T11": "A",
    "T13": "A",
    "T14": "A",
-   "T17": "A",
+   "T17": "B",
    "T21": "A",
    "T22": "A",
    "T24": "A",
@@ -775,7 +789,7 @@
    "T28": "A",
    "T29": "A",
    "T31": "A",
-   "T32": "B",
+   "T32": "A",
    "T33": "A",
    "T34": "A",
    "T36": "A",
@@ -792,10 +806,11 @@
    "T27:B",
    "T39:A",
    "L6-sans-ia",
-   "T6:A",
-   "T32:B",
-   "T42:A",
-   "L4-compte-hortenia"
+   "T4:A",
+   "T17:B",
+   "T38:A",
+   "L4-demander",
+   "L7-graines"
   ]
  },
  "gilles": {
@@ -822,8 +837,8 @@
    "T28": "B",
    "T29": "A",
    "T31": "A",
-   "T32": "A",
-   "T33": "B",
+   "T32": "B",
+   "T33": "A",
    "T34": "A",
    "T36": "A",
    "T37": "A",
@@ -839,10 +854,11 @@
    "T28:B",
    "L2-e-mail",
    "L6-sans-ia",
-   "T7:A",
-   "T33:B",
-   "L1-moteur",
-   "L5-suivi"
+   "T6:A",
+   "T32:B",
+   "T42:A",
+   "L4-compte-hortenia",
+   "L8-dettes"
   ]
  },
  "jeanne": {
@@ -852,8 +868,8 @@
    "T1": "C",
    "T4": "A",
    "T5": "A",
-   "T6": "A",
-   "T7": "B",
+   "T6": "B",
+   "T7": "A",
    "T9": "A",
    "T10": "A",
    "T11": "A",
@@ -877,7 +893,7 @@
    "T38": "A",
    "T39": "B",
    "T41": "A",
-   "T42": "A"
+   "T42": "B"
   },
   "verifs": [
    "T1:C",
@@ -886,10 +902,11 @@
    "T29:A",
    "T39:B",
    "L6-sans-ia",
-   "T7:B",
-   "T34:A",
-   "L1-site",
-   "L5-maladies"
+   "T6:B",
+   "T33:A",
+   "T42:B",
+   "L5-carnet",
+   "R9-clavier"
   ]
  },
  "victor": {
@@ -903,10 +920,10 @@
    "T7": "A",
    "T9": "A",
    "T10": "A",
-   "T11": "A",
+   "T11": "B",
    "T13": "A",
    "T14": "A",
-   "T17": "B",
+   "T17": "A",
    "T21": "A",
    "T22": "A",
    "T24": "A",
@@ -933,10 +950,11 @@
    "T37:B",
    "L4-reponse24h",
    "L6-sans-ia",
-   "T17:B",
-   "T38:A",
-   "L4-demander",
-   "L7-widget"
+   "T11:B",
+   "T36:A",
+   "L1-7jours",
+   "L6-lien-3d",
+   "R9-forme-rectangle"
   ]
  }
 }

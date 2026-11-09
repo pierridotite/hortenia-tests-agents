@@ -1,4 +1,4 @@
-"""Plan de test de la 1.7 : qui vérifie quoi, avec quelles versions imposées.
+"""Plan de test de la 1.7 (avec les retours de Pierre du 9/11) : qui vérifie quoi, avec quelles versions imposées.
 Écrit enquetes/VERSION_1_7_PLAN.md et plan_1_7.json, et vérifie la couverture :
 chaque chantier de l'appli et chaque version de chaque test au moins une fois
 sur iPhone/iPad et une fois sur Android. Usage : python3 outils/plan_1_7.py"""
@@ -60,11 +60,21 @@ CHANTIERS = [
  ("L6-hortenia-plan", "HortenIA modifie le plan (Plus)", "une demande simple, une impossible (« un bananier à Lille »), une annulée ; le plan s'affiche avant d'être gardé", {"compte": "plus"}),
  ("L6-3d-saisons", "3D qui suit les saisons", "date imposée en janvier (givre ou neige) puis en juin (plantes grandies) ; pas de saccade", {}),
  ("L6-lien-3d", "Lien et QR code sur l'affiche, 3D dans le navigateur", "ouvrir le lien de l'affiche dans le navigateur du téléphone : 3D en lecture seule, aucune adresse ni position précise, « Créer le mien » ouvre le store", {}),
- ("L6-sans-ia", "Retirer ce qui fait IA", "plus d'étincelle (10 endroits, dont l'onglet et l'écran d'HortenIA), icônes des 4 outils et des 4 onglets redessinées, textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez » ; la mention « réponse générée par IA » sous HortenIA reste", {"tous": True}),
- ("L7-agenda", "Ajouter ses gestes à l'agenda", "« Ajouter à mon agenda » (sans notifications) : gestes dans l'agenda du téléphone, une seule fois même avec deux appuis", {}),
+ ("L6-sans-ia", "Retirer ce qui fait IA", "textes : plus de « Assistant IA », « notre IA experte », « intelligente », « Découvrez », plus d'étincelle ; la mention « réponse générée par IA » sous HortenIA reste. Icônes des outils et des onglets : Pierre a choisi le 9/11 de garder celles d'avant, ce n'est pas un défaut ; signaler seulement une icône floue, mal alignée ou un mélange d'anciennes et de nouvelles", {"tous": True}),
+ ("L7-agenda", "Ajouter ses gestes à l'agenda", "« Ajouter à mon agenda » (sans notifications) : choisir un agenda, les gestes des 8 semaines y arrivent, une seule fois même avec deux appuis", {}),
  ("L7-graines", "Grainothèque « Mes graines »", "ajouter trois sachets (photo de la galerie), en retirer un, retrouver le rappel de semis dans le planning", {}),
- ("L7-widget", "Widget « À faire cette semaine »", "si le banc le permet : petit et grand, clair et sombre ; sinon le noter « non testable »", {}),
+ ("L7-widget", "Widget « À faire cette semaine »", "si le banc le permet : petit et grand, clair et sombre ; un jour sans geste, image du jardin sur le petit ; compte Plus avec alerte gel imposée, rappel du gel avec le geste sur le grand ; sinon le noter « non testable »", {}),
  ("L8-dettes", "Petites dettes", "le tutoriel du premier jour ne promet plus « Débloquez des avantages en participant »", {}),
+ # Retours de Pierre du 9/11 et Aménager « Taille et forme » (PR #35)
+ ("R9-clavier", "Saisie au-dessus du clavier", "sur chaque écran où l'on écrit (HortenIA, publication, commentaire, note du carnet, compte, recherche) : le champ et le bouton d'envoi restent visibles au-dessus du clavier, aussi en texte grand ; rien n'est caché sous le clavier", {}),
+ ("R9-admins", "Chaque publication signalée aux administrateurs", "aperçu de la notification des administrateurs avec l'outil (groupée la nuit : « Par Odile et 2 autres ») ; si `liste` ne la propose pas, la noter « non testable »", {}),
+ ("R9-parrainage", "Pas de parrainage dans la Communauté", "écrire un code ou un lien de parrainage dans une publication puis dans un commentaire (brouillon) : l'appli le refuse ou prévient ; ne jamais envoyer, noter ce que l'appli dit avant l'envoi", {}),
+ ("R9-reactions", "Barres de vues, partage et 8 réactions rapides", "sur une publication : des barres à la place de l'œil, l'icône de partage du téléphone, 8 réactions en emojis qui tiennent sur une ligne (petit écran, texte grand) ; ouvrir le choix puis fermer sans réagir", {}),
+ ("R9-gel-gratuit", "Gel réservé à Plus (compte gratuit)", "alerte gel imposée (`simuler`) puis date du lendemain : carte « Hortenia Plus vous aurait prévenu hier soir » ; sous une alerte voilée, pas de conseil du même sujet (gel, chaleur, vent) ; le paywall ne s'ouvre que si on le demande", {"compte": "gratuit"}),
+ ("R9-gel-plus", "Alerte gel d'un abonné", "compte Plus et alerte gel imposée : l'alerte arrive normalement, sans voile ni carte « vous aurait prévenu »", {"compte": "plus"}),
+ ("R9-sans-essai", "Annuel sans essai à 19,99 € la 1re année", "si l'offre « Annuel, sans essai » apparaît (paywall, Profil › Abonnement) : 19,99 € la 1re année puis 29,99 € par an, écrit clairement ; ne jamais acheter ; si elle n'apparaît pas, le noter (prix en dollars sur simulateur iPhone : pas un bug)", {"compte": "gratuit"}),
+ ("R9-forme-carte", "Aménager « Taille et forme », jardin tracé sur la carte", "onglets « Plantes et décor » et « Taille et forme » sous le plan ; tirer un coin puis un côté (pas de 25 cm, longueurs en direct, vue recadrée au lâcher) ; croiser deux côtés est refusé ; « Revenir à la forme d'avant » ; « Retracer sur la carte » ; rien n'est gardé sans « Enregistrer »", {}),
+ ("R9-forme-rectangle", "Aménager « Taille et forme », jardin sans carte", "Longueur et Largeur sous le plan, au demi-mètre (1 à 50 m) ; réduire jusqu'à ce qu'une plante ne tienne plus : avant d'enregistrer, la feuille dit ce qui est retiré, ce qui reste hors du plan et ce qui est déplacé ; la surface suit sur l'accueil", {}),
 ]
 
 PERSONAS = [

@@ -95,6 +95,9 @@ jobs:
         run: |
           if [ "$ENVOYER" = true ]; then echo "banc et envoyer ne vont pas ensemble : jamais de marque du banc dans un build des stores"; exit 1; fi
           if [ -z "$TESTS_JETON" ]; then echo "secret TESTS_JETON absent"; exit 1; fi
+          C=$(curl -sS -o /dev/null -w '%{http_code}' -X POST https://admin.hortenia.com/tests/banc/liste -H 'Content-Type: application/json' -H "Authorization: Bearer $TESTS_JETON" -d '{}')
+          echo "serveur du banc : HTTP $C"
+          if [ "$C" = 401 ] || [ "$C" = 403 ]; then echo "le jeton TESTS_JETON de ce dépôt n'est pas celui du serveur : demander à Pierre de le recopier"; exit 1; fi
           M=$(python3 -c "import hmac,hashlib,os;print(hmac.new(os.environ['TESTS_JETON'].encode(),b'hortenia-banc',hashlib.sha256).hexdigest())")
           echo "::add-mask::$M"
           echo "EXPO_PUBLIC_BANC_MARQUE=$M" >> "$GITHUB_ENV"
