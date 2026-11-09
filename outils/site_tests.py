@@ -61,6 +61,10 @@ def appel(methode, chemin, corps=None):
     j = id_journal()
     if j:
         e["appareil_id"] = j
+    elif chemin not in ("/liste", "/stats"):
+        # Sans identifiant lu dans le journal, le serveur pourrait viser l'appareil d'une autre persona
+        sys.exit("identifiant d'appareil introuvable dans le journal : lance l'app une fois (écran d'accueil visible), "
+                 "puis relance cette commande. Ne fais jamais « pm clear » ni réinstallation sans relancer l'app avant l'outil.")
     corps = dict(corps or {}, persona=PERSONA, appareil=appareil(), appareil_id=e.get("appareil_id"), compte=e.get("compte"))
     req = urllib.request.Request(API + chemin, method=methode, data=json.dumps(corps).encode(),
                                  headers={"Authorization": "Bearer " + JETON, "Content-Type": "application/json"})
@@ -69,9 +73,10 @@ def appel(methode, chemin, corps=None):
             rep = json.loads(r.read() or b"{}")
     except urllib.error.HTTPError as x:
         sys.exit(f"erreur {x.code} : {x.read()[:300].decode(errors='ignore')}")
-    for k in ("appareil_id", "compte"):
-        if rep.get(k):
-            e[k] = rep[k]
+    if rep.get("compte"):
+        e["compte"] = rep["compte"]
+    if rep.get("appareil_id") and rep["appareil_id"] != e.get("appareil_id"):
+        print(f"attention : le serveur répond pour l'appareil {rep['appareil_id']}, pas {e.get('appareil_id')} (à noter dans le rapport)", file=sys.stderr)
     os.makedirs("resultats", exist_ok=True)
     json.dump(e, open(ETAT, "w"))
     return rep
@@ -116,7 +121,7 @@ def main(a):
     else:
         sys.exit("commande inconnue : " + c)
     rep.pop("jeton", None)
-    print(json.dumps(rep, ensure_ascii=False, indent=1)[:4000])
+    print(json.dumps(rep, ensure_ascii=False, indent=1)[:20000])
 
 
 if __name__ == "__main__":

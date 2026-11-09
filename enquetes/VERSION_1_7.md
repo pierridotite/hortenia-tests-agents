@@ -4,11 +4,14 @@ Même téléphone, mêmes outils et mêmes règles que CONSIGNES_CLAUDE.md (Andr
 (iPhone/iPad), avec les changements ci-dessous. Ta persona, son jardin, son compte, ses versions imposées et
 ta liste de vérifications sont dans **ta section** de `enquetes/VERSION_1_7_PLAN.md` (cherche ton identifiant,
 variable PERSONAS). Fais **toutes** les vérifications de ta liste, dans l'ordre qui te paraît le plus naturel
-pour ta persona. Compte environ 100 gestes (pas 25).
+pour ta persona. Compte environ 100 gestes (pas 25). Tu as largement le temps (jusqu'à 100 minutes) : ne rends pas le
+rapport avant d'avoir donné un verdict à **chaque** ligne de ta liste. Une vérification bloquée ne t'arrête pas : note-la
+et passe à la suivante. Un rapport à moins de 80 gestes est incomplet.
 
 ## Outil du site des tests (nouveau)
-`python3 outils/site_tests.py …` parle à l'onglet « Testeurs » de hortenia.com/tests (`python3 outils/site_tests.py aide`).
-1. **Tout au début**, avant de toucher l'app : `python3 outils/site_tests.py preparer` (impose tes versions à cet
+`python3 outils/site_tests.py …` (tape la commande seule, sans `cd` ni variable devant : PERSONAS est déjà posé) parle à l'onglet « Testeurs » de hortenia.com/tests (`python3 outils/site_tests.py aide`).
+1. **Tout au début** : lance l'app une fois et attends l'écran d'accueil (elle écrit alors son identifiant d'appareil dans
+   le journal ; sans lui l'outil refuse de travailler). Puis `python3 outils/site_tests.py preparer` (impose tes versions à cet
    appareil), puis relance l'app (Android : `adb shell am force-stop com.hortenia.app` puis la commande de lancement ;
    iOS : `bash outils/ios/geste.sh relancer`). Vérifie avec `site_tests.py etat` que tes versions sont actives (l'appli du banc les reprend au lancement et au retour au premier plan).
 2. Une date (hiver, 1er mars, J+7…) : `site_tests.py date AAAA-MM-JJ`, relance l'app, vérifie, puis `site_tests.py date aucune`.
@@ -21,6 +24,9 @@ pour ta persona. Compte environ 100 gestes (pas 25).
 6. Compte Plus : `site_tests.py compte plus` donne l'adresse ; écris le mot de passe avec `ecrire.py @mdp-compte`.
    Le mot de passe du site : `ecrire.py @mdp-site`. N'écris jamais un mot de passe ou un jeton en clair dans le rapport.
 Si l'outil répond « indisponible » ou une erreur, note-le dans le rapport et continue avec ce que tu peux voir dans l'app.
+7. Ne fais **jamais** `pm clear`, de réinstallation ni d'effacement des données de l'app : l'appareil change d'identifiant et
+   tes versions imposées sont perdues. Seule exception : ta liste demande une réinstallation (L1-moteur, T37). Fais-la alors en
+   dernier, relance l'app avant tout appel à l'outil (il lira le nouvel identifiant) et note ce que l'app reprend toute seule.
 
 ## Règles qui changent pour la 1.7
 - Personas invitées : ne crée jamais de compte. Personas « e-mail » : compte par e-mail après l'onboarding
