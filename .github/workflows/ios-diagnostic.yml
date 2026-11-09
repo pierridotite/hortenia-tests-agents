@@ -1,0 +1,76 @@
+name: iOS - diagnostic du lancement
+
+# Installe un build simulateur, le lance sans testeur Claude et garde le
+# journal du simulateur et des captures (chiffrés). Deux essais : réseau du
+# banc (PostHog et Facebook coupés) et réseau ouvert.
+on:
+  workflow_dispatch:
+    inputs:
+      build_id:
+        description: Build simulateur Expo (vide = dernier build simulateur terminé)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  lancement:
+    runs-on: macos-15
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        reseau: [banc, ouvert]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode 26
+        run: |
+          XC=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC"
+      - run: python3 -m pip install -q --break-system-packages -r requirements.txt
+      - name: Build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: ${{ inputs.build_id }}
+        run: |
+          python3 outils/telecharger_build.py ios-simulateur app.tar.gz
+          mkdir -p app && tar xzf app.tar.gz -C app && rm app.tar.gz
+      - name: Couper PostHog et Facebook
+        if: ${{ matrix.reseau == 'banc' }}
+        run: |
+          IPS=""
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com us.i.posthog.com app.posthog.com graph.facebook.com; do
+            IPS="$IPS $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$' | tr '\n' ' ')"
+            printf '0.0.0.0 %s\n:: %s\n' "$h" "$h" | sudo tee -a /etc/hosts >/dev/null
+          done
+          echo "block drop out quick proto { tcp udp } to { $(echo $IPS | tr ' ' ',') }" | sudo pfctl -a com.apple/hortenia -f - 2>/dev/null
+          sudo pfctl -E 2>/dev/null || true
+          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder || true
+      - name: Lancer et observer
+        run: |
+          mkdir -p resultats
+          python3 outils/ios/simulateur.py "iPhone 17" "26" > "$RUNNER_TEMP/sim.env"
+          UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
+          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b > /dev/null
+          APPDIR=$(find app -maxdepth 3 -name "*.app" -type d | head -1)
+          echo "app : $APPDIR"
+          /usr/libexec/PlistBuddy -c "Print" "$APPDIR/Info.plist" > resultats/info-plist.txt 2>&1 || true
+          ls -R "$APPDIR/PlugIns" > resultats/plugins.txt 2>&1 || true
+          xcrun simctl install "$UDID" "$APPDIR"
+          debut=$(date -u +"%Y-%m-%d %H:%M:%S")
+          xcrun simctl launch --console-pty "$UDID" com.hortenia.app > resultats/console.txt 2>&1 &
+          for t in 5 15 30 60 90; do sleep $(( t - ${prec:-0} )); prec=$t; xcrun simctl io "$UDID" screenshot "resultats/ecran-${t}s.png" > /dev/null 2>&1; done
+          xcrun simctl spawn "$UDID" log show --start "$debut" --style compact \
+            --predicate 'processImagePath CONTAINS "Hortenia" OR eventMessage CONTAINS "[banc]" OR eventMessage CONTAINS "ReactNative"' > resultats/journal-simulateur.txt 2>&1 || true
+          cp -R ~/Library/Logs/DiagnosticReports resultats/rapports-plantage 2>/dev/null || true
+          wc -l resultats/journal-simulateur.txt resultats/console.txt | tee /dev/stderr > /dev/null
+      - name: Chiffrer
+        if: always()
+        run: bash outils/chiffrer.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-diag-${{ matrix.reseau }}
+          path: resultats.chiffres/
+          retention-days: 14
