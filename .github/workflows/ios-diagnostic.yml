@@ -61,7 +61,7 @@ jobs:
           debut=$(date -u +"%Y-%m-%d %H:%M:%S")
           xcrun simctl launch --console-pty "$UDID" com.hortenia.app > resultats/console.txt 2>&1 &
           for t in 5 15 30 60 90; do sleep $(( t - ${prec:-0} )); prec=$t; xcrun simctl io "$UDID" screenshot "resultats/ecran-${t}s.png" > /dev/null 2>&1; done
-          xcrun simctl spawn "$UDID" log show --start "$debut" --style compact \
+          xcrun simctl spawn "$UDID" log show --start "$debut" --info --debug --style compact \
             --predicate 'processImagePath CONTAINS "Hortenia" OR eventMessage CONTAINS "[banc]" OR eventMessage CONTAINS "ReactNative"' > resultats/journal-simulateur.txt 2>&1 || true
           cp -R ~/Library/Logs/DiagnosticReports resultats/rapports-plantage 2>/dev/null || true
           wc -l resultats/journal-simulateur.txt resultats/console.txt | tee /dev/stderr > /dev/null

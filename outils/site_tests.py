@@ -37,7 +37,7 @@ def id_journal():
     import re
     try:
         if os.environ.get("UDID"):
-            out = subprocess.run(["xcrun", "simctl", "spawn", os.environ["UDID"], "log", "show", "--last", "30m", "--style", "compact",
+            out = subprocess.run(["xcrun", "simctl", "spawn", os.environ["UDID"], "log", "show", "--last", "30m", "--info", "--debug", "--style", "compact",
                                   "--predicate", 'eventMessage CONTAINS "[banc] appareil_id="'], capture_output=True, text=True, timeout=60).stdout
         else:
             out = subprocess.run(["adb", "logcat", "-d", "-s", "ReactNativeJS"], capture_output=True, text=True, timeout=30).stdout
