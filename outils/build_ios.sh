@@ -41,6 +41,39 @@ fi
 
 echo "npm ci"
 npm ci --no-audit --no-fund >> "$LOG" 2>&1 || echec "npm ci"
+
+# Identifiants d'une nouvelle cible (widget, 9/11) : EAS ne les crée pas en
+# non interactif. Avec IDENTIFIANTS=true, « eas credentials:configure-build »
+# tourne une fois en interactif, piloté par expect, authentifié par la clé
+# App Store Connect (réutilise le certificat de distribution, crée les profils
+# et le groupe d'apps). Les builds suivants repassent en non interactif.
+if [ "$CIBLE" = store ] && [ "${IDENTIFIANTS:-false}" = true ]; then
+  [ -s credentials/AuthKey_K78XTPTD68.p8 ] || echec "secret ASC_API_KEY_P8 absent"
+  export EXPO_ASC_API_KEY_PATH="$PWD/credentials/AuthKey_K78XTPTD68.p8" EXPO_ASC_KEY_ID=K78XTPTD68 \
+         EXPO_ASC_ISSUER_ID=b959d263-8901-4728-981d-4a1ae2458181 EXPO_APPLE_TEAM_TYPE=COMPANY_OR_ORGANIZATION
+  pip3 install -q --break-system-packages "pyjwt[crypto]" >> "$LOG" 2>&1 || pip3 install -q "pyjwt[crypto]" >> "$LOG" 2>&1
+  EXPO_APPLE_TEAM_ID=$(python3 "$ICI/outils/equipe_apple.py" "$EXPO_ASC_API_KEY_PATH" "$EXPO_ASC_KEY_ID" "$EXPO_ASC_ISSUER_ID" 2>> "$LOG") || echec "équipe Apple introuvable"
+  export EXPO_APPLE_TEAM_ID
+  echo "Identifiants des cibles iOS (interactif piloté)"
+  unset CI
+  expect -c '
+    set timeout 600
+    log_user 1
+    spawn eas credentials:configure-build -p ios -e production
+    expect {
+      -re "Reuse this distribution certificate" { send "y\r"; exp_continue }
+      -re "reuse the original profile"          { send "y\r"; exp_continue }
+      -re "\\(Y/n\\)"                         { send "y\r"; exp_continue }
+      -re "\\(y/N\\)"                         { send "n\r"; exp_continue }
+      -re "Apple Team ID"                        { send "$env(EXPO_APPLE_TEAM_ID)\r"; exp_continue }
+      timeout { exit 2 }
+      eof
+    }
+    catch wait r; exit [lindex $r 3]
+  ' >> "$LOG" 2>&1 || echec "identifiants des cibles iOS"
+  export CI=1
+  echo "Identifiants des cibles iOS : faits"
+fi
 echo "eas build --local (profil $PROFIL)"
 debut=$(date +%s)
 eas build --local --platform ios --profile "$PROFIL" --non-interactive --output "$SORTIE" >> "$LOG" 2>&1 || echec "build Xcode"
