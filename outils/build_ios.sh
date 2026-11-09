@@ -26,6 +26,11 @@ d["build"]["simulateur-tests"] = {"extends": "production", "distribution": "inte
 json.dump(d, open("eas.json", "w"), indent=2)
 EOF
   PROFIL=simulateur-tests; SORTIE="$RUNNER_TEMP/sortie/hortenia-simulateur.tar.gz"
+  # Simulateurs des Mac du dépôt = Apple Silicon : arm64 seulement. Le
+  # compilateur Swift de Xcode 26.3 plante sur la tranche x86_64 de RevenueCat
+  # (9/11), et c'est deux fois moins long.
+  printf 'EXCLUDED_ARCHS[sdk=iphonesimulator*] = x86_64\nONLY_ACTIVE_ARCH = YES\n' > "$RUNNER_TEMP/arm64.xcconfig"
+  export XCODE_XCCONFIG_FILE="$RUNNER_TEMP/arm64.xcconfig"
 else
   PROFIL=production; SORTIE="$RUNNER_TEMP/sortie/hortenia.ipa"
   if [ -n "${ASC_API_KEY_P8:-}" ]; then
