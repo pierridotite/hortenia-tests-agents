@@ -1,0 +1,37 @@
+# Lecture seule : versionCodes envoyés à Google Play et état de chaque piste
+# (test interne, production...). Ne modifie rien. Clé : PLAY_SERVICE_ACCOUNT_JSON.
+name: Android - état Play
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  etat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: python3 -m pip install -q --break-system-packages google-auth requests
+      - name: Pistes
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        shell: python
+        run: |
+          import json, os, requests
+          from google.oauth2 import service_account
+          from google.auth.transport.requests import Request
+          cred = service_account.Credentials.from_service_account_info(json.loads(os.environ["PLAY_SERVICE_ACCOUNT_JSON"]), scopes=["https://www.googleapis.com/auth/androidpublisher"])
+          cred.refresh(Request())
+          h = {"Authorization": f"Bearer {cred.token}"}
+          base = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.hortenia.app"
+          edit = requests.post(f"{base}/edits", headers=h, timeout=30).json()["id"]
+          try:
+              b = requests.get(f"{base}/edits/{edit}/bundles", headers=h, timeout=30).json().get("bundles", [])
+              print("derniers bundles :", sorted(x["versionCode"] for x in b)[-5:])
+              for t in requests.get(f"{base}/edits/{edit}/tracks", headers=h, timeout=30).json().get("tracks", []):
+                  for r in t.get("releases", []):
+                      print(t["track"], r.get("name"), r.get("versionCodes"), r.get("status"), r.get("userFraction", ""))
+          finally:
+              requests.delete(f"{base}/edits/{edit}", headers=h, timeout=30)
