@@ -46,7 +46,9 @@ fi
 if [ "${ENVOYER:-false}" = true ]; then
   [ -s credentials/play-service-account.json ] || echec "secret PLAY_SERVICE_ACCOUNT_JSON absent, envoi Google Play impossible"
   echo "Envoi Google Play (test interne)"
-  eas submit --platform android --profile production --path "$SORTIE" --non-interactive >> "$LOG" 2>&1 || echec "envoi Google Play"
+  # Directement par l'API Play : la file d'EAS Submit a bloqué 50 min le 12/11
+  python3 -m pip install -q --break-system-packages google-auth requests >> "$LOG" 2>&1
+  python3 "$ICI/outils/play_envoi.py" "$SORTIE" credentials/play-service-account.json >> "$LOG" 2>&1 || echec "envoi Google Play"
   echo "Envoyé en test interne Google Play"
   builtin echo "aab $VERSION envoyé en test interne Google Play" >> "$GITHUB_STEP_SUMMARY"
 fi
