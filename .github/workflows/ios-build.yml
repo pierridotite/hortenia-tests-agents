@@ -115,6 +115,7 @@ jobs:
           ASC_API_KEY_P8: ${{ secrets.ASC_API_KEY_P8 }}
           IDENTIFIANTS: ${{ inputs.identifiants }}
           ENVOYER: ${{ inputs.envoyer }}
+          TESTS_JETON: ${{ inputs.banc && secrets.TESTS_JETON || '' }}
         run: bash outils/build_ios.sh "$GITHUB_WORKSPACE/app/Frontend"
 
       - name: Chiffrer les journaux
@@ -128,6 +129,13 @@ jobs:
           path: resultats.chiffres/
           retention-days: 14
 
+      - uses: actions/upload-artifact@v4
+        if: success() && inputs.banc
+        with:
+          name: app-banc-${{ matrix.cible }}
+          path: app-banc/
+          retention-days: 5
+
       - name: Nettoyage
         if: always()
-        run: rm -rf app "$RUNNER_TEMP/sortie" resultats
+        run: rm -rf app "$RUNNER_TEMP/sortie" resultats app-banc

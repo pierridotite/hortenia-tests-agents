@@ -83,9 +83,17 @@ eas build --local --platform ios --profile "$PROFIL" --non-interactive --output 
 echo "Build fait en $(( ($(date +%s) - debut) / 60 )) min ($(du -h "$SORTIE" | cut -f1))"
 
 if [ "$CIBLE" = simulateur ]; then
-  eas upload --platform ios --build-path "$SORTIE" --non-interactive --json > "$RUNNER_TEMP/upload.json" 2>> "$LOG" || echec "dépôt chez Expo"
-  ID=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['url'].rstrip('/').split('/')[-1])" "$RUNNER_TEMP/upload.json")
-  echo "Build simulateur déposé chez Expo : $ID"
+  if [ -n "${TESTS_JETON:-}" ]; then
+    # Quota d'envois d'Expo épuisé (offre gratuite, 13/11) : build chiffré avec
+    # TESTS_JETON, en artefact du run ; les testeurs le reprennent par build_id=gh:<run>
+    mkdir -p "$ICI/app-banc"
+    openssl enc -aes-256-cbc -pbkdf2 -salt -pass env:TESTS_JETON -in "$SORTIE" -out "$ICI/app-banc/$(basename "$SORTIE").enc" || echec "chiffrement du build"
+    ID="gh:$GITHUB_RUN_ID"
+  else
+    eas upload --platform ios --build-path "$SORTIE" --non-interactive --json > "$RUNNER_TEMP/upload.json" 2>> "$LOG" || echec "dépôt chez Expo"
+    ID=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['url'].rstrip('/').split('/')[-1])" "$RUNNER_TEMP/upload.json")
+  fi
+  echo "Build simulateur déposé : $ID"
   builtin echo "Build simulateur $VERSION : \`$ID\` (à passer en build_id à ios-claude.yml)" >> "$GITHUB_STEP_SUMMARY"
   builtin echo "build_id=$ID" >> "$GITHUB_OUTPUT"
 elif [ "${ENVOYER:-false}" = true ]; then

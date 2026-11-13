@@ -26,6 +26,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 
 jobs:
@@ -64,6 +65,8 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           BUILD_ID: ${{ inputs.build_id }}
+          GITHUB_TOKEN: ${{ github.token }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
         run: python outils/telecharger_build.py android app.bin
 
       - uses: actions/setup-java@v4

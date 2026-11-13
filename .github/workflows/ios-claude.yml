@@ -33,6 +33,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   liste:
@@ -78,6 +79,8 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           BUILD_ID: ${{ inputs.build_id }}
+          GITHUB_TOKEN: ${{ github.token }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
         run: |
           python3 outils/telecharger_build.py ios-simulateur app.tar.gz
           mkdir -p app && tar xzf app.tar.gz -C app && rm app.tar.gz
