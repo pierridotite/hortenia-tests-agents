@@ -1,8 +1,11 @@
 """App Store Connect : préparer puis soumettre une version iOS, par l'API
 (clé du secret ASC_API_KEY_P8). Usage :
-  python3 outils/asc_soumission.py etat|preparer|soumettre VERSION BUILD [fichier nouveautés] [produits séparés par des virgules]
+  python3 outils/asc_soumission.py etat|preparer|soumettre|retirer VERSION BUILD [fichier nouveautés] [produits séparés par des virgules]
 - etat      : lit la version, le build, les produits ; ne change rien.
-- preparer  : crée la version si elle manque, attache le build (attend qu'il soit
+- retirer   : retire de l'examen la version VERSION (soumission en attente ou
+              en cours d'examen) ; elle redevient modifiable.
+- preparer  : renomme la version modifiable s'il y en a une (ex. 1.7.2 retirée
+              de l'examen devient 1.8.0), sinon crée la version si elle manque, attache le build (attend qu'il soit
               traité), écrit les nouveautés fr-FR.
 - soumettre : ajoute les produits (abonnements) non encore approuvés et la
               version à une soumission, puis l'envoie en revue.
@@ -70,7 +73,37 @@ for p in produits:
     s = abos.get(p)
     dire(f"produit {p} : " + (s["attributes"]["state"] if s else "introuvable"))
 
+MODIFIABLES = ("PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED", "METADATA_REJECTED")
+
+if action == "retirer":
+    if not v:
+        sys.exit(f"version {version} introuvable")
+    subs = api("GET", f"/v1/reviewSubmissions?filter[app]={APP}&filter[platform]=IOS"
+                      "&filter[state]=WAITING_FOR_REVIEW,IN_REVIEW,UNRESOLVED_ISSUES&include=items&limit=10")
+    retiree = False
+    for sub in subs.get("data", []):
+        items = api("GET", f"/v1/reviewSubmissions/{sub['id']}/items?include=appStoreVersion&limit=20")["data"]
+        if any((i["relationships"].get("appStoreVersion", {}).get("data") or {}).get("id") == v["id"] for i in items):
+            api("PATCH", f"/v1/reviewSubmissions/{sub['id']}", {"data": {"type": "reviewSubmissions", "id": sub["id"], "attributes": {"canceled": True}}})
+            dire(f"version {version} retirée de l'examen (soumission {sub['id']}, état {sub['attributes']['state']})")
+            retiree = True
+    if not retiree:
+        sys.exit(f"aucune soumission en cours pour la version {version}")
+    for _ in range(20):
+        time.sleep(15)
+        etat = api("GET", f"/v1/appStoreVersions/{v['id']}")["data"]["attributes"]["appStoreState"]
+        if etat in MODIFIABLES:
+            break
+    dire(f"état de la version {version} : {etat}")
+
 if action == "preparer":
+    if not v:
+        m = next((x for x in toutes if x["attributes"]["appStoreState"] in MODIFIABLES), None)
+        if m:
+            ancienne = m["attributes"]["versionString"]
+            v = api("PATCH", f"/v1/appStoreVersions/{m['id']}", {"data": {"type": "appStoreVersions", "id": m["id"],
+                  "attributes": {"versionString": version}}})["data"]
+            dire(f"version {ancienne} renommée en {version}")
     if not v:
         v = api("POST", "/v1/appStoreVersions", {"data": {"type": "appStoreVersions",
               "attributes": {"platform": "IOS", "versionString": version, "releaseType": "AFTER_APPROVAL"},

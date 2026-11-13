@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: etat, preparer ou soumettre
+        description: etat, preparer, soumettre ou retirer
         required: true
         default: etat
       version:
