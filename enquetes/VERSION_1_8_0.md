@@ -52,6 +52,16 @@ Tu ne lis pas le français : tout mot français vu dans l'app est un défaut (no
 - **F6 Non-régression** : planning, fiche plante, un diagnostic photo (galerie, un seul), la Communauté se lit (rien
   publié), l'écran Plus montre des prix lisibles. Aucune trace d'anglais ou d'allemand dans l'app en français.
 
+## Communauté (toutes les personas, en lecture seule)
+- **M1 Traduction automatique** : un post ou un commentaire écrit dans une autre langue que celle de l'app s'affiche
+  traduit, avec une mention du type « Traduit du français · Voir l'original » (dans ta langue). Touche le lien : l'original
+  s'affiche ; touche encore : la traduction revient. Personas en/de/es : les posts français doivent être traduits.
+  Personas françaises : un éventuel post étranger doit être traduit en français. Note la qualité de la traduction.
+- **M2 Encart d'écriture** : en haut du fil, une seule ligne avec l'appareil photo dans le champ, puis dessous les pousses,
+  « Règles de la communauté » et un seul bouton « Filtrer », qui ouvre Région puis Plante. Ouvre le filtre, choisis une
+  région puis une plante, puis enlève le filtre. N'écris et ne publie rien.
+- **M3 Compte Hortenia** : aucun post du compte Hortenia dans le fil, pas de défi épinglé.
+
 ## Pour tous
 - **C8 Rien qui fasse IA** : relève étincelle, baguette magique, robot, emoji dans l'app (hors les 8 réactions rapides),
   dégradé décoratif, textes « Discover », « personalized », « smart », « AI assistant » (et équivalents allemands et
@@ -62,7 +72,7 @@ Toujours rien de publié pour de vrai dans la Communauté, aucun code ni lien de
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 5 lignes, dont : la langue de l'app est-elle crédible pour un natif ?
-2. **Tableau des vérifications** (L1 à L9 et K1, ou F1 à F6 et K1, puis C8), dans l'ordre :
+2. **Tableau des vérifications** (L1 à L9 et K1, ou F1 à F6 et K1, puis M1 à M3 et C8), dans l'ordre :
    `| code | verdict (bon / défaut / bloquant / non testable) | appareil | capture(s) | ce que tu as vu |`.
    Bloquant = plantage, écran blanc, impossible d'avancer, app en français pour un téléphone étranger, perte du jardin
    ou du compte, mauvais prix, achat possible par erreur.
