@@ -99,8 +99,27 @@ if [ "$CIBLE" = simulateur ]; then
 elif [ "${ENVOYER:-false}" = true ]; then
   [ -s credentials/AuthKey_K78XTPTD68.p8 ] || echec "secret ASC_API_KEY_P8 absent, envoi TestFlight impossible"
   echo "Envoi TestFlight"
-  eas submit --platform ios --profile production --path "$SORTIE" --non-interactive >> "$LOG" 2>&1 || echec "envoi TestFlight"
-  echo "Envoyé dans TestFlight"
+  if eas submit --platform ios --profile production --path "$SORTIE" --non-interactive >> "$LOG" 2>&1; then
+    echo "Envoyé dans TestFlight"
+  else
+    # Repli sans Expo (13/11) : si « eas submit » est refusé (quota de l'offre
+    # gratuite épuisé, panne d'Expo), envoi par l'outil d'Apple sur ce même
+    # Mac, avec la même clé App Store Connect (identifiants lus dans eas.json).
+    echo "eas submit refusé : envoi par l'outil d'Apple (altool)"
+    read -r CLE EMETTEUR < <(python3 -c "import json;i=json.load(open('eas.json'))['submit']['production']['ios'];print(i['ascApiKeyId'],i['ascApiKeyIssuerId'])") || echec "clé App Store Connect absente de eas.json"
+    SOURCE_CLE="credentials/AuthKey_$CLE.p8"
+    [ -s "$SOURCE_CLE" ] || SOURCE_CLE=$(ls credentials/AuthKey_*.p8 2>/dev/null | head -1)
+    [ -s "$SOURCE_CLE" ] || echec "clé App Store Connect absente, envoi TestFlight impossible"
+    mkdir -p private_keys
+    cp "$SOURCE_CLE" "private_keys/AuthKey_$CLE.p8"
+    if xcrun altool --upload-app --type ios --file "$SORTIE" --apiKey "$CLE" --apiIssuer "$EMETTEUR" >> "$LOG" 2>&1; then
+      rm -rf private_keys
+      echo "Envoyé dans TestFlight (altool)"
+    else
+      rm -rf private_keys
+      echec "envoi TestFlight (eas submit puis altool)"
+    fi
+  fi
   builtin echo "ipa $VERSION envoyée dans TestFlight" >> "$GITHUB_STEP_SUMMARY"
 else
   builtin echo "ipa $VERSION construite (non envoyée)" >> "$GITHUB_STEP_SUMMARY"
