@@ -101,6 +101,7 @@ jobs:
         env:
           MODELE_IOS: ${{ matrix.simulateur }}
           VERSION_IOS: ${{ matrix.ios }}
+          LANGUE: ${{ matrix.langue }}
         run: |
           defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false
           python3 outils/ios/simulateur.py "$MODELE_IOS" "$VERSION_IOS" > "$RUNNER_TEMP/sim.env"
@@ -108,11 +109,12 @@ jobs:
           UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b > /dev/null
-          # Français ; clavier sans majuscule ni correction automatiques (la
+          # Langue de la persona (fr-FR par défaut) ; clavier sans majuscule ni correction automatiques (la
           # frappe simulée en serait faussée), présentations du clavier vues
           d() { xcrun simctl spawn "$UDID" defaults write "$@"; }
-          d -g AppleLanguages -array fr-FR
-          d -g AppleLocale -string fr_FR
+          L="${LANGUE:-fr-FR}"
+          d -g AppleLanguages -array "$L"
+          d -g AppleLocale -string "${L/-/_}"
           # Clavier matériel en QWERTY US : la frappe simulée envoie des codes US
           # (en AZERTY, a devient q et Cmd+A devient Cmd+Q, qui quitte l'app)
           d -g AppleKeyboards -array "en_US@sw=QWERTY;hw=US"
@@ -134,6 +136,7 @@ jobs:
           THEME: ${{ matrix.theme }}
           POSITION: ${{ matrix.position }}
           LOCALISATION: ${{ matrix.localisation }}
+          LANGUE: ${{ matrix.langue }}
           ESSAI: ${{ inputs.essai && '1' || '0' }}
           CONSIGNES: ${{ inputs.consignes }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}

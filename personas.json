@@ -896,5 +896,117 @@
    "theme": "dark",
    "nom": "iPhone 17 Pro, iOS 26, mode sombre"
   }
+ },
+ {
+  "id": "emily",
+  "nom": "Emily, 34, allotment in Bristol",
+  "langue": "en-GB",
+  "position": [
+   51.4545,
+   -2.5879
+  ],
+  "profil": "Emily, 34 ans, Bristol (Royaume-Uni), parcelle de jardin partagé (allotment) de 50 m², jardinière moyenne. Elle ne parle pas français et juge l'app sur la qualité de son anglais.",
+  "but": "S'inscrire par e-mail, créer son jardin, ajouter des courgettes et des haricots, lire le planning de la semaine et une fiche plante, regarder l'offre Plus sans payer.",
+  "appareil": {
+   "profil": "pixel_7_pro",
+   "android_api": 35,
+   "taille_texte": 1.0,
+   "nom": "Pixel 7 Pro, Android 15"
+  },
+  "plateforme": "android"
+ },
+ {
+  "id": "lukas",
+  "nom": "Lukas, 45, Schrebergarten bei München",
+  "langue": "de-DE",
+  "position": [
+   48.1351,
+   11.582
+  ],
+  "profil": "Lukas, 45 ans, près de Munich (Allemagne), Schrebergarten de 300 m², méthodique, très attentif aux fautes et aux textes trop longs qui débordent (mots allemands longs). Ne parle pas français.",
+  "but": "S'inscrire par e-mail, créer son jardin, ajouter des pommes de terre et des choux, lire le planning et une notification, vérifier le prix de Plus.",
+  "appareil": {
+   "profil": "pixel_3a",
+   "android_api": 33,
+   "taille_texte": 1.15,
+   "nom": "Pixel 3a (5,6 pouces), Android 13, texte x1,15"
+  },
+  "plateforme": "android"
+ },
+ {
+  "id": "lucia",
+  "nom": "Lucía, 29, terraza en Madrid",
+  "langue": "es-ES",
+  "position": [
+   40.4168,
+   -3.7038
+  ],
+  "profil": "Lucía, 29 ans, Madrid (Espagne), terrasse de 12 m² en pots, débutante, utilise le mode sombre. Ne parle pas français.",
+  "but": "Continuer en invitée, créer son jardin, ajouter des tomates et du basilic, faire un diagnostic photo d'une feuille, poser une question à l'assistant.",
+  "appareil": {
+   "profil": "pixel_8",
+   "android_api": 34,
+   "taille_texte": 1.0,
+   "theme": "sombre",
+   "nom": "Pixel 8, Android 14, mode sombre"
+  },
+  "plateforme": "android"
+ },
+ {
+  "id": "oliver",
+  "nom": "Oliver, 52, back garden in Leeds",
+  "langue": "en-GB",
+  "position": [
+   53.8008,
+   -1.5491
+  ],
+  "profil": "Oliver, 52 ans, Leeds (Royaume-Uni), jardin de 120 m² derrière la maison, a déjà essayé d'autres apps de jardinage, exigeant sur l'anglais britannique (pas de tournures traduites du français).",
+  "but": "S'inscrire par e-mail, créer son jardin, ajouter des fraises et des salades, lire le planning, ouvrir le paywall, puis passer l'app en français dans Profil > Langue et revenir à l'anglais.",
+  "appareil": {
+   "simulateur": "iPhone 16",
+   "ios": "18",
+   "taille_texte": "large",
+   "nom": "iPhone 16, iOS 18",
+   "theme": "light"
+  },
+  "plateforme": "ios"
+ },
+ {
+  "id": "hanna",
+  "nom": "Hanna, 63, Garten in Köln",
+  "langue": "de-DE",
+  "position": [
+   50.9375,
+   6.9603
+  ],
+  "profil": "Hanna, 63 ans, Cologne (Allemagne), jardin de 200 m², lit avec un très grand texte, peu patiente avec les textes coupés. Ne parle pas français.",
+  "but": "S'inscrire par e-mail, créer son jardin, ajouter des haricots et des carottes, lire une fiche plante et le planning, vérifier que rien n'est coupé.",
+  "appareil": {
+   "simulateur": "iPhone SE (3rd generation)",
+   "ios": "18",
+   "taille_texte": "accessibility-medium",
+   "nom": "iPhone SE 3 (4,7 pouces), iOS 18, texte très grand",
+   "theme": "light"
+  },
+  "plateforme": "ios"
+ },
+ {
+  "id": "carmen",
+  "nom": "Carmen, 41, huerto en Valencia",
+  "langue": "es-ES",
+  "position": [
+   39.4699,
+   -0.3763
+  ],
+  "profil": "Carmen, 41 ans, Valence (Espagne), potager de 80 m², mode sombre, a un code Plus offert par un ami.",
+  "but": "S'inscrire par e-mail, créer son jardin, ajouter des poivrons et des aubergines, lire le planning, ouvrir le champ « J'ai un code » (en espagnol) et y taper un faux code sans rien envoyer de réel, regarder le paywall.",
+  "appareil": {
+   "simulateur": "iPhone 17 Pro Max",
+   "ios": "26",
+   "taille_texte": "large",
+   "theme": "dark",
+   "nom": "iPhone 17 Pro Max, iOS 26, mode sombre"
+  },
+  "plateforme": "ios"
  }
 ]

@@ -125,6 +125,7 @@ jobs:
           THEME: ${{ matrix.theme }}
           POSITION: ${{ matrix.position }}
           LOCALISATION: ${{ matrix.localisation }}
+          LANGUE: ${{ matrix.langue }}
           CONSIGNES: ${{ inputs.consignes }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
           TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}

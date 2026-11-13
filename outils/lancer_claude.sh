@@ -20,6 +20,15 @@ for i in 1 2 3 4 5 6; do
   sleep 5
 done
 adb shell ping -c 1 -W 3 api.expo.dev >/dev/null 2>&1 && echo "réseau OK" || echo "attention : pas de réseau dans l'émulateur"
+# Langue du téléphone (persona « langue », fr-FR par défaut) : image google_apis,
+# donc adb root possible ; redémarrage du système Android pour l'appliquer
+if [ -n "${LANGUE:-}" ] && [ "$LANGUE" != fr-FR ]; then
+  adb root >/dev/null 2>&1; sleep 3; adb wait-for-device
+  adb shell "setprop persist.sys.locale $LANGUE; setprop ctl.restart zygote"
+  sleep 10; adb wait-for-device
+  for i in $(seq 1 60); do [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+  echo "langue du téléphone : $(adb shell getprop persist.sys.locale | tr -d '\r')"
+fi
 adb install -r -g app.apk || adb install -r app.apk
 mkdir -p photos resultats
 [ -s photos/feuille-tomate-mildiou.jpg ] || curl -sSL --retry 3 -A "hortenia-tests-agents (github.com/pierridotite/hortenia-tests-agents)" \
@@ -49,7 +58,7 @@ esac
 [ -n "${LOCALISATION:-}" ] && echo "Localisation : $LOCALISATION"
 echo "Téléphone : ${APPAREIL:-Pixel 6, Android 14} (texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair})"
 adb logcat -c
-claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée).${CONSIGNE_POSITION}" \
+claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair}, langue du téléphone ${LANGUE:-fr-FR} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée).${CONSIGNE_POSITION}" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
   --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(adb:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt
