@@ -22,7 +22,9 @@ done
 adb shell ping -c 1 -W 3 api.expo.dev >/dev/null 2>&1 && echo "réseau OK" || echo "attention : pas de réseau dans l'émulateur"
 # Langue du téléphone (persona « langue », fr-FR par défaut) : image google_apis,
 # donc adb root possible ; redémarrage du système Android pour l'appliquer
-if [ -n "${LANGUE:-}" ] && [ "$LANGUE" != fr-FR ]; then
+# (l'émulateur part en en-US : fr-FR doit aussi être réglé)
+LANGUE=${LANGUE:-fr-FR}
+if [ -n "$LANGUE" ] && [ "$(adb shell getprop persist.sys.locale | tr -d '\r')" != "$LANGUE" ]; then
   adb root >/dev/null 2>&1; sleep 3; adb wait-for-device
   adb shell "setprop persist.sys.locale $LANGUE; setprop ctl.restart zygote"
   sleep 10; adb wait-for-device
