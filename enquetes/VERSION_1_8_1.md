@@ -47,6 +47,12 @@ pas le rapport avant d'avoir donné un verdict à chaque ligne. Une vérificatio
 - **R2 Langue** (personas en/de/es) : relève tout mot français vu dans l'app (écran, mot exact, capture). Les points déjà
   connus de la 1.8.0 (« Possible jusqu'au … », mois en français dans le planning, prix à deux formats, deux paywalls
   enchaînés) sont à noter à nouveau s'ils sont toujours là, sans les compter comme nouveaux.
+- **R3 Téléphone français, appli en anglais** (personas en fr-FR seulement ; les autres : « non testable ») : à la fin du
+  test, Profil > Langue, passe l'app en anglais. Dans le planning, le mois en tête est en anglais (« November 2026 », pas
+  « Novembre »), une tâche à date limite écrit « Possible until … » en anglais, les jours et les dates sont en anglais.
+  Relève tout mot français. Puis reviens au français et vérifie que tout revient en français.
+- **R4 Santé des plantes** (personas en/de/es) : si un ravageur apparaît (par exemple limaces, « Slugs »), il n'est pas
+  rangé parmi les maladies (note l'étiquette affichée).
 - **C8 Rien qui fasse IA** : étincelle, baguette magique, robot, emoji (hors les 8 réactions rapides), dégradé décoratif,
   textes « Discover », « personalized », « smart », « AI assistant » et équivalents. Exception voulue : la mention
   « réponse générée par IA » sous HortenIA. Les nouveaux avatars de couleur ne doivent pas faire « généré ».
@@ -56,7 +62,7 @@ Toujours rien de publié pour de vrai dans la Communauté, aucun code ni lien de
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 5 lignes.
-2. **Tableau des vérifications** (N1 à N6, R1, R2, C8), dans l'ordre :
+2. **Tableau des vérifications** (N1 à N6, R1 à R4, C8), dans l'ordre :
    `| code | verdict (bon / défaut / bloquant / non testable) | appareil | capture(s) | ce que tu as vu |`.
    Bloquant = plantage, écran blanc, impossible d'avancer, perte du jardin ou du compte, jardin déformé après le tracé,
    mauvais prix, achat possible par erreur.
