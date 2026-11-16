@@ -6,12 +6,20 @@ on:
         description: "Laisser le post de test dans le banc pour les testeurs"
         type: boolean
         default: false
+      post_id:
+        description: "Post du banc existant (vide : en créer un)"
+        type: string
+        default: ""
+      etendu:
+        description: "Ajouter réponse à un commentaire et refus HORS_BANC"
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
   verif:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - run: pip install -q requests
@@ -19,3 +27,5 @@ jobs:
         env:
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
           GARDER: ${{ inputs.garder && '1' || '0' }}
+          POST_ID: ${{ inputs.post_id }}
+          ETENDU: ${{ inputs.etendu && '1' || '0' }}
