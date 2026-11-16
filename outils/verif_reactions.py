@@ -71,7 +71,7 @@ if os.environ.get("ETENDU") == "1":
     def nb_notifs(uid, h):
         r = requests.get(f"{API}/notifications/{uid}", headers=h, timeout=60)
         d = r.json() if r.ok else {}
-        L = d.get("data") or d.get("notifications") or (d if isinstance(d, list) else [])
+        L = d if isinstance(d, list) else (d.get("data") or d.get("notifications") or [])
         L = L if isinstance(L, list) else (L.get("notifications") or L.get("items") or [])
         return r.status_code, L
     st, avant = nb_notifs(ida, a)
