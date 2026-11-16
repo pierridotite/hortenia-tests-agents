@@ -1,0 +1,21 @@
+name: Vérifier les réactions (serveur)
+on:
+  workflow_dispatch:
+    inputs:
+      garder:
+        description: "Laisser le post de test dans le banc pour les testeurs"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  verif:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q requests
+      - run: python3 outils/verif_reactions.py
+        env:
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          GARDER: ${{ inputs.garder && '1' || '0' }}
