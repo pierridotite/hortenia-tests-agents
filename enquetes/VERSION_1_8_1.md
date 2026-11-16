@@ -65,8 +65,9 @@ banc est introuvable, fais S1 à S3 sans rien poser (ouvrir et refermer seulemen
 - **S4 Discussion et profil** : ouvre un post : même bouton, même appui long ; plus de rangée d'émojis au-dessus du champ
   « Répondre » ; les cœurs des commentaires restent de simples cœurs. Profil public d'un jardinier : « réactions reçues »
   (pas « j'aime reçus »).
-- **S8 Invité** (personas « invite ») : toucher le cœur ou appui long : soit la réaction se pose, soit l'appli propose de
-  créer un compte. Jamais d'écran figé. Ne crée pas de compte.
+- **S8 Invité** (personas « invite ») : tu ne vois pas le post du banc, donc ne touche aucun cœur. Fais un appui long
+  sur le cœur d'un post : soit la pastille s'ouvre (referme-la en touchant à côté, sans rien choisir), soit l'appli propose
+  de créer un compte (ne le crée pas, ferme). Jamais d'écran figé.
 - **S9 Écran Calculer** (Jardin, puis Calculer) : chaque calcul est une carte avec une photo : « Mon sol » en grande carte
   en haut, puis Amendement, Correction de pH, Engrais, Besoin en eau en deux colonnes ; cadenas « Plus » sur la photo des
   calculs payants. Aucune carte grise, chaque carte ouvre le bon calcul. Allemand : la carte de l'amendement s'appelle
