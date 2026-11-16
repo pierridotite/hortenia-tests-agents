@@ -3,7 +3,7 @@
 Même téléphone, mêmes outils et mêmes règles que CONSIGNES_CLAUDE.md (Android) ou CONSIGNES_CLAUDE_IOS.md
 (iPhone/iPad), avec les changements ci-dessous. Ta persona (appareil, jardin, langue, type de compte) est dans
 `personas.json` (variable PERSONAS). Le téléphone est déjà réglé dans la langue de ta persona (champ « langue » ; fr-FR
-si absent) : tape les textes à toucher dans la langue de l'écran. Compte environ 60 gestes, jusqu'à 60 minutes. Ne rends
+si absent) : tape les textes à toucher dans la langue de l'écran. Compte environ 80 gestes, jusqu'à 75 minutes. Ne rends
 pas le rapport avant d'avoir donné un verdict à chaque ligne. Une vérification bloquée ne t'arrête pas : note-la et passe
 à la suivante.
 
@@ -42,6 +42,35 @@ pas le rapport avant d'avoir donné un verdict à chaque ligne. Une vérificatio
   - Annule ou valide pour revenir à un jardin de taille normale, comme au départ.
   Personas qui créent leur jardin à l'onboarding : regarde aussi le tracé à la création (mêmes gestes, sans forcer).
 
+## Réactions de la Communauté et écran Calculer (toutes les personas)
+Réagir à un post n'est pas publier : c'est permis. Retire chaque réaction posée avant la fin du test.
+- **S1 Réagir à un post** (fil de la Communauté) : toucher le cœur d'un post sans ma réaction le remplit tout de suite et
+  le nombre monte de 1 ; un second toucher retire la réaction. Appui long (un tiers de seconde) : une pastille s'ouvre
+  au-dessus du bouton avec six réactions nommées (J'aime, Bravo, Ça pousse, Bon à savoir, Courage, Drôle, ou leur
+  traduction). Choisir « Ça pousse » : la pastille se ferme, le bouton montre la pousse, le nombre devient terre cuite.
+  Rouvrir : « Ça pousse » est surlignée. Toucher à côté ferme la pastille sans rien changer. Tirer pour rafraîchir : la
+  réaction est toujours là. Puis retire-la.
+- **S2 Place de la pastille** : collée juste au-dessus du bouton (quelques points d'écart), jamais trop haute au point de
+  recouvrir le texte du post. Regarde sur le premier post de l'écran et sur un post du bas. Petit écran et iPhone SE : la
+  pastille tient dans l'écran, les six noms sont lisibles (« Bon à savoir » sur deux lignes, c'est voulu). Post tout en
+  haut sans place au-dessus : la pastille s'ouvre en dessous. Thème sombre du téléphone : la pastille reste lisible (fond
+  crème voulu). Capture de chaque cas.
+- **S3 La première fois** : le tout premier « j'aime » du téléphone ouvre la pastille d'elle-même, une seule fois, avec la
+  ligne « Appui long sur le cœur pour retrouver ces réactions » (ou sa traduction) ; le « j'aime » est déjà posé. Un
+  second « j'aime » sur un autre post ne la rouvre pas.
+- **S4 Discussion et profil** : ouvre un post : même bouton, même appui long ; plus de rangée d'émojis au-dessus du champ
+  « Répondre » ; les cœurs des commentaires restent de simples cœurs. Profil public d'un jardinier : « réactions reçues »
+  (pas « j'aime reçus »).
+- **S8 Invité** (personas « invite ») : toucher le cœur ou appui long : soit la réaction se pose, soit l'appli propose de
+  créer un compte. Jamais d'écran figé. Ne crée pas de compte.
+- **S9 Écran Calculer** (Jardin, puis Calculer) : chaque calcul est une carte avec une photo : « Mon sol » en grande carte
+  en haut, puis Amendement, Correction de pH, Engrais, Besoin en eau en deux colonnes ; cadenas « Plus » sur la photo des
+  calculs payants. Aucune carte grise, chaque carte ouvre le bon calcul. Allemand : la carte de l'amendement s'appelle
+  « Boden verbessern », aucun titre coupé au milieu d'un mot ; anglais, espagnol : aucun titre coupé. Très gros texte :
+  les titres passent à la ligne sans sortir de la carte.
+- **S10 Barre d'onglets** (Android) : « Communauté » (ou sa traduction) écrit en entier sous son icône, jamais
+  « Communau… ».
+
 ## Non-régression (toutes les personas)
 - **R1** : planning, fiche plante, Communauté en lecture, écran Plus aux prix lisibles. Aucun plantage, aucun écran blanc.
 - **R2 Langue** (personas en/de/es) : relève tout mot français vu dans l'app (écran, mot exact, capture). Les points déjà
@@ -57,12 +86,12 @@ pas le rapport avant d'avoir donné un verdict à chaque ligne. Une vérificatio
   textes « Discover », « personalized », « smart », « AI assistant » et équivalents. Exception voulue : la mention
   « réponse générée par IA » sous HortenIA. Les nouveaux avatars de couleur ne doivent pas faire « généré ».
 
-Toujours rien de publié pour de vrai dans la Communauté, aucun code ni lien de parrainage envoyé, au plus 1 diagnostic et
+Toujours rien de publié pour de vrai dans la Communauté (une réaction est permise, retirée à la fin), aucun code ni lien de parrainage envoyé, au plus 1 diagnostic et
 1 question à HortenIA.
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 5 lignes.
-2. **Tableau des vérifications** (N1 à N6, R1 à R4, C8), dans l'ordre :
+2. **Tableau des vérifications** (N1 à N6, S1 à S4, S8 à S10, R1 à R4, C8), dans l'ordre :
    `| code | verdict (bon / défaut / bloquant / non testable) | appareil | capture(s) | ce que tu as vu |`.
    Bloquant = plantage, écran blanc, impossible d'avancer, perte du jardin ou du compte, jardin déformé après le tracé,
    mauvais prix, achat possible par erreur.
