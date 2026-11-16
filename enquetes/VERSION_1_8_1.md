@@ -43,7 +43,11 @@ pas le rapport avant d'avoir donné un verdict à chaque ligne. Une vérificatio
   Personas qui créent leur jardin à l'onboarding : regarde aussi le tracé à la création (mêmes gestes, sans forcer).
 
 ## Réactions de la Communauté et écran Calculer (toutes les personas)
-Réagir à un post n'est pas publier : c'est permis. Retire chaque réaction posée avant la fin du test.
+**Une seule cible pour réagir** : le post « Banc 1.8.1 : post de test pour les réactions. » (posté par un compte de test,
+visible seulement des comptes de test ; cherche-le en haut du fil ou fais défiler). Ne pose jamais une réaction (toucher
+ou choix dans la pastille) sur un autre post : son auteur, un vrai jardinier, recevrait une notification. Sur les autres
+posts, tu peux ouvrir la pastille par un appui long et la refermer en touchant à côté, sans rien choisir. Si le post du
+banc est introuvable, fais S1 à S3 sans rien poser (ouvrir et refermer seulement) et note-le. Retire ta réaction à la fin.
 - **S1 Réagir à un post** (fil de la Communauté) : toucher le cœur d'un post sans ma réaction le remplit tout de suite et
   le nombre monte de 1 ; un second toucher retire la réaction. Appui long (un tiers de seconde) : une pastille s'ouvre
   au-dessus du bouton avec six réactions nommées (J'aime, Bravo, Ça pousse, Bon à savoir, Courage, Drôle, ou leur
@@ -86,7 +90,7 @@ Réagir à un post n'est pas publier : c'est permis. Retire chaque réaction pos
   textes « Discover », « personalized », « smart », « AI assistant » et équivalents. Exception voulue : la mention
   « réponse générée par IA » sous HortenIA. Les nouveaux avatars de couleur ne doivent pas faire « généré ».
 
-Toujours rien de publié pour de vrai dans la Communauté (une réaction est permise, retirée à la fin), aucun code ni lien de parrainage envoyé, au plus 1 diagnostic et
+Toujours rien de publié pour de vrai dans la Communauté (réaction permise sur le seul post du banc, retirée à la fin), aucun code ni lien de parrainage envoyé, au plus 1 diagnostic et
 1 question à HortenIA.
 
 ## Rapport (`resultats/rapport.md`, en français)
