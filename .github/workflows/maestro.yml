@@ -166,7 +166,7 @@ jobs:
           MAESTRO_FLOWS: ${{ inputs.parcours }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
           MAESTRO_CLI_NO_ANALYTICS: "1"
-          MAESTRO_DRIVER_STARTUP_TIMEOUT: "180000"
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "600000"
         run: bash outils/lancer_maestro.sh
       - name: Chiffrer les résultats
         if: always()

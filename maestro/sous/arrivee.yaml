@@ -24,7 +24,7 @@ env:
     direction: DOWN
 - tapOn: "Continuer"
 - extendedWaitUntil:
-    visible: "Où est votre jardin \\?"
+    visible: "Où est votre jardin.\\?"
     timeout: 15000
 - tapOn: "Ville, code postal ou adresse"
 - inputText: ${VILLE}
@@ -33,7 +33,7 @@ env:
     timeout: 15000
 - tapOn: ${VILLE_DETAIL}
 - extendedWaitUntil:
-    visible: "Votre jardin est ici \\?"
+    visible: "Votre jardin est ici.\\?"
     timeout: 20000
 # Tracé : 4 coins au milieu de la carte, la surface doit rester celle d'un
 # jardin (T1 de la 1.8.1 : la carte s'ouvrait à l'échelle de la ville)
@@ -60,7 +60,7 @@ env:
 - takeScreenshot: jardin-3-zone-tracee
 - tapOn: "Placer mon jardin ici"
 - extendedWaitUntil:
-    visible: "Qu.est-ce qu.on y cultive \\?"
+    visible: "Qu.est-ce qu.on y cultive.\\?"
     timeout: 20000
 - extendedWaitUntil:
     visible: "Ajouter (ces \\d+ plantes|cette plante) de saison"

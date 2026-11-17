@@ -12,5 +12,5 @@ appId: com.hortenia.app
     text: "Ne pas autoriser|Don.t Allow|Refuser"
     optional: true
 - tapOn:
-    text: "Plus tard|Non merci|Compris !|J.ai compris"
+    text: "Plus tard|Non merci|Compris.!|J.ai compris"
     optional: true

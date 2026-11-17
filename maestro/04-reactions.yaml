@@ -27,11 +27,11 @@ env:
 - takeScreenshot: reactions-2-pastille
 - tapOn: "Ça pousse"
 - extendedWaitUntil:
-    visible: "Retirer ma réaction : Ça pousse"
+    visible: "Retirer ma réaction.: Ça pousse"
     timeout: 10000
 - takeScreenshot: reactions-3-ca-pousse
-- tapOn: "Retirer ma réaction : Ça pousse"
+- tapOn: "Retirer ma réaction.: Ça pousse"
 - extendedWaitUntil:
-    notVisible: "Retirer ma réaction : Ça pousse"
+    notVisible: "Retirer ma réaction.: Ça pousse"
     timeout: 10000
 - takeScreenshot: reactions-4-retiree
