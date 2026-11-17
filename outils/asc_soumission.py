@@ -87,6 +87,14 @@ for p in produits:
     s = abos.get(p)
     dire(f"produit {p} : " + (s["attributes"]["state"] if s else "introuvable"))
 
+if action == "etat" and v:
+    # Nouveautés en ligne, langue par langue ; comparées au JSON fourni s'il y en a un.
+    attendu = json.loads(notes) if notes.lstrip().startswith("{") else {}
+    for l in api("GET", f"/v1/appStoreVersions/{v['id']}/appStoreVersionLocalizations?limit=50")["data"]:
+        loc, wn = l["attributes"]["locale"], (l["attributes"].get("whatsNew") or "").strip()
+        verdict = "" if not attendu else (" : identique au texte fourni" if wn == (attendu.get(loc) or "").strip() else " : DIFFÉRENT du texte fourni")
+        dire(f"nouveautés {loc} ({len(wn)} car.) « {wn[:60]}… »{verdict}")
+
 MODIFIABLES = ("PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED", "METADATA_REJECTED")
 
 if action == "retirer":
