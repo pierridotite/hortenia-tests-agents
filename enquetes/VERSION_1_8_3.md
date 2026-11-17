@@ -25,12 +25,12 @@ pour de bon : dans ce cas, dis-le dans le rapport et teste A.
 | sophie | B | Le gel | lieu : Draveil ; mode sombre (U10) |
 | yves | B | Passer | refuse la localisation, aucun lieu (S6) ; jardin d'exemple (U6, U7) |
 | tom | B | Les maladies et les ravageurs | lieu : Toulouse (S5, U5) |
-| lucia | B | Savoir quand semer et planter (en espagnol) | mode sombre |
-| lukas | B | Penser à tout au bon moment (en allemand) | mots longs, pied des plantes (C6) |
+| lucia | B | Savoir quand semer et planter (en espagnol) | lieu : Madrid (S12) ; mode sombre |
+| lukas | B | Penser à tout au bon moment (en allemand) | lieu : Berlin (S12) ; mots longs, pied des plantes (C6) |
 | emily | A | (parcours actuel, en anglais) | A inchangé, voir A3 |
-| oliver | B | Le gel (en anglais) | va jusqu'à la fenêtre d'achat (D5, F1), la ferme sans acheter |
+| oliver | B | Le gel (en anglais) | lieu : Londres (S12) ; va jusqu'à la fenêtre d'achat (D5, F1), la ferme sans acheter |
 | raymond | B | Passer | lieu : Le Mans (S1 « au Mans ») ; jardin d'exemple sur le plus petit écran (U7, D6) |
-| hanna | B | Le gel (en allemand) | ne coche aucune plante, cherche une plante puis ferme le clavier, « Ohne Pflanze weiter » (C5, C6, S9, S10) ; lieu : Köln |
+| hanna | B | Le gel (en allemand) | ne coche aucune plante, sans rien cocher, relève d'abord le pied (« Diese 3 Saisonpflanzen hinzufügen », « Ohne Pflanze weiter », C3) ; puis cherche une plante et ferme le clavier (pied du point C6), et continue avec « Ohne Pflanze weiter » (C5, S9, S10) ; lieu : Köln (S12) |
 | kevin | A | (parcours actuel) | A inchangé, mode sombre |
 
 ## Parcours d'accueil : points à vérifier, un verdict par ligne
@@ -71,6 +71,8 @@ pour de bon : dans ce cas, dis-le dans le rapport et teste A.
 - S9. Sans plante choisie : l'écran montre le calendrier des plantes de saison proposées à l'étape d'avant, sous le titre « Des plantes de saison », et dit qu'aucune plante n'est encore choisie. Il ne parle ni de « vos gestes » ni de « vos plantes ».
 - S10. Sans plante choisie, le jardin créé ensuite est bien vide : les plantes de saison montrées n'y sont pas ajoutées, et aucun de leurs gestes n'entre au planning.
 - S11. Le bloc qui répond à la réponse passe en premier : « Le gel », la météo de la semaine et ses nuits de gel ; « Penser à tout au bon moment », le planning ; « Savoir quand semer et planter », le calendrier ; « Les maladies et les ravageurs », le bloc « À surveiller sur vos plantes », tiré des fiches. L'écran n'a plus de photo d'en-tête.
+
+- S12. Jardin hors de France : sous le titre du calendrier de « Votre saison », une ligne nomme le climat du lieu et dit l'avance ou le retard de la saison, dans la langue du téléphone. Recopie la phrase exacte et dis si elle paraît juste à quelqu'un du lieu (attendu à peu près : Köln « Nördliches Klima », ~16 jours de retard ; Berlin « Ozeanisches Klima », ~27 ; London « Oceanic climate », ~11 jours de retard ; Madrid « Clima mediterráneo », ~15 jours d'avance). Le nom du climat peut surprendre : note-le sans en faire un bloquant. Relève aussi toute faute dans les noms de maladies et ravageurs (connue : « Möhrefliege » au lieu de « Möhrenfliege »).
 
 ### Plus, temps 1 (U)
 
