@@ -119,13 +119,20 @@ if action == "preparer":
     api("PATCH", f"/v1/appStoreVersions/{v['id']}/relationships/build", {"data": {"type": "builds", "id": b["id"]}})
     dire(f"build {build} attaché à la version {version}")
     if notes:
+        # Nouveautés : texte (fr-FR) ou JSON {"fr-FR": "...", "en-GB": "...", ...}
+        try:
+            parlangue = json.loads(notes) if notes.lstrip().startswith("{") else {"fr-FR": notes}
+        except ValueError:
+            sys.exit("nouveautés : JSON illisible")
         locs = api("GET", f"/v1/appStoreVersions/{v['id']}/appStoreVersionLocalizations?limit=50")["data"]
-        fr = next((l for l in locs if l["attributes"]["locale"] == "fr-FR"), None)
-        if fr:
-            api("PATCH", f"/v1/appStoreVersionLocalizations/{fr['id']}", {"data": {"type": "appStoreVersionLocalizations", "id": fr["id"], "attributes": {"whatsNew": notes[:4000]}}})
-            dire("nouveautés fr-FR écrites")
-        else:
-            dire("pas de fiche fr-FR sur la version : nouveautés non écrites")
+        for l in locs:
+            loc = l["attributes"]["locale"]
+            texte = parlangue.get(loc) or parlangue.get(loc.split("-")[0])
+            if texte:
+                api("PATCH", f"/v1/appStoreVersionLocalizations/{l['id']}", {"data": {"type": "appStoreVersionLocalizations", "id": l["id"], "attributes": {"whatsNew": texte[:4000]}}})
+                dire(f"nouveautés {loc} écrites")
+            else:
+                dire(f"nouveautés {loc} : aucun texte fourni, inchangées")
 
 if action == "soumettre":
     if not v:

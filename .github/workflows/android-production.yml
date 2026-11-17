@@ -16,7 +16,7 @@ on:
         required: false
         default: "100"
       notes:
-        description: Nouveautés (fr-FR), 500 caractères au plus
+        description: "Nouveautés : texte fr-FR, ou JSON {\"fr-FR\": \"…\", \"en-US\": \"…\"} ; 500 caractères au plus par langue"
         required: true
 
 permissions:
@@ -47,14 +47,27 @@ jobs:
           cred.refresh(Request())
           h = {"Authorization": f"Bearer {cred.token}"}
           base = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.hortenia.app"
-          vc, part, notes = os.environ["VERSION_CODE"].strip(), float(os.environ["PART"]), os.environ["NOTES"].strip()[:500]
+          vc, part, brut = os.environ["VERSION_CODE"].strip(), float(os.environ["PART"]), os.environ["NOTES"].strip()
+          # Notes : texte (fr-FR) ou JSON {"fr-FR": "...", "en-US": "...", ...}
+          try:
+              notes = json.loads(brut) if brut.startswith("{") else {"fr-FR": brut}
+          except ValueError:
+              sys.exit("notes : JSON illisible")
           if not vc.isdigit() or not 0 < part <= 100:
               sys.exit("versionCode ou part invalide")
           edit = requests.post(f"{base}/edits", headers=h, timeout=30).json()["id"]
           bundles = requests.get(f"{base}/edits/{edit}/bundles", headers=h, timeout=30).json().get("bundles", [])
           if int(vc) not in [b["versionCode"] for b in bundles]:
               sys.exit(f"versionCode {vc} absent de Google Play : l'envoyer d'abord (android-build.yml, envoyer)")
-          release = {"versionCodes": [vc], "releaseNotes": [{"language": "fr-FR", "text": notes}]}
+          fiches = [l["language"] for l in requests.get(f"{base}/edits/{edit}/listings", headers=h, timeout=30).json().get("listings", [])]
+          gardees = {k: v.strip()[:500] for k, v in notes.items() if k in fiches and v.strip()}
+          ignorees = sorted(set(notes) - set(gardees))
+          if ignorees:
+              print(f"langues sans fiche Play, notes ignorées : {', '.join(ignorees)}")
+          if not gardees:
+              sys.exit("aucune note pour une langue qui a une fiche Play")
+          print("notes écrites : " + ", ".join(sorted(gardees)))
+          release = {"versionCodes": [vc], "releaseNotes": [{"language": k, "text": v} for k, v in gardees.items()]}
           release.update({"status": "completed"} if part == 100 else {"status": "inProgress", "userFraction": part / 100})
           r = requests.put(f"{base}/edits/{edit}/tracks/production", headers=h, json={"track": "production", "releases": [release]}, timeout=30)
           if not r.ok:
