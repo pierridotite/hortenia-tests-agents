@@ -10,6 +10,10 @@ on:
         description: "Post du banc existant (vide : en créer un)"
         type: string
         default: ""
+      texte:
+        description: "Texte du post créé (vide : celui de la 1.8.1)"
+        type: string
+        default: ""
       etendu:
         description: "Ajouter réponse à un commentaire et refus HORS_BANC"
         type: boolean
@@ -29,3 +33,4 @@ jobs:
           GARDER: ${{ inputs.garder && '1' || '0' }}
           POST_ID: ${{ inputs.post_id }}
           ETENDU: ${{ inputs.etendu && '1' || '0' }}
+          TEXTE: ${{ inputs.texte }}

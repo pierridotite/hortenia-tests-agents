@@ -8,6 +8,15 @@ name: 04 Réactions Communauté
 - runFlow: sous/arrivee.yaml
 - tapOn: "(.*[,.] )?(Communauté)([,.] .*)?"
 - runFlow: sous/fenetres.yaml
+# Fil rechargé (tirer vers le bas) : le post vient d'être publié
+- waitForAnimationToEnd:
+    timeout: 5000
+- swipe:
+    start: "50%,30%"
+    end: "50%,80%"
+    duration: 600
+- waitForAnimationToEnd:
+    timeout: 5000
 - scrollUntilVisible:
     element:
       text: "(.*[,.] )?(${TEXTE_POST})([,.] .*)?"
