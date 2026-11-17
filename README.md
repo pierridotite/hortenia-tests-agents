@@ -30,3 +30,29 @@ puis Claude Code parcourt l'app comme une nouvelle utilisatrice, **sans achat**
 (compte e-mail jetable mail.tm seulement si l'app l'exige, accord de Pierre du 31/10), et capture chaque écran (onboarding, paywall, essai, écrans clés)
 selon `CONSIGNES_CONCURRENTS.md`. Hortenia est relevée dans les mêmes
 conditions comme référence. Les résultats sont chiffrés comme ceux des tests.
+
+## Parcours Maestro rejoués à chaque build (sans modèle, gratuit)
+
+Cinq parcours dans `maestro/` : création du jardin (avec tracé de 4 coins), inscription
+par e-mail, paywall sans achat, réactions de la Communauté, écran Calculer. Chacun repart
+d'un téléphone neuf (`maestro/sous/arrivee.yaml`, onboarding jusqu'à l'accueil).
+
+- Lancer : workflow « Maestro - parcours rejoués » avec `build_android=gh:<run>` et/ou
+  `build_ios=gh:<run>` (builds du banc), `parcours` vide pour les cinq ou p. ex. `04-reactions`.
+- Durée : environ 13 min par plateforme. Verdict de chaque parcours dans le résumé du run ;
+  captures, journal et hiérarchies d'écran chiffrés (artefact `resultats-chiffres-maestro-*`).
+- Le post des réactions est créé par un compte de test au début (`outils/maestro_post.py`) et
+  supprimé à la fin ; l'adresse d'inscription est `success+maestro-<plateforme>-<run>@simulator.amazonses.com`
+  et le mot de passe est tiré au hasard à chaque passage.
+- Écrire un sélecteur : `"(.*[,.] )?(Texte)([,.] .*)?"`. L'iPhone fusionne les libellés
+  (« Jardin, icône », « Mon sol. Trois tests… ») ; l'appli met une espace insécable avant
+  « ? », « : » et « ! » : mettre `.` à la place de cette espace.
+
+## agent-device (option des testeurs IA)
+
+Entrée `appareil=agent-device` de android-claude et ios-claude : le testeur pilote l'appareil
+par l'arbre d'accessibilité (CONSIGNES_AGENT_DEVICE.md) au lieu des captures et coordonnées.
+Essai du 17/11 sur la mission 1.8.1b : mêmes constats qu'en classique ; Android 200 tours et
+2,9 $ (classique : 108 tours, 1,4 $), iPhone 145 tours et 1,3 $ en 12 min (classique : 108 tours,
+1,4 $, 19 min). L'appli n'a ni testID ni libellés sur la plupart des boutons : l'outil retombe
+souvent sur les coordonnées. Valeur par défaut : classique.
