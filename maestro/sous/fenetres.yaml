@@ -3,14 +3,14 @@
 appId: com.hortenia.app
 ---
 - tapOn:
-    text: "Refuser"
+    text: "(.*, )?(Refuser)(, .*)?"
     optional: true
 - tapOn:
-    text: "Demander à l.app de ne pas suivre|Ask App Not to Track"
+    text: "(.*, )?(Demander à l.app de ne pas suivre|Ask App Not to Track)(, .*)?"
     optional: true
 - tapOn:
-    text: "Ne pas autoriser|Don.t Allow|Refuser"
+    text: "(.*, )?(Ne pas autoriser|Don.t Allow|Refuser)(, .*)?"
     optional: true
 - tapOn:
-    text: "Plus tard|Non merci|Compris.!|J.ai compris"
+    text: "(.*, )?(Plus tard|Non merci|Compris.!|J.ai compris)(, .*)?"
     optional: true

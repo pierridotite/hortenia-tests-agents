@@ -9,34 +9,34 @@ env:
   NOM: Maestro Banc
 ---
 - runFlow: sous/arrivee.yaml
-- tapOn: "Profil"
+- tapOn: "(.*, )?(Profil)(, .*)?"
 - runFlow: sous/fenetres.yaml
 - extendedWaitUntil:
-    visible: "Sauvegarder mon jardin"
+    visible: "(.*, )?(Sauvegarder mon jardin)(, .*)?"
     timeout: 15000
-- tapOn: "Créer mon compte"
+- tapOn: "(.*, )?(Créer mon compte)(, .*)?"
 - extendedWaitUntil:
-    visible: "Sauvegarder votre jardin|Créer votre compte"
+    visible: "(.*, )?(Sauvegarder votre jardin|Créer votre compte)(, .*)?"
     timeout: 15000
 - takeScreenshot: inscription-1-formulaire
-- tapOn: "Jeanne Dupont"
+- tapOn: "(.*, )?(Jeanne Dupont)(, .*)?"
 - inputText: ${NOM}
-- tapOn: "vous@exemple.fr"
+- tapOn: "(.*, )?(vous@exemple.fr)(, .*)?"
 - inputText: ${EMAIL}
-- tapOn: "6 caractères minimum"
+- tapOn: "(.*, )?(6 caractères minimum)(, .*)?"
 - inputText: ${MOT_DE_PASSE}
 - hideKeyboard
-- tapOn: "Créer mon compte"
+- tapOn: "(.*, )?(Créer mon compte)(, .*)?"
 - extendedWaitUntil:
-    notVisible: "Sauvegarder votre jardin|Créer votre compte"
+    notVisible: "(.*, )?(Sauvegarder votre jardin|Créer votre compte)(, .*)?"
     timeout: 30000
 - runFlow: sous/fenetres.yaml
-- assertNotVisible: "Cet e-mail a déjà un compte.*"
-- assertNotVisible: "Inscription impossible.*"
+- assertNotVisible: "(.*, )?(Cet e-mail a déjà un compte.*)(, .*)?"
+- assertNotVisible: "(.*, )?(Inscription impossible.*)(, .*)?"
 - tapOn:
-    text: "Profil"
+    text: "(.*, )?(Profil)(, .*)?"
     optional: true
 - extendedWaitUntil:
-    notVisible: "Sauvegarder mon jardin"
+    notVisible: "(.*, )?(Sauvegarder mon jardin)(, .*)?"
     timeout: 15000
 - takeScreenshot: inscription-2-compte-cree

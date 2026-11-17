@@ -4,33 +4,33 @@ appId: com.hortenia.app
 name: 03 Paywall sans achat
 ---
 - runFlow: sous/arrivee.yaml
-- tapOn: "Profil"
+- tapOn: "(.*, )?(Profil)(, .*)?"
 - runFlow: sous/fenetres.yaml
 - scrollUntilVisible:
     element:
-      text: "Abonnement"
+      text: "(.*, )?(Abonnement)(, .*)?"
     direction: DOWN
-- tapOn: "Hortenia Plus"
+- tapOn: "(.*, )?(Hortenia Plus)(, .*)?"
 - extendedWaitUntil:
-    visible: "Fermer"
+    visible: "(.*, )?(Fermer)(, .*)?"
     timeout: 20000
 - extendedWaitUntil:
-    visible: ".*(€|\\$|£).*"
+    visible: "(.*, )?(.*(€|\\$|£).*)(, .*)?"
     timeout: 20000
 - takeScreenshot: paywall-1-haut
 - scrollUntilVisible:
     element:
-      text: "Restaurer.*"
+      text: "(.*, )?(Restaurer.*)(, .*)?"
     direction: DOWN
     optional: true
 - takeScreenshot: paywall-2-bas
-- tapOn: "Fermer"
+- tapOn: "(.*, )?(Fermer)(, .*)?"
 - runFlow:
     when:
-      visible: "Continuer avec la version gratuite|Non merci|Plus tard"
+      visible: "(.*, )?(Continuer avec la version gratuite|Non merci|Plus tard)(, .*)?"
     commands:
-      - tapOn: "Continuer avec la version gratuite|Non merci|Plus tard"
+      - tapOn: "(.*, )?(Continuer avec la version gratuite|Non merci|Plus tard)(, .*)?"
 - extendedWaitUntil:
-    visible: "Abonnement"
+    visible: "(.*, )?(Abonnement)(, .*)?"
     timeout: 15000
-- assertNotVisible: "Bienvenue dans Hortenia Plus"
+- assertNotVisible: "(.*, )?(Bienvenue dans Hortenia Plus)(, .*)?"
