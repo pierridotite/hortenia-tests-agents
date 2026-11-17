@@ -3,35 +3,34 @@
 # puis retrait. Rien d'autre n'est touché dans le fil.
 appId: com.hortenia.app
 name: 04 Réactions Communauté
-env:
-  TEXTE_POST: "Banc Maestro : post de test pour les réactions."
+# TEXTE_POST vient de lancer_maestro.sh (-e) : le post créé pour ce passage.
 ---
 - runFlow: sous/arrivee.yaml
-- tapOn: "(.*, )?(Communauté)(, .*)?"
+- tapOn: "(.*[,.] )?(Communauté)([,.] .*)?"
 - runFlow: sous/fenetres.yaml
 - scrollUntilVisible:
     element:
-      text: "(.*, )?(${TEXTE_POST})(, .*)?"
+      text: "(.*[,.] )?(${TEXTE_POST})([,.] .*)?"
     direction: DOWN
     timeout: 60000
     centerElement: true
 - takeScreenshot: reactions-1-post
 - longPressOn:
-    text: "(.*, )?(J.aime)(, .*)?"
-    below: "(.*, )?(${TEXTE_POST})(, .*)?"
+    text: "(.*[,.] )?(J.aime)([,.] .*)?"
+    below: "(.*[,.] )?(${TEXTE_POST})([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Ça pousse)(, .*)?"
+    visible: "(.*[,.] )?(Ça pousse)([,.] .*)?"
     timeout: 10000
-- assertVisible: "(.*, )?(Bravo)(, .*)?"
-- assertVisible: "(.*, )?(Bon à savoir)(, .*)?"
+- assertVisible: "(.*[,.] )?(Bravo)([,.] .*)?"
+- assertVisible: "(.*[,.] )?(Bon à savoir)([,.] .*)?"
 - takeScreenshot: reactions-2-pastille
-- tapOn: "(.*, )?(Ça pousse)(, .*)?"
+- tapOn: "(.*[,.] )?(Ça pousse)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Retirer ma réaction.: Ça pousse)(, .*)?"
+    visible: "(.*[,.] )?(Retirer ma réaction.: Ça pousse)([,.] .*)?"
     timeout: 10000
 - takeScreenshot: reactions-3-ca-pousse
-- tapOn: "(.*, )?(Retirer ma réaction.: Ça pousse)(, .*)?"
+- tapOn: "(.*[,.] )?(Retirer ma réaction.: Ça pousse)([,.] .*)?"
 - extendedWaitUntil:
-    notVisible: "(.*, )?(Retirer ma réaction.: Ça pousse)(, .*)?"
+    notVisible: "(.*[,.] )?(Retirer ma réaction.: Ça pousse)([,.] .*)?"
     timeout: 10000
 - takeScreenshot: reactions-4-retiree

@@ -3,13 +3,13 @@ appId: com.hortenia.app
 name: 01 Création du jardin
 ---
 - runFlow: sous/arrivee.yaml
-- assertVisible: "(.*, )?(Jardin)(, .*)?"
-- assertVisible: "(.*, )?(Communauté)(, .*)?"
+- assertVisible: "(.*[,.] )?(Jardin)([,.] .*)?"
+- assertVisible: "(.*[,.] )?(Communauté)([,.] .*)?"
 - scrollUntilVisible:
     element:
-      text: "(.*, )?(Calculer)(, .*)?"
+      text: "(.*[,.] )?(Calculer)([,.] .*)?"
     direction: DOWN
     timeout: 15000
-- assertVisible: "(.*, )?(Planifier)(, .*)?"
-- assertVisible: "(.*, )?(Météo)(, .*)?"
+- assertVisible: "(.*[,.] )?(Planifier)([,.] .*)?"
+- assertVisible: "(.*[,.] )?(Météo)([,.] .*)?"
 - takeScreenshot: jardin-6-accueil

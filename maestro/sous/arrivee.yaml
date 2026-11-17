@@ -12,34 +12,34 @@ env:
       all: deny
 - runFlow: fenetres.yaml
 - extendedWaitUntil:
-    visible: "(.*, )?(Créer mon jardin)(, .*)?"
+    visible: "(.*[,.] )?(Créer mon jardin)([,.] .*)?"
     timeout: 60000
 - runFlow: fenetres.yaml
-- tapOn: "(.*, )?(Créer mon jardin)(, .*)?"
-- tapOn: "(.*, )?(J.oublie des gestes)(, .*)?"
-- tapOn: "(.*, )?(Jardin)(, .*)?"
+- tapOn: "(.*[,.] )?(Créer mon jardin)([,.] .*)?"
+- tapOn: "(.*[,.] )?(J.oublie des gestes)([,.] .*)?"
+- tapOn: "(.*[,.] )?(Jardin)([,.] .*)?"
 - scrollUntilVisible:
     element:
-      text: "(.*, )?(Continuer)(, .*)?"
+      text: "(.*[,.] )?(Continuer)([,.] .*)?"
     direction: DOWN
-- tapOn: "(.*, )?(Continuer)(, .*)?"
+- tapOn: "(.*[,.] )?(Continuer)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Où est votre jardin.\\?)(, .*)?"
+    visible: "(.*[,.] )?(Où est votre jardin.\\?)([,.] .*)?"
     timeout: 15000
-- tapOn: "(.*, )?(Ville, code postal ou adresse)(, .*)?"
+- tapOn: "(.*[,.] )?(Ville, code postal ou adresse)([,.] .*)?"
 - inputText: ${VILLE}
 - extendedWaitUntil:
-    visible: "(.*, )?(${VILLE_DETAIL})(, .*)?"
+    visible: "(.*[,.] )?(${VILLE_DETAIL})([,.] .*)?"
     timeout: 15000
-- tapOn: "(.*, )?(${VILLE_DETAIL})(, .*)?"
+- tapOn: "(.*[,.] )?(${VILLE_DETAIL})([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Votre jardin est ici.\\?)(, .*)?"
+    visible: "(.*[,.] )?(Votre jardin est ici.\\?)([,.] .*)?"
     timeout: 20000
 # Tracé : 4 coins au milieu de la carte, la surface doit rester celle d'un
 # jardin (T1 de la 1.8.1 : la carte s'ouvrait à l'échelle de la ville)
-- tapOn: "(.*, )?(Tracer la zone, pour la surface)(, .*)?"
+- tapOn: "(.*[,.] )?(Tracer la zone, pour la surface)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Tracez votre zone)(, .*)?"
+    visible: "(.*[,.] )?(Tracez votre zone)([,.] .*)?"
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 5000
@@ -53,42 +53,42 @@ env:
 - tapOn:
     point: "38%,55%"
 - takeScreenshot: jardin-2-quatre-coins
-- tapOn: "(.*, )?(Valider la zone)(, .*)?"
+- tapOn: "(.*[,.] )?(Valider la zone)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Zone tracée · \\d{1,4} m²)(, .*)?"
+    visible: "(.*[,.] )?(Zone tracée · \\d{1,4} m²)([,.] .*)?"
     timeout: 15000
 - takeScreenshot: jardin-3-zone-tracee
-- tapOn: "(.*, )?(Placer mon jardin ici)(, .*)?"
+- tapOn: "(.*[,.] )?(Placer mon jardin ici)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Qu.est-ce qu.on y cultive.\\?)(, .*)?"
+    visible: "(.*[,.] )?(Qu.est-ce qu.on y cultive.\\?)([,.] .*)?"
     timeout: 20000
 - extendedWaitUntil:
-    visible: "(.*, )?(Ajouter (ces \\d+ plantes|cette plante) de saison)(, .*)?"
+    visible: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
     timeout: 20000
-- tapOn: "(.*, )?(Ajouter (ces \\d+ plantes|cette plante) de saison)(, .*)?"
+- tapOn: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Votre jardin est prêt)(, .*)?"
+    visible: "(.*[,.] )?(Votre jardin est prêt)([,.] .*)?"
     timeout: 30000
 - takeScreenshot: jardin-4-pret
-- tapOn: "(.*, )?(Continuer)(, .*)?"
+- tapOn: "(.*[,.] )?(Continuer)([,.] .*)?"
 # Version B de T1 : demande de notifications ; version B de T4 : « Essayez tout de suite »
 - runFlow: fenetres.yaml
 - runFlow:
     when:
-      visible: "(.*, )?(Essayez tout de suite)(, .*)?"
+      visible: "(.*[,.] )?(Essayez tout de suite)([,.] .*)?"
     commands:
-      - tapOn: "(.*, )?(Passer)(, .*)?"
+      - tapOn: "(.*[,.] )?(Passer)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Fermer)(, .*)?"
+    visible: "(.*[,.] )?(Fermer)([,.] .*)?"
     timeout: 30000
 - takeScreenshot: jardin-5-paywall-onboarding
-- tapOn: "(.*, )?(Fermer)(, .*)?"
+- tapOn: "(.*[,.] )?(Fermer)([,.] .*)?"
 - runFlow:
     when:
-      visible: "(.*, )?(Continuer avec la version gratuite|Non merci|Plus tard)(, .*)?"
+      visible: "(.*[,.] )?(Continuer avec la version gratuite|Non merci|Plus tard)([,.] .*)?"
     commands:
-      - tapOn: "(.*, )?(Continuer avec la version gratuite|Non merci|Plus tard)(, .*)?"
+      - tapOn: "(.*[,.] )?(Continuer avec la version gratuite|Non merci|Plus tard)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*, )?(Profil)(, .*)?"
+    visible: "(.*[,.] )?(Profil)([,.] .*)?"
     timeout: 45000
 - runFlow: fenetres.yaml
