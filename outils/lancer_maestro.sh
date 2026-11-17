@@ -8,7 +8,8 @@ set -uo pipefail
 mkdir -p resultats
 MDP="Potager-$(openssl rand -hex 4)!"
 echo "::add-mask::$MDP"
-TEXTE_POST="Banc Maestro ${RUN_ID:-0}-${PLATEFORME} : post de test pour les réactions."
+# Sans « : » ni « ? » (l'appli y met une espace insécable)
+TEXTE_POST="Banc Maestro ${RUN_ID:-0} ${PLATEFORME}, post de test pour les réactions."
 if [ "$PLATEFORME" = android ]; then
   adb wait-for-device
   # PostHog injoignable depuis l'émulateur (même contrôle que lancer_claude.sh)
