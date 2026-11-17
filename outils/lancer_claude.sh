@@ -60,8 +60,14 @@ esac
 [ -n "${LOCALISATION:-}" ] && echo "Localisation : $LOCALISATION"
 echo "Téléphone : ${APPAREIL:-Pixel 6, Android 14} (texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair})"
 adb logcat -c
-claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair}, langue du téléphone ${LANGUE:-fr-FR} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée).${CONSIGNE_POSITION}" \
+# agent-device (CONSIGNES_AGENT_DEVICE.md) : entrée « appareil » des workflows
+EN_PLUS=""; CONSIGNE_AD=""
+if [ "${APPAREIL_OUTIL:-classique}" = agent-device ]; then
+  EN_PLUS=",Bash(agent-device:*)"
+  CONSIGNE_AD=" Pour piloter l'appareil, lis aussi CONSIGNES_AGENT_DEVICE.md : utilise agent-device en priorité."
+fi
+claude -p "Lis ${CONSIGNES:-CONSIGNES_CLAUDE.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Téléphone de ce test : ${APPAREIL:-Pixel 6, Android 14}, taille du texte x${TAILLE_TEXTE:-1.0}, thème ${THEME:-clair}, langue du téléphone ${LANGUE:-fr-FR} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, mise en page cassée).${CONSIGNE_POSITION}${CONSIGNE_AD}" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
-  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(adb:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
+  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(adb:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ecran.py:*),Bash(python3 outils/ecrire.py:*),Bash(sleep:*)${EN_PLUS},Read,Write,Edit" \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt
 echo "Claude terminé (code $?), $(ls resultats | wc -l) éléments dans resultats/"

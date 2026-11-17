@@ -45,11 +45,22 @@ else
   CONSIGNE="Lis ${CONSIGNES:-CONSIGNES_CLAUDE_IOS.md} et personas.json, puis fais la mission jusqu'au rapport final. PERSONAS='${PERSONAS:-}' RUN_ID='${RUN_ID}'. Appareil de ce test : ${APPAREIL}, taille du texte ${TAILLE_TEXTE:-large}, thème ${THEME:-light}, langue du téléphone ${LANGUE:-fr-FR} ; signale ce qui tient à l'écran (texte coupé, bouton hors écran, sous l'encoche ou la barre d'accueil, mise en page cassée).${CONSIGNE_POSITION}"
 fi
 sleep 8
+# agent-device : son exécuteur XCTest est construit et lancé avant Claude
+if [ "${APPAREIL_OUTIL:-classique}" = agent-device ]; then
+  agent-device prepare ios-runner --platform ios --timeout 900000 > resultats/agent-device-prepare.log 2>&1 \
+    && echo "agent-device prêt" || echo "agent-device : préparation en échec (voir agent-device-prepare.log)"
+fi
 # Première capture : mémorise la taille de l'écran en points pour les outils
 python3 outils/ios/ecran.py "$RUNNER_TEMP/amorce" 00 > /dev/null 2>&1 || true
 CONSIGNE="$CONSIGNE Le simulateur est déjà démarré et les outils le trouvent seuls (variable UDID déjà définie) : utilise directement les commandes des consignes, sans chercher le simulateur ni lire l'environnement."
-claude -p "$CONSIGNE" \
+# agent-device (CONSIGNES_AGENT_DEVICE.md) : entrée « appareil » des workflows
+EN_PLUS=""; CONSIGNE_AD=""
+if [ "${APPAREIL_OUTIL:-classique}" = agent-device ]; then
+  EN_PLUS=",Bash(agent-device:*)"
+  CONSIGNE_AD=" Pour piloter l'appareil, lis aussi CONSIGNES_AGENT_DEVICE.md : utilise agent-device en priorité."
+fi
+claude -p "$CONSIGNE$CONSIGNE_AD" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
-  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*),Read,Write,Edit" \
+  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*)${EN_PLUS},Read,Write,Edit" \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt
 echo "Claude terminé (code $?), $(ls resultats | wc -l) éléments dans resultats/"

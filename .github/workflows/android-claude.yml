@@ -19,6 +19,11 @@ on:
         description: Build Expo précis (vide = dernier build Android terminé)
         required: false
         default: ""
+      appareil:
+        description: "Outil d'appareil des testeurs : classique (captures et coordonnées) ou agent-device (arbre d'accessibilité, CONSIGNES_AGENT_DEVICE.md)"
+        type: choice
+        options: [classique, agent-device]
+        default: classique
       consignes:
         description: Fichier de consignes (enquête ciblée ; vide = test complet CONSIGNES_CLAUDE.md)
         required: false
@@ -77,6 +82,14 @@ jobs:
       - name: APK pour l'émulateur
         run: bash outils/apk_universel.sh app.bin app.apk "${{ steps.build.outputs.extension }}"
 
+      - uses: actions/setup-node@v4
+        if: ${{ inputs.appareil == 'agent-device' }}
+        with:
+          node-version: "22"
+      - name: agent-device
+        if: ${{ inputs.appareil == 'agent-device' }}
+        run: npm install -g --silent agent-device@0.21.38 && agent-device --version
+
       - name: Claude Code
         run: npm install -g --silent @anthropic-ai/claude-code
 
@@ -130,6 +143,7 @@ jobs:
           LOCALISATION: ${{ matrix.localisation }}
           LANGUE: ${{ matrix.langue }}
           CONSIGNES: ${{ inputs.consignes }}
+          APPAREIL_OUTIL: ${{ inputs.appareil }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
           TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
           LOGCAT_COMPLET: ${{ inputs.consignes != '' && '1' || '0' }}

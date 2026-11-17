@@ -21,6 +21,11 @@ on:
         description: Modèle Claude
         required: false
         default: claude-sonnet-5-5
+      appareil:
+        description: "Outil d'appareil des testeurs : classique (captures et coordonnées) ou agent-device (arbre d'accessibilité, CONSIGNES_AGENT_DEVICE.md)"
+        type: choice
+        options: [classique, agent-device]
+        default: classique
       consignes:
         description: Fichier de consignes (vide = test complet CONSIGNES_CLAUDE_IOS.md)
         required: false
@@ -72,6 +77,14 @@ jobs:
           brew install -q cameroncooke/axe/axe
           python3 -m pip install -q --break-system-packages -r requirements.txt
           npm install -g --silent @anthropic-ai/claude-code
+
+      - uses: actions/setup-node@v4
+        if: ${{ inputs.appareil == 'agent-device' }}
+        with:
+          node-version: "22"
+      - name: agent-device
+        if: ${{ inputs.appareil == 'agent-device' }}
+        run: npm install -g --silent agent-device@0.21.38 && agent-device --version
 
       - name: Build simulateur chez Expo
         id: build
@@ -142,6 +155,7 @@ jobs:
           LANGUE: ${{ matrix.langue }}
           ESSAI: ${{ inputs.essai && '1' || '0' }}
           CONSIGNES: ${{ inputs.consignes }}
+          APPAREIL_OUTIL: ${{ inputs.appareil }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
           TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
         run: bash outils/ios/lancer_claude.sh
