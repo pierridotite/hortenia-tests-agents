@@ -29,17 +29,31 @@ def jeton():
 
 
 def api(methode, chemin, corps=None, ok404=False):
-    req = urllib.request.Request("https://api.appstoreconnect.apple.com" + chemin, method=methode,
-                                 data=json.dumps(corps).encode() if corps is not None else None,
-                                 headers={"Authorization": f"Bearer {jeton()}", "Content-Type": "application/json"})
-    try:
-        r = urllib.request.urlopen(req, timeout=60).read()
-        return json.loads(r) if r else {}
-    except urllib.error.HTTPError as e:
-        texte = e.read().decode()[:1500]
-        if ok404 and e.code == 404:
-            return None
-        sys.exit(f"{methode} {chemin} : HTTP {e.code}\n{texte}")
+    # GET et PATCH sont rejoués (5 essais, 30 s d'écart) sur une erreur 5xx ou un délai dépassé :
+    # App Store Connect a des pannes qui vont et viennent. POST n'est jamais rejoué (doublon possible).
+    essais = 5 if methode in ("GET", "PATCH") else 1
+    for n in range(1, essais + 1):
+        req = urllib.request.Request("https://api.appstoreconnect.apple.com" + chemin, method=methode,
+                                     data=json.dumps(corps).encode() if corps is not None else None,
+                                     headers={"Authorization": f"Bearer {jeton()}", "Content-Type": "application/json"})
+        try:
+            r = urllib.request.urlopen(req, timeout=60).read()
+            return json.loads(r) if r else {}
+        except urllib.error.HTTPError as e:
+            texte = e.read().decode()[:1500]
+            if ok404 and e.code == 404:
+                return None
+            if e.code >= 500 and n < essais:
+                print(f"{methode} {chemin} : HTTP {e.code}, nouvel essai dans 30 s ({n}/{essais})")
+                time.sleep(30)
+                continue
+            sys.exit(f"{methode} {chemin} : HTTP {e.code}\n{texte}")
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            if n < essais:
+                print(f"{methode} {chemin} : {e}, nouvel essai dans 30 s ({n}/{essais})")
+                time.sleep(30)
+                continue
+            sys.exit(f"{methode} {chemin} : {e}")
 
 
 def dire(m):
