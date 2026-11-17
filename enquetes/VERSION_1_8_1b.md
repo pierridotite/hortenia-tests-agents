@@ -18,9 +18,11 @@ verdict à chaque ligne avant de rendre le rapport. Une vérification bloquée n
   surface très différente, puis quitte par la flèche retour ou Fermer, SANS valider. Le jardin garde sa surface d'avant
   (vérifie dans Aménager ou Calculer). Recommence en touchant « Valider la zone » puis Fermer > « Quitter sans
   enregistrer » : la surface d'avant revient aussi. Note les surfaces avant et après, avec captures.
-- **T3 Croisement** : dans Aménager > Taille et forme, tire un coin par-dessus le côté opposé : le geste est refusé avec
-  une raison claire dans ta langue, et le contour revient à l'état d'avant. Même essai dans « Retracer sur la carte » si
-  le bouton existe.
+- **T3 Croisement** : dans « Retracer sur la carte » (ou à la création), tire un coin par-dessus le côté opposé pour que
+  deux côtés se croisent vraiment : le geste est refusé avec une raison claire dans ta langue, et le contour revient à
+  l'état d'avant. Une forme creuse (un coin rentré vers l'intérieur sans croiser de côté) est permise : ce n'est pas un
+  défaut. Si tu fais l'essai dans Aménager > Taille et forme, un message qui nomme une allée ou une planche qui sort du
+  plan n'est pas un défaut non plus.
 - **T4 Pastille des réactions** : sur le post « Banc 1.8.1 : post de test pour les réactions. » (le seul où tu peux
   réagir ; ne pose jamais de réaction ailleurs, un vrai jardinier serait prévenu), appui long sur le cœur : la pastille
   ne cache plus le texte du post. Post tout en haut de l'écran : elle s'ouvre en dessous du bouton s'il n'y a pas la
@@ -29,13 +31,15 @@ verdict à chaque ligne avant de rendre le rapport. Une vérification bloquée n
 - **T5 Langue** (personas en/de/es ; personas fr : passe l'app en anglais par Profil > Langue à la fin, puis reviens au
   français) : relève tout mot français dans le planning (titres des tâches), Mes graines (ajoute un sachet « Lettuce » ou
   sa traduction : le sachet garde ce nom, le bouton est traduit, puis supprime-le), la fin d'onboarding, le paywall
-  ouvert depuis le Profil, et une question à HortenIA (« What can I sow now? » ou sa traduction ; noms de plantes dans ta
-  langue). Le nom d'un jardin donné par un autre jardinier (« Le jardin de … ») n'est pas un défaut.
+  ouvert depuis le Profil, l'écran Calculer (« Loamy soil » et ses équivalents), le profil public d'un jardinier (« Diana's
+  garden » ou sa traduction), et « Possible until … ». Déjà connus pour la version suivante, à noter sans les compter : noms
+  de plantes en français dans les réponses d'HortenIA, titre du rappel de semis d'un sachet (« Semer la laitue… »). Un
+  sachet tapé sans fiche garde le nom tapé (voulu).
 - **R1 Non-régression** : réactions (toucher, appui long, retrait), écran Calculer, Mes graines, planning : aucun
   plantage, aucun écran blanc.
 
 Toujours rien de publié dans la Communauté, réaction seulement sur le post du banc et retirée à la fin, aucun code ni
-lien de parrainage envoyé, au plus 1 question à HortenIA, pas de diagnostic.
+lien de parrainage envoyé, aucune question à HortenIA, pas de diagnostic.
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 5 lignes.
