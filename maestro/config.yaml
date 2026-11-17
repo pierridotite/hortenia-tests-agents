@@ -1,0 +1,5 @@
+# Parcours Maestro du banc : rejoués tels quels à chaque build, sans modèle
+# (workflow .github/workflows/maestro.yml). Téléphone en français. Chaque
+# parcours repart d'un téléphone neuf (sous/arrivee.yaml).
+flows:
+  - "*.yaml"

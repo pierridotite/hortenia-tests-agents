@@ -1,0 +1,36 @@
+# Paywall ouvert depuis le Profil : formule, prix et bouton d'essai visibles,
+# puis fermé. Le bouton d'achat n'est JAMAIS touché.
+appId: com.hortenia.app
+name: 03 Paywall sans achat
+---
+- runFlow: sous/arrivee.yaml
+- tapOn: "Profil"
+- runFlow: sous/fenetres.yaml
+- scrollUntilVisible:
+    element:
+      text: "Abonnement"
+    direction: DOWN
+- tapOn: "Hortenia Plus"
+- extendedWaitUntil:
+    visible: "Fermer"
+    timeout: 20000
+- extendedWaitUntil:
+    visible: ".*(€|\\$|£).*"
+    timeout: 20000
+- takeScreenshot: paywall-1-haut
+- scrollUntilVisible:
+    element:
+      text: "Restaurer.*"
+    direction: DOWN
+    optional: true
+- takeScreenshot: paywall-2-bas
+- tapOn: "Fermer"
+- runFlow:
+    when:
+      visible: "Continuer avec la version gratuite|Non merci|Plus tard"
+    commands:
+      - tapOn: "Continuer avec la version gratuite|Non merci|Plus tard"
+- extendedWaitUntil:
+    visible: "Abonnement"
+    timeout: 15000
+- assertNotVisible: "Bienvenue dans Hortenia Plus"

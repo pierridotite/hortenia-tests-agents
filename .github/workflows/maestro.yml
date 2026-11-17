@@ -1,0 +1,183 @@
+# Parcours Maestro rejoués sans modèle sur un build du banc : inscription,
+# création du jardin, paywall sans achat, réactions de la Communauté, écran
+# Calculer (dossier maestro/). Gratuit : Maestro CLI (licence Apache 2.0),
+# émulateur Android sur Ubuntu, simulateur iOS sur macOS, aucun appel à Claude.
+# Builds : ceux du banc (ios-build.yml / android-build.yml avec banc=true),
+# donnés en gh:<run>. PostHog est coupé comme pour les testeurs ; captures,
+# journal et rapport partent chiffrés (dépôt public).
+name: Maestro - parcours rejoués
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_android:
+        description: "Build Android du banc (gh:<run>) ; vide = pas d'Android"
+        required: false
+        default: ""
+      build_ios:
+        description: "Build simulateur iOS du banc (gh:<run>) ; vide = pas d'iPhone"
+        required: false
+        default: ""
+      parcours:
+        description: "Parcours à rejouer, sans .yaml, séparés par des virgules (vide = les cinq)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  POSITION: "48.684,2.416"
+
+jobs:
+  android:
+    if: ${{ inputs.build_android != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt requests
+      - name: Build Android du banc
+        id: build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: ${{ inputs.build_android }}
+          GITHUB_TOKEN: ${{ github.token }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+        run: python outils/telecharger_build.py android app.bin
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: APK pour l'émulateur
+        run: bash outils/apk_universel.sh app.bin app.apk "${{ steps.build.outputs.extension }}"
+      - name: Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: Couper PostHog
+        run: |
+          sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq dnsmasq dnsutils >/dev/null
+          printf 'listen-address=127.0.0.1\nbind-interfaces\nno-resolv\nserver=8.8.8.8\nserver=1.1.1.1\naddress=/posthog.com/0.0.0.0\naddress=/posthog.com/::\naddress=/facebook.com/0.0.0.0\naddress=/facebook.net/0.0.0.0\n' | sudo tee /etc/dnsmasq.d/hortenia.conf
+          sudo systemctl restart dnsmasq
+          test "$(dig +short eu.i.posthog.com @127.0.0.1)" = "0.0.0.0"
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com; do
+            for ip in $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$'); do sudo iptables -I OUTPUT -d "$ip" -j REJECT; done
+            for ip in $(dig +short AAAA "$h" @8.8.8.8 | grep ':'); do sudo ip6tables -I OUTPUT -d "$ip" -j REJECT; done
+          done
+      - name: Accélération KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Émulateur et parcours
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          PLATEFORME: android
+          RUN_ID: ${{ github.run_id }}
+          MAESTRO_FLOWS: ${{ inputs.parcours }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          MAESTRO_CLI_NO_ANALYTICS: "1"
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -dns-server 127.0.0.1
+          script: bash outils/lancer_maestro.sh
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-maestro-android
+          path: resultats.chiffres/
+          retention-days: 14
+      - name: Résumé
+        if: always()
+        run: |
+          echo "Build Android testé : ${{ steps.build.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+
+  ios:
+    if: ${{ inputs.build_ios != '' }}
+    runs-on: macos-15
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode 26
+        run: |
+          XC=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC"
+          xcodebuild -version
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Outils (Maestro, Python)
+        run: |
+          python3 -m pip install -q --break-system-packages -r requirements.txt requests
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: Build simulateur du banc
+        id: build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: ${{ inputs.build_ios }}
+          GITHUB_TOKEN: ${{ github.token }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+        run: |
+          python3 outils/telecharger_build.py ios-simulateur app.tar.gz
+          mkdir -p app && tar xzf app.tar.gz -C app && rm app.tar.gz
+      - name: Couper PostHog
+        run: |
+          IPS=""
+          for h in eu.i.posthog.com eu-assets.i.posthog.com eu.posthog.com us.i.posthog.com app.posthog.com graph.facebook.com; do
+            IPS="$IPS $(dig +short A "$h" @8.8.8.8 | grep -E '^[0-9.]+$' | tr '\n' ' ')"
+            printf '0.0.0.0 %s\n:: %s\n' "$h" "$h" | sudo tee -a /etc/hosts >/dev/null
+          done
+          echo "block drop out quick proto { tcp udp } to { $(echo $IPS | tr ' ' ',') }" | sudo pfctl -a com.apple/hortenia -f - 2>/dev/null
+          sudo pfctl -E 2>/dev/null || true
+          sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder || true
+      - name: Simulateur en français
+        run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false
+          python3 outils/ios/simulateur.py "iPhone 16" 26 > "$RUNNER_TEMP/sim.env"
+          cat "$RUNNER_TEMP/sim.env" | tee -a "$GITHUB_ENV"
+          UDID=$(grep '^UDID=' "$RUNNER_TEMP/sim.env" | cut -d= -f2)
+          xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b > /dev/null
+          d() { xcrun simctl spawn "$UDID" defaults write "$@"; }
+          d -g AppleLanguages -array fr-FR
+          d -g AppleLocale -string fr_FR
+          d -g AppleKeyboards -array "en_US@sw=QWERTY;hw=US"
+          for k in KeyboardAutocapitalization KeyboardAutocorrection KeyboardPrediction KeyboardCheckSpelling; do d com.apple.Preferences $k -bool NO; done
+          for k in DidShowContinuousPathIntroduction KeyboardDidShowProductivityTutorial DidShowGestureKeyboardIntroduction; do d com.apple.Preferences $k -bool YES; done
+          xcrun simctl shutdown "$UDID"; xcrun simctl boot "$UDID"; xcrun simctl bootstatus "$UDID" -b > /dev/null
+      - name: Parcours
+        env:
+          PLATEFORME: ios
+          RUN_ID: ${{ github.run_id }}
+          MAESTRO_FLOWS: ${{ inputs.parcours }}
+          TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          MAESTRO_CLI_NO_ANALYTICS: "1"
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: "180000"
+        run: bash outils/lancer_maestro.sh
+      - name: Chiffrer les résultats
+        if: always()
+        run: bash outils/chiffrer.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-chiffres-maestro-ios
+          path: resultats.chiffres/
+          retention-days: 14
+      - name: Résumé
+        if: always()
+        run: |
+          echo "Build iOS testé : ${{ steps.build.outputs.version }} ($APPAREIL)" >> "$GITHUB_STEP_SUMMARY"

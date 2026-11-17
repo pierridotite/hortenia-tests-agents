@@ -1,0 +1,16 @@
+# Ferme les fenêtres qui peuvent s'ouvrir n'importe quand (consentement
+# publicitaire, suivi iOS, notifications, astuces). Rien n'est obligatoire.
+appId: com.hortenia.app
+---
+- tapOn:
+    text: "Refuser"
+    optional: true
+- tapOn:
+    text: "Demander à l.app de ne pas suivre|Ask App Not to Track"
+    optional: true
+- tapOn:
+    text: "Ne pas autoriser|Don.t Allow|Refuser"
+    optional: true
+- tapOn:
+    text: "Plus tard|Non merci|Compris !|J.ai compris"
+    optional: true

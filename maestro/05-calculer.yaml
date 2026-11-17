@@ -1,0 +1,37 @@
+# Écran Calculer depuis l'accueil : les cinq calculs en cartes avec photo.
+appId: com.hortenia.app
+name: 05 Écran Calculer
+---
+- runFlow: sous/arrivee.yaml
+- scrollUntilVisible:
+    element:
+      text: "Calculer"
+    direction: DOWN
+- tapOn: "Calculer"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: calculer-1-ouverture
+# Défaut connu de la 1.8.1 : « Mon sol » s'ouvre d'abord
+- runFlow:
+    when:
+      visible: "Type de sol"
+    commands:
+      - tapOn:
+          text: "Fermer|Retour"
+          optional: true
+- scrollUntilVisible:
+    element:
+      text: "Mon sol"
+    direction: DOWN
+- scrollUntilVisible:
+    element:
+      text: "Besoin en eau"
+    direction: DOWN
+- assertVisible: "Engrais"
+- assertVisible: "Correction de pH"
+- assertVisible: "Amendement organique"
+- takeScreenshot: calculer-2-cartes
+- tapOn: "Amendement organique"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: calculer-3-amendement
