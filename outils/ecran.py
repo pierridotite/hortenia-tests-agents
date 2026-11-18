@@ -53,6 +53,12 @@ print("premier plan :", m.group(0).split()[-2] if m else "?")
 if os.environ.get("LOGCAT_COMPLET") == "1":
     (dossier / f"{numero}-logcat.txt").write_text(adb("logcat", "-d", "-v", "time"))
 crash = adb("logcat", "-d", "-b", "crash") + adb("logcat", "-d", "AndroidRuntime:E", "ReactNativeJS:E", "*:S")
+# Identifiant du banc gardé avant d'effacer le journal : sinon site_tests.py ne le
+# retrouve plus après une capture (yves, 18/11)
+ids = re.findall(r"\[banc\] appareil_id=([\w-]+)", adb("logcat", "-d", "-s", "ReactNativeJS"))
+if ids:
+    os.makedirs("resultats", exist_ok=True)
+    open("resultats/.banc_appareil", "w").write(ids[-1])
 adb("logcat", "-c")
 lignes = [x for x in crash.splitlines() if x.strip() and not x.startswith("-----")]
 if lignes:

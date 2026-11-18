@@ -42,7 +42,13 @@ def id_journal():
         else:
             out = subprocess.run(["adb", "logcat", "-d", "-s", "ReactNativeJS"], capture_output=True, text=True, timeout=30).stdout
         ids = re.findall(r"\[banc\] appareil_id=([\w-]+)", out)
-        return ids[-1] if ids else None
+        if ids:
+            return ids[-1]
+        # Journal effacé par ecran.py après une capture : identifiant qu'il a gardé
+        # (même appareil : un seul émulateur par job)
+        if not os.environ.get("UDID") and os.path.exists("resultats/.banc_appareil"):
+            return open("resultats/.banc_appareil").read().strip() or None
+        return None
     except Exception:
         return None
 
