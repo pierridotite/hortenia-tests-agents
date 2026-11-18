@@ -18,12 +18,13 @@ env:
 - tapOn: "(.*[,.] )?(Créer mon jardin)([,.] .*)?"
 # T43 lancé le 18/11 : sans version imposée, le téléphone tire A ou B au
 # sort. B pose sa question seule (une touche fait avancer), A la sienne.
+# Repère de B : une réponse, pas le titre (espaces insécables du titre).
 - extendedWaitUntil:
-    visible: "(.*[,.] )?(J.oublie des gestes|Qu.est-ce qui vous donne le plus de mal au potager.\\?)([,.] .*)?"
+    visible: "(.*[,.] )?(J.oublie des gestes|Penser à tout au bon moment)([,.] .*)?"
     timeout: 20000
 - runFlow:
     when:
-      visible: "(.*[,.] )?(Qu.est-ce qui vous donne le plus de mal au potager.\\?)([,.] .*)?"
+      visible: "(.*[,.] )?(Penser à tout au bon moment)([,.] .*)?"
     commands:
       - takeScreenshot: jardin-0-parcours-B
       - tapOn: "(.*[,.] )?(Penser à tout au bon moment)([,.] .*)?"
