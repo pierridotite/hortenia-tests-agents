@@ -25,13 +25,20 @@ adb shell ping -c 1 -W 3 api.expo.dev >/dev/null 2>&1 && echo "réseau OK" || ec
 # (l'émulateur part en en-US : fr-FR doit aussi être réglé)
 LANGUE=${LANGUE:-fr-FR}
 if [ -n "$LANGUE" ] && [ "$(adb shell getprop persist.sys.locale | tr -d '\r')" != "$LANGUE" ]; then
-  adb root >/dev/null 2>&1; sleep 3; adb wait-for-device
-  adb shell "setprop persist.sys.locale $LANGUE; setprop ctl.restart zygote"
-  sleep 10; adb wait-for-device
-  for i in $(seq 1 60); do [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+  # Chaque appel adb borné : le 18/11, l'image Android 14 est restée bloquée
+  # deux fois ici jusqu'à la limite de 120 min du job, sans aucun résultat
+  timeout 60 adb root >/dev/null 2>&1; sleep 3; timeout 120 adb wait-for-device
+  timeout 30 adb shell "setprop persist.sys.locale $LANGUE; setprop ctl.restart zygote"
+  sleep 10; timeout 120 adb wait-for-device
+  for i in $(seq 1 60); do [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+  if [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" != 1 ]; then
+    echo "redémarrage de zygote bloqué : redémarrage complet de l'émulateur"
+    timeout 60 adb reboot; sleep 20; timeout 300 adb wait-for-device
+    for i in $(seq 1 100); do [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+  fi
   echo "langue du téléphone : $(adb shell getprop persist.sys.locale | tr -d '\r')"
 fi
-adb install -r -g app.apk || adb install -r app.apk
+timeout 300 adb install -r -g app.apk || timeout 300 adb install -r app.apk
 mkdir -p photos resultats
 [ -s photos/feuille-tomate-mildiou.jpg ] || curl -sSL --retry 3 -A "hortenia-tests-agents (github.com/pierridotite/hortenia-tests-agents)" \
   -o photos/feuille-tomate-mildiou.jpg "https://commons.wikimedia.org/wiki/Special:FilePath/Tomato_late_blight.jpg?width=1200" || true
