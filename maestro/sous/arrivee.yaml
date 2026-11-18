@@ -93,7 +93,7 @@ env:
     commands:
       - tapOn: "(.*[,.] )?(Voir ma saison)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*[,.] )?(Votre jardin est prêt|Votre saison( à .+)?)([,.] .*)?"
+    visible: "(.*[,.] )?(Votre jardin est prêt|Votre saison.*)([,.] .*)?"
     timeout: 40000
 - takeScreenshot: jardin-4-pret
 - scrollUntilVisible:
