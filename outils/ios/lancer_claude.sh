@@ -61,6 +61,6 @@ if [ "${APPAREIL_OUTIL:-classique}" = agent-device ]; then
 fi
 claude -p "$CONSIGNE$CONSIGNE_AD" \
   --model "${MODELE:-claude-sonnet-5-5}" --max-turns 500 --output-format json \
-  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/site_tests.py:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*)${EN_PLUS},Read,Write,Edit" \
+  --allowedTools "Bash(cd:*),Bash(cat:*),Bash(grep:*),Bash(sed -n:*),Bash(head:*),Bash(tail:*),Bash(ls:*),Bash(mkdir:*),Bash(wc:*),Bash(cut:*),Bash(echo:*),Bash(bash outils/ios/geste.sh:*),Bash(python3 outils/site_tests.py:*),Bash(python3 -I outils/mesure_glisse.py:*),Bash(python3 outils/mesure_glisse.py:*),Bash(python3 outils/ios/ecran.py:*),Bash(python3 outils/ios/ecrire.py:*),Bash(sleep:*)${EN_PLUS},Read,Write,Edit" \
   > resultats/claude-sortie.json 2> resultats/claude-erreurs.txt
 echo "Claude terminé (code $?), $(ls resultats | wc -l) éléments dans resultats/"
