@@ -31,11 +31,12 @@ Si l'outil répond « terrain introuvable », mesure à l'œil sur les captures 
 - **G4** Glisser de 100 points, puis Plan, puis 3D. Capture E. Attendu contre A : (0, 0), jardin cadré.
 - **G5** Pendant et juste après chaque glissé (capture tout de suite après le lâcher, puis 2 s après) : le jardin ne saute
   pas et ne bouge plus au lâcher ; le dessin reste net.
-- **G6** Quitter la 3D (autre onglet) puis y revenir : pas d'écran blanc, pas de plantage.
+- **G6** Après chaque geste : les animaux (le ver de terre, s'il y en a) s'arrêtent pendant le geste et repartent après le lâcher.
+- **G7** Quitter la 3D (autre onglet) puis y revenir : pas d'écran blanc, pas de plantage.
 
 Le pincement n'est pas demandé (aucun outil ne le fait ici).
 
 ## Rapport (`resultats/rapport.md`, en français)
 1. Résumé en 3 lignes : Plus actif (preuve), mesures de G1 à G4, saut ou non au lâcher.
-2. Tableau : `| code | verdict (bon / défaut / bloquant / non testable) | capture(s) | mesure | ce que tu as vu |` pour G1 à G6.
+2. Tableau : `| code | verdict (bon / défaut / bloquant / non testable) | capture(s) | mesure | ce que tu as vu |` pour G1 à G7.
 3. Autres bugs vus, du plus grave au moins grave.
