@@ -16,7 +16,26 @@ env:
     timeout: 60000
 - runFlow: fenetres.yaml
 - tapOn: "(.*[,.] )?(Créer mon jardin)([,.] .*)?"
-- tapOn: "(.*[,.] )?(J.oublie des gestes)([,.] .*)?"
+# T43 lancé le 18/11 : sans version imposée, le téléphone tire A ou B au
+# sort. B pose sa question seule (une touche fait avancer), A la sienne.
+- extendedWaitUntil:
+    visible: "(.*[,.] )?(J.oublie des gestes|Qu.est-ce qui vous donne le plus de mal au potager.\\?)([,.] .*)?"
+    timeout: 20000
+- runFlow:
+    when:
+      visible: "(.*[,.] )?(Qu.est-ce qui vous donne le plus de mal au potager.\\?)([,.] .*)?"
+    commands:
+      - takeScreenshot: jardin-0-parcours-B
+      - tapOn: "(.*[,.] )?(Penser à tout au bon moment)([,.] .*)?"
+- runFlow:
+    when:
+      visible: "(.*[,.] )?(J.oublie des gestes)([,.] .*)?"
+    commands:
+      - takeScreenshot: jardin-0-parcours-A
+      - tapOn: "(.*[,.] )?(J.oublie des gestes)([,.] .*)?"
+- extendedWaitUntil:
+    visible: "(.*[,.] )?(Jardin)([,.] .*)?"
+    timeout: 15000
 - tapOn: "(.*[,.] )?(Jardin)([,.] .*)?"
 - scrollUntilVisible:
     element:
@@ -66,10 +85,21 @@ env:
     visible: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
     timeout: 20000
 - tapOn: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
+# B : les plantes ajoutées, « Voir ma saison », la préparation, puis « Votre saison à … »
+- runFlow:
+    when:
+      visible: "(.*[,.] )?(Voir ma saison)([,.] .*)?"
+    commands:
+      - tapOn: "(.*[,.] )?(Voir ma saison)([,.] .*)?"
 - extendedWaitUntil:
-    visible: "(.*[,.] )?(Votre jardin est prêt)([,.] .*)?"
-    timeout: 30000
+    visible: "(.*[,.] )?(Votre jardin est prêt|Votre saison( à .+)?)([,.] .*)?"
+    timeout: 40000
 - takeScreenshot: jardin-4-pret
+- scrollUntilVisible:
+    element:
+      text: "(.*[,.] )?(Continuer)([,.] .*)?"
+    direction: DOWN
+    timeout: 15000
 - tapOn: "(.*[,.] )?(Continuer)([,.] .*)?"
 # Version B de T1 : demande de notifications ; version B de T4 : « Essayez tout de suite »
 - runFlow: fenetres.yaml
