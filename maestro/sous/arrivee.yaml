@@ -86,6 +86,16 @@ env:
     visible: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
     timeout: 20000
 - tapOn: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
+# Toucher parfois perdu sur iPhone (18/11, B) : le bouton reste, on retouche
+- waitForAnimationToEnd:
+    timeout: 5000
+- runFlow:
+    when:
+      visible: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
+    commands:
+      - tapOn: "(.*[,.] )?(Ajouter (ces \\d+ plantes|cette plante) de saison)([,.] .*)?"
+      - waitForAnimationToEnd:
+          timeout: 5000
 # B : les plantes ajoutées, « Voir ma saison », la préparation, puis « Votre saison à … »
 - runFlow:
     when:
