@@ -17,10 +17,13 @@ ETAT = os.path.join(os.environ.get("RUNNER_TEMP", "/tmp"), "maestro_post.json")
 def creer(texte):
     r = requests.post(BANC + "/compte-test", json={"type": "email", "persona": "maestro-auteur"},
                       headers={"Authorization": "Bearer " + os.environ["TESTS_JETON"]}, timeout=60)
-    r.raise_for_status()
-    c = r.json()
-    if not c.get("ok"):
-        sys.exit(f"compte de test refusé : {c.get('erreur')}")
+    try:
+        c = r.json()
+    except ValueError:
+        c = {}
+    if r.status_code >= 400 or not c.get("ok"):
+        # Message du serveur, sans secret (ex. plafond de comptes de test atteint)
+        sys.exit(f"compte de test refusé (HTTP {r.status_code}) : {c.get('erreur') or r.text[:200]}")
     l = requests.post(API + "/users/login", json={"email": c["email"], "password": c["mot_de_passe"]}, timeout=60)
     l.raise_for_status()
     h = {"Authorization": "Bearer " + l.json()["token"]}
