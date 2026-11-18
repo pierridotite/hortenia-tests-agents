@@ -76,10 +76,21 @@ La page Calculer et ses cartes photo n'ont pas changé. Le détail, si.
 
 ## À savoir
 
-- Les heures de la page Météo s'écrivent à l'horloge du téléphone tant que le
-  serveur n'est pas mis à jour : c'est voulu, comme en 1.8.3.
-- Les plantes « À protéger » n'apparaissent qu'avec le serveur à venir : leur
-  absence aujourd'hui n'est pas un défaut.
+Le serveur de la nouvelle page Météo est en ligne depuis le 18/11 à 20:55 UTC.
+Un passage fait avant cette heure ne voyait ni les plantes à protéger ni les
+heures du jardin : c'était normal à ce moment-là.
+
+- Heures de la page Météo, jardin en France : ce sont celles du jardin (heure
+  de Paris), même si le simulateur est réglé sur un autre fuseau, comme UTC.
+  Un écart d'une heure avec l'horloge du simulateur est voulu. La date en tête
+  et « cette nuit » suivent aussi l'heure de Paris : vers minuit, la page peut
+  avoir un jour d'avance sur le simulateur.
+- Heures de la page Météo, jardin hors de France : l'horloge du téléphone,
+  comme en 1.8.3 (l'appli n'envoie pas encore le fuseau du téléphone).
+- Plantes « À protéger » : elles apparaissent maintenant. Compte Plus, nuit de
+  gel annoncée au jardin et plante du jardin qui craint le froid : la carte de
+  l'alerte les nomme, et leur absence dans ce cas est un défaut. Compte
+  gratuit : l'alerte reste voilée et mène au paywall, c'est voulu.
 - Trois calculs donnent d'autres chiffres qu'en 1.8.3, c'est voulu : l'arrosage
   compte la pluie et la semaine, la cendre de bois passe à 100 g par m², la
   chaux et le soufre suivent le sol avec un plafond par an.
