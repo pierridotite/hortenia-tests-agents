@@ -12,19 +12,25 @@ echo "::add-mask::$MDP"
 # Même texte sur les deux plateformes : chacune réagit au premier post du passage qu'elle trouve
 TEXTE_POST="Banc Maestro ${RUN_ID:-0}, post de test pour les réactions."
 if [ "$PLATEFORME" = android ]; then
-  adb wait-for-device
+  timeout 120 adb wait-for-device
   # PostHog injoignable depuis l'émulateur (même contrôle que lancer_claude.sh)
   r=$(adb shell ping -c 1 -W 2 eu.i.posthog.com 2>&1 | head -1)
   ip=$(printf '%s' "$r" | grep -oE '\(([0-9]{1,3}\.){3}[0-9]{1,3}\)' | head -1 | tr -d '()')
   case "$ip" in ""|0.0.0.0|127.*) echo "PostHog bloqué" ;; *) echo "PostHog joignable ($ip) : arrêt"; exit 1 ;; esac
   if [ "$(adb shell getprop persist.sys.locale | tr -d '\r')" != fr-FR ]; then
-    adb root >/dev/null 2>&1; sleep 3; adb wait-for-device
-    adb shell "setprop persist.sys.locale fr-FR; setprop ctl.restart zygote"
-    sleep 10; adb wait-for-device
-    for i in $(seq 1 60); do [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+    # Appels bornés (18/11 : bloqué ici jusqu'à la limite du job, comme lancer_claude.sh)
+    timeout 60 adb root >/dev/null 2>&1; sleep 3; timeout 120 adb wait-for-device
+    timeout 30 adb shell "setprop persist.sys.locale fr-FR; setprop ctl.restart zygote"
+    sleep 10; timeout 120 adb wait-for-device
+    for i in $(seq 1 60); do [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+    if [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" != 1 ]; then
+      echo "redémarrage de zygote bloqué : redémarrage complet de l'émulateur"
+      timeout 60 adb reboot; sleep 20; timeout 300 adb wait-for-device
+      for i in $(seq 1 100); do [ "$(timeout 10 adb shell getprop sys.boot_completed | tr -d '\r')" = 1 ] && break; sleep 3; done
+    fi
   fi
   [ -n "${POSITION:-}" ] && adb emu geo fix "${POSITION#*,}" "${POSITION%,*}" >/dev/null 2>&1
-  adb install -r app.apk >/dev/null || { echo "installation impossible"; exit 1; }
+  timeout 300 adb install -r app.apk >/dev/null || { echo "installation impossible"; exit 1; }
   adb logcat -c
   APPAREIL_OPT=()
 else
