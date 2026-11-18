@@ -81,6 +81,15 @@ plus proche (balcon, aromatiques, potager si proposé).
    accessible depuis l'app (souvent différent de celui de l'onboarding).
 8. Toute autre surface de vente vue en chemin : bannières, badges « Pro »,
    cadenas, contenus floutés, publicités.
+9. **Météo et calculs** : si l'app montre la météo (prévisions, gel, pluie,
+   arrosage selon le temps, alertes) ou des outils de calcul (surface,
+   espacement, nombre de plants, graines, terreau, compost, eau, dates de
+   semis selon le gel), ouvre chacun : capture chaque écran en entier
+   (défile jusqu'en bas), puis fais un calcul avec le profil de Camille
+   (potager de 20 m² à Lyon) et capture le résultat. Note d'où l'on y
+   accède, ce qui est affiché (données, unités, période, conseils), le lien
+   avec les plantes, le planning ou les rappels, et ce qui est gratuit ou
+   payant. Si l'app n'a ni météo ni calcul, écris-le.
 
 Vise 40 à 90 captures. Ne refais pas deux fois le même écran à l'identique.
 
@@ -114,6 +123,10 @@ Vise 40 à 90 captures. Ne refais pas deux fois le même écran à l'identique.
      n° de capture qui l'illustre.
   10. **Limites** : ce qui n'a pas pu être vu (prix non chargés sans compte
       Google, compte obligatoire, appareil photo virtuel…).
+  11. **Météo et calculs** : pour chaque écran (n° de capture), accès,
+      contenu, lien avec les plantes et les tâches, gratuit ou payant, et ce
+      qui paraît le plus utile à une débutante ; « aucun » si l'app n'en a
+      pas.
 
 Distingue ce que tu as vu de ce que tu supposes. Cite les textes de l'app entre
 guillemets, mot pour mot.

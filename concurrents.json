@@ -13,6 +13,9 @@
     {"id": "biogarden", "nom": "BioGarden365", "paquet": "com.biogarden365.biogardenapp", "genre": "potager bio, docteur des plantes"},
     {"id": "seedtime", "nom": "Seedtime", "paquet": "us.seedtime.app", "genre": "potager, calendrier de semis"},
     {"id": "drjonquille", "nom": "Dr. Jonquille & Mr. Ail", "paquet": "fr.djma.app", "genre": "potager français, graines"},
+    {"id": "greg", "nom": "Greg", "paquet": "greg.io.care_app_android", "genre": "plantes, rappels d'arrosage et identification"},
+    {"id": "seedtospoon", "nom": "Seed to Spoon", "paquet": "io.ionic.seed2spoon", "genre": "potager, plan, calendrier et dates de gel"},
+    {"id": "planter", "nom": "Planter", "paquet": "com.perculacreative.peter.gardenplanner", "genre": "potager, plan en carrés et espacements"},
     {"id": "hortenia", "nom": "Hortenia", "paquet": "com.hortenia.app", "genre": "référence : notre app, dernier build Android"}
   ]
 }
