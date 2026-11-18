@@ -81,6 +81,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           MAESTRO_FLOWS: ${{ inputs.parcours }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
           MAESTRO_CLI_NO_ANALYTICS: "1"
         with:
           api-level: 34
@@ -165,6 +166,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
           MAESTRO_FLOWS: ${{ inputs.parcours }}
           TESTS_JETON: ${{ secrets.TESTS_JETON }}
+          TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
           MAESTRO_CLI_NO_ANALYTICS: "1"
           MAESTRO_DRIVER_STARTUP_TIMEOUT: "600000"
         run: bash outils/lancer_maestro.sh

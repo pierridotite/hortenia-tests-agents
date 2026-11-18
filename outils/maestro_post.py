@@ -2,6 +2,7 @@
 
   python3 outils/maestro_post.py creer "<texte>"   un compte de test publie le post
   python3 outils/maestro_post.py supprimer         le même compte le supprime
+  python3 outils/maestro_post.py nettoyer          supprime tous les comptes de test (plafond de 200)
 
 Compte marqué compteTest : le post reste dans le banc, invisible des vrais
 jardiniers. Le jeton de connexion reste dans $RUNNER_TEMP (jamais affiché ni
@@ -14,13 +15,32 @@ API = os.environ.get("HORTENIA_API", "https://admin.hortenia.com").rstrip("/")
 ETAT = os.path.join(os.environ.get("RUNNER_TEMP", "/tmp"), "maestro_post.json")
 
 
-def creer(texte):
+def nettoyer():
+    """Plafond de comptes de test atteint : les supprime tous (accord durable
+    de Pierre, 18/11 : « Oui, et à chaque plafond »). Session du site
+    hortenia.com/tests (secret TESTS_SITE_MDP), jamais affichée."""
+    mdp = os.environ.get("TESTS_SITE_MDP", "")
+    if not mdp:
+        sys.exit("TESTS_SITE_MDP manquant : comptes de test non supprimés")
+    racine = BANC.rsplit("/banc", 1)[0]
+    s = requests.post(racine + "/site/connexion", json={"mot_de_passe": mdp}, timeout=60).json()
+    if not s.get("ok") or not s.get("session"):
+        sys.exit(f"connexion au site refusée : {s.get('erreur')}")
+    r = requests.post(BANC + "/comptes-test/supprimer", headers={"Authorization": "Bearer " + s["session"]}, timeout=600)
+    print(f"comptes de test supprimés : HTTP {r.status_code}, {r.json().get('supprimes') if r.ok else r.text[:200]}")
+
+
+def creer(texte, deuxieme=False):
     r = requests.post(BANC + "/compte-test", json={"type": "email", "persona": "maestro-auteur"},
                       headers={"Authorization": "Bearer " + os.environ["TESTS_JETON"]}, timeout=60)
     try:
         c = r.json()
     except ValueError:
         c = {}
+    if not deuxieme and "comptes de test" in str(c.get("erreur") or ""):
+        print(f"plafond atteint ({c.get('erreur')}) : suppression des comptes de test")
+        nettoyer()
+        return creer(texte, deuxieme=True)
     if r.status_code >= 400 or not c.get("ok"):
         # Message du serveur, sans secret (ex. plafond de comptes de test atteint)
         sys.exit(f"compte de test refusé (HTTP {r.status_code}) : {c.get('erreur') or r.text[:200]}")
@@ -49,4 +69,4 @@ def supprimer():
 
 
 if __name__ == "__main__":
-    creer(sys.argv[2]) if sys.argv[1] == "creer" else supprimer()
+    {"creer": lambda: creer(sys.argv[2]), "supprimer": supprimer, "nettoyer": nettoyer}[sys.argv[1]]()
