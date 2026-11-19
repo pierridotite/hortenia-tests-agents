@@ -46,9 +46,9 @@ ferme tes groupes avant la fin. Jamais de code d'invitation de jardin.
   au-dessus du clavier, rien de caché. Ton premier message part dans ses « Demandes » (un seul avant acceptation).
 - MS3 Photos : choix de 2 ou 3 photos d'un coup dans la galerie, envoi en un bloc ; toucher une photo ouvre la visionneuse.
 - MS4 Double toucher sur un message : cœur ; le défilement et le toucher simple d'une photo marchent toujours.
-- MS5 Groupe : créer (nom, description, photo du groupe), ajouter un compte de test, nommer animateur, quitter ou fermer.
+- MS5 Groupe : créer (nom, description, photo du groupe) TOUJOURS « sur invitation », jamais ouvert (Pierre voit les groupes ouverts), ajouter un compte de test, nommer animateur, puis fermer le groupe.
   « Découvrir » et recherche par nom.
-- MS6 Supprimer un de tes messages ; menu de signalement (ouvre-le, n'envoie pas) ; textes entiers en allemand et en texte agrandi.
+- MS6 Supprimer un de tes messages ; jamais « Signaler » (les signalements arrivent à Pierre) ; textes entiers en allemand et en texte agrandi.
 - MS7 Page d'un membre (compte de test) : « Envoyer un message » avec la pastille et la couverture.
 Non testable ici (Pierre sur TestFlight) : les notifications de messagerie, l'arrivée des nouveaux messages d'un autre compte.
 **MC, Météo et calculatrices (#84, #85)**
