@@ -42,7 +42,8 @@ else
   [ -n "${POSITION:-}" ] && xcrun simctl location "$UDID" set "$POSITION" 2>/dev/null
   APPAREIL_OPT=(--device "$UDID")
 fi
-python3 outils/maestro_post.py creer "$TEXTE_POST" || echo "post du banc non créé : le parcours des réactions échouera"
+# Plus aucun post de test dans la Communauté (règle de Pierre, 19/11) :
+# le parcours des réactions est rangé dans maestro/archives/.
 FLOWS=()
 for f in ${MAESTRO_FLOWS//,/ }; do FLOWS+=("maestro/$f.yaml"); done
 [ ${#FLOWS[@]} -eq 0 ] && FLOWS=(maestro/)
@@ -52,7 +53,6 @@ maestro "${APPAREIL_OPT[@]}" test "${FLOWS[@]}" \
   --format junit --output resultats/rapport.xml --test-output-dir resultats/sortie \
   > resultats/maestro.log 2>&1
 CODE=$?
-python3 outils/maestro_post.py supprimer
 [ "$PLATEFORME" = android ] && adb logcat -d -s ReactNativeJS AndroidRuntime > resultats/logcat.txt 2>/dev/null
 python3 - <<'PY' | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 import xml.etree.ElementTree as ET, os

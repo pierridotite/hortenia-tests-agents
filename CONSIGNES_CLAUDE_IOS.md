@@ -27,7 +27,7 @@ s'affiche mal sur CET appareil. Tu rends un rapport précis et vérifiable.
 
 ## Règles (impératives)
 - Ne paie jamais rien, n'accepte aucun achat ni abonnement. Tu peux ouvrir l'écran d'abonnement et le fermer.
-- Ne publie rien dans la communauté, ne commente pas, ne signale personne, n'envoie aucun avis ni message au support : ce sont de vrais utilisateurs.
+- Ne publie JAMAIS rien dans la communauté (aucun post, même de test, même si une mission le demande), ne commente pas, ne réagis pas, ne signale personne, n'envoie aucun avis ni message au support : Pierre voit les posts des tests (règle de Pierre, 19/11).
 - Au plus une question à l'assistant HortenIA et un diagnostic photo (une photo de feuille de tomate est dans la photothèque).
 - Compte par e-mail uniquement (pas Apple, pas Google) : adresse `success+agent-<persona>-<RUN_ID>@simulator.amazonses.com`, mot de passe `Potager-<6 derniers chiffres de RUN_ID>!`. RUN_ID est dans la variable d'environnement.
 - Les demandes d'autorisation d'iOS (position, notifications, suivi publicitaire, photos) : réponds comme ta persona le ferait, et note si l'app explique bien pourquoi elle demande.

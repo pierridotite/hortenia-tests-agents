@@ -5,7 +5,7 @@ Ta persona est dans `personas.json` (variable PERSONAS). Le téléphone est déj
 Environ 90 gestes, jusqu'à 75 minutes. Une vérification bloquée ne t'arrête pas : note-la et passe.
 Aucun achat, même d'essai : la fenêtre du store s'ouvre, tu la fermes. Aucune question à HortenIA,
 aucun diagnostic photo, aucun code de parrainage.
-Publier : seulement ce que ta ligne demande, avec le compte de test, et tu le supprimes avant la fin (dis-le dans le rapport).
+Ne publie JAMAIS rien dans la Communauté : aucun post, aucun commentaire, aucune réaction (règle de Pierre, 19/11).
 Jamais de réaction, de commentaire ni de message à un autre compte que le tien ou celui que ta ligne nomme.
 
 ## Démarrage
@@ -27,11 +27,11 @@ Jamais de réaction, de commentaire ni de message à un autre compte que le tien
 - PR4 Carte du jardin sur le profil : phrase entière, bascule Plan / 3D visible.
 - PR5 Retoucher l'onglet Profil remonte la page. Toucher la photo d'un membre dans la Communauté ouvre son profil ;
   un post ouvert depuis un profil, puis trois retours : on revient dans l'ordre.
-**PH, photos des posts (#80)** : avec le compte de test, un post de 2 à 4 photos de la galerie, supprimé ensuite.
+**PH, photos des posts (#80)** : dans la fenêtre d'un nouveau post, sans JAMAIS publier : ferme-la avec « Annuler » à la fin.
 - PH1 Le sélecteur s'arrête à la place qui reste (4 au plus ; bouton grisé à 4).
 - PH2 Bloc de photos sous le texte, croix « Retirer la photo N » de 44 points, photos visibles au-dessus du clavier.
-- PH3 Dans le fil, toucher une tuile ouvre la bonne photo en grand (« Photo N sur T »).
-- PH4 Modifier son post à photos, puis le supprimer.
+- PH3 Dans le fil, sur un post existant à photos, toucher une tuile ouvre la bonne photo en grand (« Photo N sur T »).
+- PH4 Annuler la fenêtre du nouveau post : rien n'est publié.
 **BP, badge Plus et couverture (#81)**
 - BP1 Compte Plus : pastille « Plus » après le nom sur le profil et sur ton post (VoiceOver / TalkBack : « Membre Hortenia Plus »).
 - BP2 « Modifier mon profil » : interrupteur « Montrer mon badge Plus » ; éteint, la pastille disparaît ; rallume-le.
@@ -82,7 +82,7 @@ Non testable ici (Pierre sur TestFlight) : les notifications de messagerie, l'ar
 | oliver | gratuit | London | anglais : MC7 (le jardin se crée à Londres) ; PR1, PR3 ; MS1 à MS7 |
 
 ## Rapport (`resultats/rapport.md`, en français)
-1. Résumé en 3 lignes : un plantage ou un écran bloqué vu ou non, le plus gênant, ce que tu as publié et supprimé.
+1. Résumé en 3 lignes : un plantage ou un écran bloqué vu ou non, le plus gênant, ce que tu as écrit dans la messagerie et supprimé.
 2. Tableau : `| code | verdict (bon / défaut / bloquant / non testable / sans objet) | capture(s) | ce que tu as vu |`
    pour chaque code de ta ligne (avec la mesure pour P2).
 3. Autres bugs vus, du plus grave au moins grave.
