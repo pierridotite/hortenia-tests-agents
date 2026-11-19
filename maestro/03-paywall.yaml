@@ -5,7 +5,7 @@ name: 03 Paywall sans achat
 ---
 - runFlow: sous/arrivee.yaml
 - tapOn: "(.*[,.] )?(Profil)([,.] .*)?"
-- runFlow: sous/fenetres.yaml
+- runFlow: sous/reglages.yaml
 - scrollUntilVisible:
     element:
       text: "(.*[,.] )?(Abonnement)([,.] .*)?"

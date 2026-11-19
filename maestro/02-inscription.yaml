@@ -9,7 +9,7 @@ env:
 ---
 - runFlow: sous/arrivee.yaml
 - tapOn: "(.*[,.] )?(Profil)([,.] .*)?"
-- runFlow: sous/fenetres.yaml
+- runFlow: sous/reglages.yaml
 - extendedWaitUntil:
     visible: "(.*[,.] )?(Sauvegarder mon jardin)([,.] .*)?"
     timeout: 15000

@@ -1,0 +1,14 @@
+# Onglet Profil ouvert : depuis la PR #78 (version après la 1.8.4), un compte connecté voit sa page de profil et
+# les réglages sont derrière la roue crantée « Paramètres » en haut à droite. Un invité voit toujours les réglages :
+# on ne touche la roue que si aucun texte des réglages n'est à l'écran.
+appId: com.hortenia.app
+---
+- runFlow: fenetres.yaml
+- runFlow:
+    when:
+      notVisible: "(.*[,.] )?(Sauvegarder mon jardin|Langue|Notifications|Se déconnecter|Abonnement)([,.] .*)?"
+    commands:
+      - tapOn:
+          text: "(.*[,.] )?(Paramètres)([,.] .*)?"
+          optional: true
+      - runFlow: fenetres.yaml
