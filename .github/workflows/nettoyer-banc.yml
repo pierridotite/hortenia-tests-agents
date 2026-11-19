@@ -1,0 +1,18 @@
+name: Banc - supprimer les comptes de test
+# Supprime tous les comptes de test du banc et ce qu'ils ont publié
+# (posts, commentaires, réactions, messages, groupes). Au plafond de 200
+# (accord durable de Pierre du 18/11) ou sur un oui de Pierre (19/11).
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  nettoyer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q requests
+      - run: python3 outils/maestro_post.py nettoyer
+        env:
+          TESTS_SITE_MDP: ${{ secrets.TESTS_SITE_MDP }}
