@@ -7,6 +7,7 @@
 - preparer  : renomme la version modifiable s'il y en a une (ex. 1.7.2 retirée
               de l'examen devient 1.8.0), sinon crée la version si elle manque, attache le build (attend qu'il soit
               traité), écrit les nouveautés fr-FR.
+- age / age-messagerie : lit / coche « Messaging and Chat » du classement par âge.
 - soumettre : ajoute les produits (abonnements) non encore approuvés et la
               version à une soumission, puis l'envoie en revue.
 """
@@ -76,6 +77,29 @@ def abonnements():
         for s in api("GET", f"/v1/subscriptionGroups/{g['id']}/subscriptions?limit=50")["data"]:
             trouves[s["attributes"]["productId"]] = s
     return trouves
+
+
+# Classement par âge (fiche de l'app en préparation) : « age » lit la
+# déclaration ; « age-messagerie » coche « Messaging and Chat » et « User-Generated
+# Content » (messagerie de la 1.8.5, /mnt/project-files/messagerie/stores-messagerie.md).
+if action in ("age", "age-messagerie"):
+    infos = api("GET", f"/v1/apps/{APP}/appInfos?limit=10")["data"]
+    for i in infos:
+        etat = i["attributes"].get("appStoreState") or i["attributes"].get("state")
+        decl = api("GET", f"/v1/appInfos/{i['id']}/ageRatingDeclaration", ok404=True)
+        if not decl:
+            dire(f"fiche {i['id']} ({etat}) : pas de déclaration"); continue
+        d = decl["data"]; a = d["attributes"]
+        dire(f"fiche {i['id']} ({etat}) : " + ", ".join(f"{k}={a[k]}" for k in sorted(a) if k in ("messagingAndChat", "userGeneratedContent", "unrestrictedWebAccess", "advertising")))
+        if action == "age-messagerie" and etat in ("PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED", "METADATA_REJECTED"):
+            champs = {k: True for k in ("messagingAndChat", "userGeneratedContent") if k in a and a[k] is not True}
+            if champs:
+                api("PATCH", f"/v1/ageRatingDeclarations/{d['id']}", {"data": {"type": "ageRatingDeclarations", "id": d["id"], "attributes": champs}})
+                dire(f"coché : {', '.join(champs)}")
+            else:
+                dire("déjà coché")
+    open(os.environ.get("GITHUB_STEP_SUMMARY", os.devnull), "a").write("\n".join(resume) + "\n")
+    sys.exit(0)
 
 
 v, toutes = version_ios()
