@@ -26,6 +26,10 @@ img = Image.open(io.BytesIO(brut)).convert("RGB")
 l, h = img.size
 chemin = dossier / f"{numero}.png"
 img.resize((l // 2, h // 2)).save(chemin)
+if len(sys.argv) > 3 and sys.argv[3] == "pleine":
+    # Copie en pleine définition (pixels de l'écran), pour juger la netteté
+    img.save(dossier / f"{numero}-pleine.png")
+    print(f"pleine définition : {dossier / f'{numero}-pleine.png'} ({l}x{h} pixels)")
 print(f"capture : {chemin} (écran réel {l}x{h}, image à la moitié : multiplier par 2 une position lue sur l'image)")
 
 adb("shell", "uiautomator", "dump", "/sdcard/ui.xml")

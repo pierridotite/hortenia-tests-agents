@@ -60,7 +60,13 @@ echelle = img.size[0] / largeur_pts
 hauteur_pts = img.size[1] / echelle
 chemin = dossier / f"{numero}.png"
 img.resize((round(img.size[0] / echelle), round(img.size[1] / echelle))).save(chemin)
-brut.unlink()
+if len(sys.argv) > 3 and sys.argv[3] == "pleine":
+    # Copie en pleine définition (pixels de l'écran), pour juger la netteté
+    pleine = dossier / f"{numero}-pleine.png"
+    brut.replace(pleine)
+    print(f"pleine définition : {pleine} ({img.size[0]}x{img.size[1]} pixels, {echelle:g} pixels par point)")
+else:
+    brut.unlink()
 print(f"capture : {chemin} ({largeur_pts}x{round(hauteur_pts)} points ; une position lue sur l'image = une position à toucher)")
 
 vus = set()
